@@ -1,0 +1,37 @@
+config_version=5
+
+[application]
+
+config/name="无职转生～属于你自己的人生"
+run/main_scene="res://scenes/title/title_screen.tscn"
+config/features=PackedStringArray("4.7", "Mobile")
+
+[autoload]
+
+WorldBlackboard="*res://core/world_blackboard.gd"
+RuleEngine="*res://core/rule_engine.gd"
+AudioManager="*res://core/audio_manager.gd"
+SceneTransition="*res://scenes/shared/scene_transition.gd"
+StatChangeBanner="*res://ui/stat_change_banner.gd"
+StoryletScheduler="*res://core/storylet_scheduler.gd"
+SaveManager="*res://core/save_manager.gd"
+JournalUI="*res://ui/journal_ui.gd"
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/size/window_width_override=1280
+window/size/window_height_override=720
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+window/handheld/orientation=0
+
+[input_devices]
+
+pointing/emulate_mouse_from_touch=true
+
+[rendering]
+
+renderer/rendering_method="mobile"
+environment/defaults/default_clear_color=Color(0.19, 0.16, 0.12, 1)

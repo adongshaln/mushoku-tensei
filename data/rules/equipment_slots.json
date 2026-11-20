@@ -1,0 +1,9 @@
+{
+  "schema": {"version": 1, "description": "slots 的键同时是角色 equipment 所用的槽位 ID。"},
+  "slots": {
+    "weapon": {"label": "武器"},
+    "cloak": {"label": "披风与装束"},
+    "charm": {"label": "护符"},
+    "title": {"label": "称号"}
+  }
+}

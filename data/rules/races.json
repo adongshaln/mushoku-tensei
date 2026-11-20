@@ -1,0 +1,7 @@
+{
+  "schema": {"version": 1, "description": "种族只补充标签和展示名称。检定条件集中在 context_rules。"},
+  "races": {
+    "migurd": {"label": "米格路德族", "tags": ["race:migurd"], "description": "来自魔大陆的米格路德聚落。"},
+    "human": {"label": "人族", "tags": ["race:human"]}
+  }
+}

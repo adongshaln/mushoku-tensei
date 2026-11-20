@@ -1,0 +1,9 @@
+{
+  "schema": {"version": 1, "description": "slot 引用槽位；tags 与 suppress_tags 为开放标签；modifiers 可分别带 stat、conditions 和 suppressible_by。"},
+  "items": {
+    "travel_hood": {"label": "旅行兜帽", "slot": "cloak", "description": "一件日常旅行用的带帽披肩。抬起兜帽时，面容藏在阴影里。", "tags": ["outfit:hooded"], "suppress_tags": ["mask:race_appearance"], "modifiers": []},
+    "traveler_charm": {"label": "旅人护符", "slot": "charm", "description": "磨得发亮的护符，在赶路时提醒佩戴者稳住呼吸。", "modifiers": [
+      {"id": "charm_composure", "label": "旅人护符", "category": "装束", "value": 1, "conditions": {"context_tags_all": ["activity:travel", "stat:WIL"]}, "tags": ["source:equipment"]}
+    ]}
+  }
+}

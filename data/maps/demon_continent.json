@@ -1,0 +1,120 @@
+{
+  "id": "demon_continent",
+  "name": "魔大陆 · 局部展开舆图",
+  "base_size": [2200, 1350],
+  "regions": [
+    {
+      "id": "migurd_village",
+      "name": "米格路德村",
+      "terrain": "迷雾盆地聚落",
+      "safety": "安全区",
+      "description": "蓝发族人的盆地村落。木屋顶上晾着草药，地炉的暖意能一路飘到村口。可以回诺缇雅家木屋、补充干粮或休整。",
+      "anchor": [0.16, 0.52],
+      "polygon": [
+        [0.06, 0.46], [0.13, 0.38], [0.22, 0.40], [0.27, 0.48],
+        [0.25, 0.60], [0.17, 0.66], [0.09, 0.62], [0.05, 0.54]
+      ],
+      "routes": [
+        {
+          "to": "misty_forest_path",
+          "time_cost": 1,
+          "ration_cost": 1,
+          "distance_label": "村外小径 · 一个时段脚程",
+          "risk_hint": "雾林边缘偶有魔兽嗅迹"
+        }
+      ]
+    },
+    {
+      "id": "misty_forest_path",
+      "name": "村外迷雾林道",
+      "terrain": "荒野小径",
+      "safety": "低危荒野",
+      "description": "穿过盆地边缘的雾林小径。药草在腐叶下藏着，傍晚后雾里会有低语般的声响。",
+      "anchor": [0.43, 0.36],
+      "polygon": [
+        [0.32, 0.26], [0.42, 0.20], [0.52, 0.26], [0.55, 0.38],
+        [0.49, 0.50], [0.38, 0.52], [0.31, 0.42]
+      ],
+      "routes": [
+        {
+          "to": "migurd_village",
+          "time_cost": 1,
+          "ration_cost": 1,
+          "distance_label": "回村小径 · 一个时段脚程",
+          "risk_hint": "归途通常平静"
+        },
+        {
+          "to": "dryrock_spring",
+          "time_cost": 2,
+          "ration_cost": 1,
+          "distance_label": "枯岩坡道 · 两个时段脚程",
+          "risk_hint": "坡道碎石松动，留意脚下"
+        },
+        {
+          "to": "rikarisu_gate",
+          "time_cost": 2,
+          "ration_cost": 2,
+          "distance_label": "荒原直道 · 两个时段脚程",
+          "risk_hint": "开阔荒原无遮蔽，备足干粮"
+        }
+      ]
+    },
+    {
+      "id": "dryrock_spring",
+      "name": "枯岩泉眼",
+      "terrain": "荒野绿洲",
+      "safety": "中立绿洲",
+      "description": "枯岩环抱的一汪清水。水脉旁适合扎营休整与冥想；岩缝里似乎刻着旧井的记号。",
+      "anchor": [0.59, 0.72],
+      "polygon": [
+        [0.48, 0.62], [0.58, 0.56], [0.68, 0.60], [0.72, 0.72],
+        [0.66, 0.84], [0.54, 0.86], [0.47, 0.76]
+      ],
+      "routes": [
+        {
+          "to": "misty_forest_path",
+          "time_cost": 2,
+          "ration_cost": 1,
+          "distance_label": "枯岩坡道 · 两个时段脚程",
+          "risk_hint": "坡道碎石松动，留意脚下"
+        },
+        {
+          "to": "rikarisu_gate",
+          "time_cost": 2,
+          "ration_cost": 1,
+          "distance_label": "泉眼商道 · 两个时段脚程",
+          "risk_hint": "商队旧路，偶有巡卫"
+        }
+      ]
+    },
+    {
+      "id": "rikarisu_gate",
+      "name": "利卡里斯城门",
+      "terrain": "魔大陆石城入口",
+      "safety": "卫戍关隘",
+      "description": "荒原尽头的灰白石城。城门吊桥半落，卫兵的目光在来客吊坠上停留。入城事件接口已预留。",
+      "anchor": [0.84, 0.32],
+      "arrive_hook": "rikarisu_gate_entry",
+      "polygon": [
+        [0.74, 0.22], [0.84, 0.16], [0.93, 0.22], [0.95, 0.36],
+        [0.89, 0.48], [0.78, 0.46], [0.73, 0.34]
+      ],
+      "routes": [
+        {
+          "to": "misty_forest_path",
+          "time_cost": 2,
+          "ration_cost": 2,
+          "distance_label": "荒原直道 · 两个时段脚程",
+          "risk_hint": "开阔荒原无遮蔽，备足干粮"
+        },
+        {
+          "to": "dryrock_spring",
+          "time_cost": 2,
+          "ration_cost": 1,
+          "distance_label": "泉眼商道 · 两个时段脚程",
+          "risk_hint": "商队旧路，偶有巡卫"
+        }
+      ]
+    }
+  ]
+}

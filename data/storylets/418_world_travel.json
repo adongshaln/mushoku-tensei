@@ -1,0 +1,91 @@
+{
+  "id": "418_world_travel",
+  "storylets": [
+    {
+      "id": "atlas_cabin_return",
+      "title": "回到诺缇雅家木屋",
+      "summary": "沿村中小径回家。",
+      "location": "city_migurd", "trigger_mode": "manual",
+      "action": {"type": "open_room", "scene": "res://scenes/room/room_explorer.tscn"}
+    },
+    {
+      "id": "atlas_village_forage",
+      "title": "就地采集干粮",
+      "summary": "在村外收集可晾干的食材，获得 3 份干粮，耗时 1 时段。",
+      "locations": ["city_migurd", "city_great_forest"], "trigger_mode": "manual", "time_cost": 1,
+      "action": {"type": "quick_action", "quick": "forage", "item": "trail_rations", "item_name": "采集干粮", "count": 3}
+    },
+    {
+      "id": "atlas_town_supply",
+      "title": "购买旅途干粮",
+      "summary": "用 12 铜换 6 份干粮。",
+      "locations": ["city_migurd","city_rikarisu","city_kurasuma","city_wind_port","city_zanto_port","city_milishion","city_west_port","city_east_port","city_dragon_king","city_shiron","city_arusu","city_sharia"],
+      "trigger_mode": "manual",
+      "action": {"type": "quick_action", "quick": "forage", "item": "trail_rations", "item_name": "旅途干粮", "count": 6, "fare_copper": 12}
+    },
+    {
+      "id": "atlas_town_rest",
+      "title": "休整恢复魔力",
+      "summary": "休息 1 时段，恢复 12 点 MP，解除旅途疲惫。",
+      "locations": ["city_migurd","city_rikarisu","city_kurasuma","city_wind_port","city_zanto_port","city_great_forest","city_milishion","city_dwarf_hold","city_west_port","city_east_port","city_dragon_king","city_shiron","city_arusu","city_sharia","city_fittoa","city_red_dragon_jaw","city_sword_sanctum","city_biheiriru","city_strife_keep"],
+      "trigger_mode": "manual", "time_cost": 1,
+      "action": {"type": "quick_action", "quick": "rest", "mp_restore": 12, "done_text": "休息完毕，恢复了魔力，旅途疲惫已解除。"}
+    },
+    {
+      "id": "atlas_eat",
+      "title": "进食干粮",
+      "summary": "消耗 1 份干粮，解除旅途疲惫。",
+      "location": "any", "city_only": true, "trigger_mode": "manual",
+      "conditions": {"required_buff": "travel_fatigue"},
+      "action": {"type": "quick_action", "quick": "eat", "ration_cost": 1}
+    },
+    {
+      "id": "atlas_port_errand",
+      "title": "帮工赚取船资",
+      "summary": "帮码头与商队整理货物，耗时 1 天，收入 80 铜。",
+      "locations": ["city_wind_port","city_zanto_port","city_west_port","city_east_port","city_milishion","city_arusu"],
+      "trigger_mode": "manual", "time_cost": 4,
+      "action": {"type": "quick_action", "quick": "earn", "copper": 80, "done_text": "货物清点完毕，收到 80 铜。"}
+    },
+    {
+      "id": "atlas_outskirts_meditate",
+      "title": "城郊冥想",
+      "summary": "在城外背风处静坐 1 时段，训练意志。",
+      "locations": ["city_rikarisu", "city_strife_keep"], "trigger_mode": "manual", "time_cost": 1,
+      "conditions": {"once_only": true},
+      "action": {"type": "quick_action", "quick": "train", "stat": "WIL", "delta": 1, "reason": "在城郊静坐后，诺缇雅的意志提升了"}
+    },
+    {
+      "id": "atlas_tracks",
+      "title": "岔路上的足迹",
+      "summary": "两道车辙在碎石间分开。辨认新鲜的痕迹，看看附近是否留有补给。",
+      "location": "any", "trigger_mode": "en_route", "min_km": 180,
+      "action": {
+        "type": "quick_action", "quick": "check", "stat": "INT", "dc": 12, "label": "辨识路迹",
+        "success_text": "辨出了旧车辙旁的补给记号，收下 3 份干粮后继续赶路。",
+        "fail_text": "风抹平了足迹。你回到路标旁，沿原定路线继续赶路。",
+        "success_effects": [{"type": "add_item", "id": "trail_rations", "name": "沿途干粮", "count": 3, "tag": "ration"}]
+      }
+    },
+    {
+      "id": "atlas_passage",
+      "title": "低风穿过隘道",
+      "summary": "碎石坡上传来动静。放轻脚步，从背风的一边绕过去。",
+      "location": "any", "trigger_mode": "en_route", "min_km": 180,
+      "action": {
+        "type": "quick_action", "quick": "check", "stat": "DEX", "dc": 12, "label": "潜行避险",
+        "success_text": "你沿岩壁悄悄绕过隘道，重新踏上大路。",
+        "fail_text": "碎石滑落，你退到开阔处稍作等待，再沿原定路线继续赶路。"
+      }
+    },
+    {
+      "id": "atlas_rikarisu_gate",
+      "title": "利卡里斯城门",
+      "location": "city_rikarisu", "trigger_mode": "auto_on_arrive",
+      "action": {
+        "type": "event_hook", "hook_id": "rikarisu_gate_entry",
+        "pending_hint": "已抵达利卡里斯城门 · 入城事件接口已就位，待剧本接入"
+      }
+    }
+  ]
+}

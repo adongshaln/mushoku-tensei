@@ -1,0 +1,21 @@
+{
+  "schema": {"version": 1, "description": "conditions 支持 actor_tags_all、context_tags_any/all/none 及 value_path 对应的 min_value/max_value。标签列表可扩展。"},
+  "statuses": {"travel_fatigue": {"check_bonus": {"WIL": -1, "DEX": -1}, "tags": ["condition:fatigued"]}},
+  "relation_bands": {
+    "npcs": [
+      {"min_value": 25, "tags": ["npc_affinity:trusted"], "suppress_tags": ["override:stranger_distrust"]},
+      {"max_value": -20, "tags": ["npc_affinity:wary"]}
+    ],
+    "regions": [{"min_value": 20, "tags": ["region_reputation:welcomed"]}],
+    "factions": [{"min_value": 20, "tags": ["faction_reputation:respected"]}]
+  },
+  "rules": [
+    {"id": "shared_trade_customs", "label": "易于投缘的礼节", "category": "种族", "value": 1, "tags": ["source:ancestry"], "conditions": {"actor_tags_all": ["race:migurd"], "context_tags_all": ["intent:persuade", "target_race:human"]}},
+    {"id": "church_suspicion", "label": "教会的外貌戒心", "category": "种族", "value": -2, "tags": ["source:ancestry"], "suppressible_by": ["mask:race_appearance", "override:stranger_distrust"], "conditions": {"actor_tags_all": ["race:migurd"], "context_tags_all": ["intent:persuade", "faction:millis_church"]}},
+    {"id": "friendly_attitude", "label": "友善的态度", "category": "态度", "value": 1, "conditions": {"context_tags_all": ["intent:persuade", "npc_attitude:friendly"]}},
+    {"id": "hostile_attitude", "label": "对方怀有戒备", "category": "态度", "value": -1, "conditions": {"context_tags_all": ["intent:persuade"], "context_tags_any": ["npc_attitude:hostile", "npc_attitude:wary", "npc_affinity:wary"]}},
+    {"id": "trusted_affinity", "label": "对方信任你", "category": "好感", "value": 2, "conditions": {"context_tags_all": ["intent:persuade", "npc_affinity:trusted"]}},
+    {"id": "human_language_gap", "label": "人族语隔阂", "category": "语言", "value": -2, "conditions": {"context_tags_all": ["intent:persuade", "region_lang:human_tongue"], "value_path": "proficiencies.languages.human_tongue", "max_value": 1}},
+    {"id": "regional_goodwill", "label": "当地欢迎你", "category": "声望", "value": 1, "conditions": {"context_tags_all": ["intent:persuade"], "context_tags_any": ["region_reputation:welcomed", "faction_reputation:respected"]}}
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "schema": {"version": 1, "description": "presets 按主角 ID 索引。locked 控制开局，character 内的所有字典均可扩展。"},
+  "default_character": "notia",
+  "presets": {
+    "notia": {
+      "label": "诺缇雅", "subtitle": "米格路德村的见习魔术师", "locked": false,
+      "start": {"year": 418, "month": 1, "day": 1, "slot": 0, "city_id": "city_migurd", "legacy_location": "migurd_village", "currency_copper": 45},
+      "inventory": {"travel_hood": {"name": "旅行兜帽", "count": 1}},
+      "character": {
+        "profile": {"character_id": "notia", "name": "诺缇雅", "race_id": "migurd", "birth_year": 408, "portrait": "res://assets/combat/notia_young_shoulder.png", "portrait_crop": [0, 0, 0.55, 1]},
+        "traits": ["size:small", "childhood_mp_growth"],
+        "stats": {"STR": 6, "DEX": 12, "CON": 9, "INT": 13, "WIL": 8, "CHA": 11},
+        "resources": {"hp": 38, "max_hp": 38, "mp": 30, "max_mp": 30, "mp_growth_exp": 0},
+        "proficiencies": {"magic": {"water": 1}, "sword": {"sword_god": 0}, "languages": {"demon_tongue": 3, "human_tongue": 0}, "skills": {"stealth": 2}},
+        "equipment": {},
+        "relations": {"npcs": {}, "regions": {}, "factions": {}},
+        "combat_profile": {}
+      }
+    },
+    "next_protagonist": {"label": "另一位旅人", "subtitle": "新的手账 · 待开放", "locked": true}
+  }
+}

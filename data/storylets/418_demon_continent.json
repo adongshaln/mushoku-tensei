@@ -1,0 +1,185 @@
+{
+  "id": "418_demon_continent",
+  "storylets": [
+    {
+      "id": "cabin_return",
+      "title": "回诺缇雅家木屋",
+      "summary": "推开熟悉的木门，地炉的暖意扑面而来。",
+      "category": "main",
+      "location": "migurd_village",
+      "trigger_mode": "manual",
+      "time_cost": 0,
+      "action": { "type": "open_room", "scene": "res://scenes/room/room_explorer.tscn" }
+    },
+    {
+      "id": "village_supply",
+      "title": "村中补给干粮",
+      "summary": "向村口猎户换两份熏肉干粮，裹进油纸塞进行囊。",
+      "category": "supply",
+      "location": "migurd_village",
+      "trigger_mode": "manual",
+      "time_cost": 1,
+      "action": {
+        "type": "quick_action",
+        "quick": "forage",
+        "item": "smoked_meat",
+        "item_name": "魔大陆熏肉干粮",
+        "count": 2,
+        "done_text": "猎户塞来两份熏肉干粮：路上别省着吃。"
+      }
+    },
+    {
+      "id": "village_rest",
+      "title": "回村休整",
+      "summary": "在自家木台边坐一会儿，喝口热水，把疲惫放下。",
+      "category": "supply",
+      "location": "migurd_village",
+      "trigger_mode": "manual",
+      "time_cost": 1,
+      "action": {
+        "type": "quick_action",
+        "quick": "rest",
+        "mp_restore": 10,
+        "done_text": "热水下肚，饥饿疲惫消散了。"
+      }
+    },
+    {
+      "id": "forest_herb_stealth",
+      "title": "雾林潜行采药",
+      "summary": "压低脚步绕开魔兽嗅迹，去腐叶下挖那株止血草。",
+      "category": "encounter",
+      "location": "misty_forest_path",
+      "trigger_mode": "manual",
+      "time_cost": 1,
+      "conditions": { "once_only": false },
+      "combat_hook": { "preset": "418_survival", "note": "预留战斗入口，当前阶段不执行跳转" },
+      "action": {
+        "type": "quick_action",
+        "quick": "check",
+        "stat": "DEX",
+        "dc": 12,
+        "label": "潜行采药",
+        "success_text": "指尖沾着腐叶的凉意，止血草连根进了行囊。",
+        "fail_text": "枯枝一声脆响，雾深处传来低吼。你空手退开了。",
+        "success_effects": [
+          { "type": "add_item", "id": "smoked_meat", "name": "魔大陆熏肉干粮", "count": 2 },
+          { "type": "set_flag", "id": "forest_herb_found", "value": true }
+        ],
+        "fail_effects": []
+      }
+    },
+    {
+      "id": "forest_night_whisper",
+      "title": "夜雾低语",
+      "summary": "傍晚之后的雾林会响起细碎低语。静下心分辨，也许能听清一个名字。",
+      "category": "encounter",
+      "location": "misty_forest_path",
+      "trigger_mode": "manual",
+      "time_cost": 1,
+      "conditions": { "allowed_slots": [2, 3] },
+      "action": {
+        "type": "quick_action",
+        "quick": "check",
+        "stat": "WIL",
+        "dc": 10,
+        "label": "夜雾低语",
+        "success_text": "低语里浮出一个词：旧井。你把它记在手账边缘。",
+        "fail_text": "雾声散成一片耳鸣，什么也没听清。",
+        "success_effects": [
+          { "type": "set_flag", "id": "night_whisper_heard", "value": true }
+        ],
+        "fail_effects": []
+      }
+    },
+    {
+      "id": "spring_camp",
+      "title": "泉眼扎营休整",
+      "summary": "在枯岩背风处扎营，煮水进食，把魔力与体力一并养回来。",
+      "category": "supply",
+      "location": "dryrock_spring",
+      "trigger_mode": "manual",
+      "time_cost": 2,
+      "action": {
+        "type": "quick_action",
+        "quick": "rest",
+        "mp_restore": 99,
+        "done_text": "营火噼啪。疲惫退去，魔力重新盈满。"
+      }
+    },
+    {
+      "id": "spring_meditate",
+      "title": "水脉旁冥想",
+      "summary": "闭眼听水脉在岩下走动，让呼吸与它同拍。",
+      "category": "side",
+      "location": "dryrock_spring",
+      "trigger_mode": "manual",
+      "time_cost": 1,
+      "action": {
+        "type": "quick_action",
+        "quick": "train",
+        "stat": "WIL",
+        "delta": 1,
+        "reason": "在水脉旁冥想，诺缇雅的意志提升了"
+      }
+    },
+    {
+      "id": "spring_old_well_echo",
+      "title": "岩缝里的旧井记号",
+      "summary": "岩缝刻痕与吊坠背面的记号同源。顺着水脉回想姐姐离家前的样子。",
+      "category": "encounter",
+      "location": "dryrock_spring",
+      "trigger_mode": "manual",
+      "time_cost": 1,
+      "conditions": { "required_flags": ["eavesdropped_roxy_clue"], "once_only": true },
+      "action": {
+        "type": "quick_action",
+        "quick": "check",
+        "stat": "INT",
+        "dc": 11,
+        "label": "旧井回音",
+        "success_text": "刻痕与水脉走向对上了：姐姐留东西的地方，不止旧井一处。",
+        "fail_text": "刻痕被苔衣盖住大半，还差一点线索。",
+        "success_effects": [
+          { "type": "set_flag", "id": "old_well_memory", "value": true }
+        ],
+        "fail_effects": []
+      }
+    },
+    {
+      "id": "gate_entry_hook",
+      "title": "城门入城事件（待接入）",
+      "summary": "正式入城接口已就位，抵达时自动触发预留钩子。",
+      "category": "hook",
+      "location": "rikarisu_gate",
+      "trigger_mode": "auto_on_arrive",
+      "time_cost": 0,
+      "action": {
+        "type": "event_hook",
+        "hook_id": "rikarisu_gate_entry",
+        "pending_hint": "已抵达利卡里斯城门 · 入城事件接口已就位，待剧本接入"
+      }
+    },
+    {
+      "id": "gate_wall_look",
+      "title": "眺望石城城墙",
+      "summary": "绕到侧风处数城墙上的巡卫间隔，记住吊桥起落的节奏。",
+      "category": "side",
+      "location": "rikarisu_gate",
+      "trigger_mode": "manual",
+      "time_cost": 1,
+      "action": {
+        "type": "quick_action",
+        "quick": "check",
+        "stat": "DEX",
+        "dc": 13,
+        "label": "眺望石城",
+        "success_text": "巡卫换岗的间隙被你记下了：吊桥每半个时辰落一次。",
+        "fail_text": "一名巡卫朝你的方向举了举矛，你只好退开。",
+        "success_effects": [
+          { "type": "set_flag", "id": "gate_scouted", "value": true }
+        ],
+        "fail_effects": []
+      }
+    }
+  ]
+}

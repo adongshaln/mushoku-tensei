@@ -1,0 +1,23 @@
+{
+  "schema": {"version": 1, "description": "ranks 和 levels 从 1 开始；0 表示未习得。未知项目以 ID 显示。"},
+  "stats": {"STR": "力量", "DEX": "敏捷", "CON": "体质", "INT": "智力", "WIL": "意志", "CHA": "魅力"},
+  "tags": {"mask:race_appearance": "外貌识别"},
+  "traits": {"race:migurd": "米格路德血脉", "size:small": "小体型", "childhood_mp_growth": "幼年魔力可成长"},
+  "ranks": ["初级", "中级", "上级", "圣级", "王级", "帝级", "神级"],
+  "levels": ["入门", "熟悉", "熟练"],
+  "groups": {
+    "magic": {"label": "魔术", "scale": "ranks", "items": {"water": "水魔术"}},
+    "sword": {"label": "剑术", "scale": "ranks", "items": {"sword_god": "剑神流"}},
+    "languages": {"label": "语言", "scale": "levels", "items": {"demon_tongue": "魔神语", "human_tongue": "人族语"}},
+    "skills": {"label": "生活专长", "scale": "levels", "items": {"stealth": "隐匿"}, "legacy_check_bonus": true}
+  },
+  "resource_growth": {"childhood_magic": {"actor_tags_all": ["childhood_mp_growth"], "max_age": 12, "experience": "mp_growth_exp", "capacity": "max_mp", "threshold": 10}},
+  "relations": {"npcs": "人物印象", "regions": "地区声望", "factions": "阵营声望"},
+  "chronicle_flags": {"village_gate_completed": {"title": "雾中来客", "text": "诺缇雅在米格路德村口经历了一场意外相遇。"}},
+  "clues": {
+    "met_rudeus_directly": {"title": "村口的来客", "text": "你在村口与鲁迪乌斯交谈过。"},
+    "eavesdropped_roxy_clue": {"title": "雾里的线索", "text": "你从交谈里听到了有关洛琪希的消息。"},
+    "forest_herb_found": {"title": "雾林止血草", "text": "你记下了雾林里适合采药的位置。"},
+    "old_well_memory": {"title": "旧井记号", "text": "泉眼岩石上的刻痕与旧井的线索相连。"}
+  }
+}

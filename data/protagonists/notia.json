@@ -1,0 +1,13 @@
+{
+  "id": "notia",
+  "name": "诺缇雅",
+  "age": 10,
+  "birth_year": 408,
+  "stats": { "INT": 14, "WIL": 8, "DEX": 13 },
+  "hp": { "current": 38, "max": 38 },
+  "mp": { "current": 30, "max": 30 },
+  "traits": [
+    { "id": "migurd_build", "name": "米格路德体型", "skill": "隐匿", "modifier": 2 }
+  ],
+  "languages": ["魔神语"]
+}

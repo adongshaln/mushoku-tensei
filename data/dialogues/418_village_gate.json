@@ -1,0 +1,425 @@
+{
+  "id": "418_village_gate",
+  "title": "雾中来客",
+  "location": "甲龙历 418 年 · 米格路德村口",
+  "bg": "migurd_gate",
+  "background_source": "https://ameblo.jp/koneko-fando/entry-12881195783.html",
+  "start": "line_01",
+  "entry_overrides": [
+    {
+      "condition": {
+        "flag": "village_gate_completed"
+      },
+      "next": "line_22"
+    }
+  ],
+  "cast": {
+    "notia": {
+      "name": "诺缇雅",
+      "accent": "#5290a2",
+      "coat": "#e0c5a5",
+      "build": "child",
+      "expressions": {
+        "hesitant": "迟疑",
+        "resolved": "定了定神"
+      },
+      "hair": "braid",
+      "accessory": ""
+    },
+    "ruijerd": {
+      "name": "瑞杰路德",
+      "accent": "#527d69",
+      "coat": "#aa927c",
+      "build": "warrior",
+      "expressions": {
+        "watchful": "警觉",
+        "gentle": "温和"
+      },
+      "hair": "short",
+      "accessory": "mark"
+    },
+    "rudeus": {
+      "name": "鲁迪乌斯",
+      "accent": "#a57852",
+      "coat": "#b99d75",
+      "build": "child",
+      "expressions": {
+        "quiet": "静静等候",
+        "smile": "微笑",
+        "serious": "认真"
+      },
+      "hair": "short",
+      "accessory": "pendant"
+    },
+    "eris": {
+      "name": "艾莉丝",
+      "accent": "#a45c4c",
+      "coat": "#ead6bf",
+      "build": "child",
+      "expressions": {
+        "impatient": "不耐烦",
+        "calm": "放松"
+      },
+      "hair": "long",
+      "accessory": ""
+    },
+    "roin": {
+      "name": "罗因",
+      "accent": "#567688",
+      "coat": "#c6a98a",
+      "build": "adult",
+      "expressions": {
+        "low_voice": "压低声音"
+      },
+      "hair": "braid",
+      "accessory": ""
+    }
+  },
+  "opening_cast": [
+    {
+      "portrait_slot": "left",
+      "portrait_id": "rudeus",
+      "expression": "quiet"
+    },
+    {
+      "portrait_slot": "center",
+      "portrait_id": "ruijerd",
+      "expression": "watchful"
+    },
+    {
+      "portrait_slot": "right",
+      "portrait_id": "eris",
+      "expression": "impatient"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "line_01",
+      "type": "line",
+      "speaker": "",
+      "portrait_slot": "",
+      "portrait_id": "",
+      "expression": "",
+      "text": "诺缇雅掀开布帘。村口的石路浸在薄雾里，脚边的草尖还挂着水。三道陌生的影子停在路尽头。",
+      "voice": "res://assets/audio/voice/418_village_gate/line_01.ogg",
+      "next": "line_02"
+    },
+    {
+      "id": "line_02",
+      "type": "line",
+      "speaker": "",
+      "portrait_slot": "",
+      "portrait_id": "",
+      "expression": "",
+      "text": "绿发战士站在最前面。他身后，一个棕发少年按住胸前的吊坠，红发少女踮脚朝村里张望。",
+      "voice": "res://assets/audio/voice/418_village_gate/line_02.ogg",
+      "next": "line_03"
+    },
+    {
+      "id": "line_03",
+      "type": "line",
+      "speaker": "瑞杰路德",
+      "portrait_slot": "center",
+      "portrait_id": "ruijerd",
+      "expression": "watchful",
+      "text": "我是瑞杰路德。我们从南边过来。能劳烦你叫一位大人么？",
+      "voice": "res://assets/audio/voice/418_village_gate/line_03.ogg",
+      "next": "line_04"
+    },
+    {
+      "id": "line_04",
+      "type": "line",
+      "speaker": "诺缇雅",
+      "portrait_slot": "left",
+      "portrait_id": "notia",
+      "expression": "hesitant",
+      "text": "……请、请在那里等一下。",
+      "voice": "res://assets/audio/voice/418_village_gate/line_04.ogg",
+      "next": "the_choice"
+    },
+    {
+      "id": "the_choice",
+      "type": "choice",
+      "options": [
+        {
+          "id": "face_ruijerd",
+          "text": "压住心慌，走上前直视瑞杰路德",
+          "check": {
+            "stat": "WIL",
+            "label": "意志豁免",
+            "dc": 12,
+            "success_next": "line_08",
+            "fail_next": "line_14"
+          }
+        },
+        {
+          "id": "study_pendant",
+          "text": "绕到一旁，看看少年胸前的吊坠",
+          "condition": {
+            "flag": "noticed_migurd_pendant",
+            "equals": false,
+            "default": false
+          },
+          "next": "line_05"
+        },
+        {
+          "id": "retreat",
+          "text": "暂时退回木屋，做好准备再来",
+          "next": "return_early"
+        }
+      ]
+    },
+    {
+      "id": "line_05",
+      "type": "line",
+      "speaker": "",
+      "portrait_slot": "",
+      "portrait_id": "",
+      "expression": "",
+      "text": "她贴着低墙挪了几步。少年衣领里垂着一枚吊坠，磨得发亮的凹纹，是米格路德族的样式。",
+      "voice": "res://assets/audio/voice/418_village_gate/line_05.ogg",
+      "next": "line_06"
+    },
+    {
+      "id": "line_06",
+      "type": "line",
+      "speaker": "艾莉丝",
+      "portrait_slot": "right",
+      "portrait_id": "eris",
+      "expression": "calm",
+      "text": "鲁迪乌斯，你的吊坠又滑出来了。",
+      "voice": "res://assets/audio/voice/418_village_gate/line_06.ogg",
+      "next": "line_07"
+    },
+    {
+      "id": "line_07",
+      "type": "line",
+      "speaker": "鲁迪乌斯",
+      "portrait_slot": "left",
+      "portrait_id": "rudeus",
+      "expression": "smile",
+      "text": "啊，谢谢。老师送的，我可不敢弄丢。",
+      "voice": "res://assets/audio/voice/418_village_gate/line_07.ogg",
+      "next": "pendant_seen"
+    },
+    {
+      "id": "pendant_seen",
+      "type": "effect",
+      "effects": [
+        {
+          "type": "set_flag",
+          "id": "noticed_migurd_pendant",
+          "value": true
+        }
+      ],
+      "next": "the_choice"
+    },
+    {
+      "id": "line_08",
+      "type": "line",
+      "speaker": "",
+      "portrait_slot": "",
+      "portrait_id": "",
+      "expression": "",
+      "text": "诺缇雅一步步走近。绿发战士察觉她盯着他的长枪，便把枪尖转向地面，退了半步。",
+      "voice": "res://assets/audio/voice/418_village_gate/line_08.ogg",
+      "next": "line_09"
+    },
+    {
+      "id": "line_09",
+      "type": "line",
+      "speaker": "瑞杰路德",
+      "portrait_slot": "center",
+      "portrait_id": "ruijerd",
+      "expression": "gentle",
+      "text": "站在那儿也好。我听得见。",
+      "voice": "res://assets/audio/voice/418_village_gate/line_09.ogg",
+      "next": "line_10"
+    },
+    {
+      "id": "line_10",
+      "type": "line",
+      "speaker": "诺缇雅",
+      "portrait_slot": "left",
+      "portrait_id": "notia",
+      "expression": "resolved",
+      "text": "我叫诺缇雅。你们认识洛琪希吗？那个吊坠……我姐姐也有一个。",
+      "voice": "res://assets/audio/voice/418_village_gate/line_10.ogg",
+      "next": "line_11"
+    },
+    {
+      "id": "line_11",
+      "type": "line",
+      "speaker": "鲁迪乌斯",
+      "portrait_slot": "left",
+      "portrait_id": "rudeus",
+      "expression": "smile",
+      "text": "你是老师的妹妹？我叫鲁迪乌斯。她教我的第一堂课，就是怎么在念咒时把气喘匀。",
+      "voice": "res://assets/audio/voice/418_village_gate/line_11.ogg",
+      "next": "line_12"
+    },
+    {
+      "id": "line_12",
+      "type": "line",
+      "speaker": "鲁迪乌斯",
+      "portrait_slot": "left",
+      "portrait_id": "rudeus",
+      "expression": "serious",
+      "text": "后来我听到了她的新消息。洛琪希老师已经是水王级魔术师了。下次见面，我大概又要被她笑话了。",
+      "voice": "res://assets/audio/voice/418_village_gate/line_12.ogg",
+      "next": "line_13"
+    },
+    {
+      "id": "line_13",
+      "type": "line",
+      "speaker": "诺缇雅",
+      "portrait_slot": "left",
+      "portrait_id": "notia",
+      "expression": "resolved",
+      "text": "水王级……姐姐回家的时候，我要请她亲口说一遍。",
+      "voice": "res://assets/audio/voice/418_village_gate/line_13.ogg",
+      "next": "mark_direct"
+    },
+    {
+      "id": "mark_direct",
+      "type": "effect",
+      "effects": [
+        {
+          "type": "set_flag",
+          "id": "met_rudeus_directly",
+          "value": true
+        },
+        {
+          "type": "set_flag",
+          "id": "village_gate_completed",
+          "value": true
+        }
+      ],
+      "next": "return_home"
+    },
+    {
+      "id": "line_14",
+      "type": "line",
+      "speaker": "",
+      "portrait_slot": "",
+      "portrait_id": "",
+      "expression": "",
+      "text": "战士转眼的一瞬，诺缇雅只觉得膝盖一软。她退回屋后的阴影，蹲进低墙和木柱之间的空隙。",
+      "voice": "res://assets/audio/voice/418_village_gate/line_14.ogg",
+      "next": "line_15"
+    },
+    {
+      "id": "line_15",
+      "type": "line",
+      "speaker": "",
+      "portrait_slot": "",
+      "portrait_id": "",
+      "expression": "",
+      "text": "连宽一点的肩膀都挤不进来。诺缇雅把衣摆压在膝下，待父亲的脚步从墙角经过。",
+      "voice": "res://assets/audio/voice/418_village_gate/line_15.ogg",
+      "next": "line_16"
+    },
+    {
+      "id": "line_16",
+      "type": "line",
+      "speaker": "罗因",
+      "portrait_slot": "center",
+      "portrait_id": "roin",
+      "expression": "low_voice",
+      "text": "你那枚吊坠，我认得。洛琪希当年离家时，身边也带着一枚。",
+      "voice": "res://assets/audio/voice/418_village_gate/line_16.ogg",
+      "next": "line_17"
+    },
+    {
+      "id": "line_17",
+      "type": "line",
+      "speaker": "鲁迪乌斯",
+      "portrait_slot": "left",
+      "portrait_id": "rudeus",
+      "expression": "serious",
+      "text": "是她送给我的。我离开前听说，老师已经是水王级魔术师了。",
+      "voice": "res://assets/audio/voice/418_village_gate/line_17.ogg",
+      "next": "line_18"
+    },
+    {
+      "id": "line_18",
+      "type": "line",
+      "speaker": "罗因",
+      "portrait_slot": "center",
+      "portrait_id": "roin",
+      "expression": "low_voice",
+      "text": "在孩子面前我就不提这个了。不过，那吊坠背面刻着旧井的记号。她离家前，有时会把给家里的东西留在那里。",
+      "voice": "res://assets/audio/voice/418_village_gate/line_18.ogg",
+      "next": "line_19"
+    },
+    {
+      "id": "line_19",
+      "type": "line",
+      "speaker": "鲁迪乌斯",
+      "portrait_slot": "left",
+      "portrait_id": "rudeus",
+      "expression": "serious",
+      "text": "旧井，我记住了。等安顿好，我们再来拜访。",
+      "voice": "res://assets/audio/voice/418_village_gate/line_19.ogg",
+      "next": "line_20"
+    },
+    {
+      "id": "line_20",
+      "type": "line",
+      "speaker": "",
+      "portrait_slot": "",
+      "portrait_id": "",
+      "expression": "",
+      "text": "脚步声散开后，诺缇雅才松开衣摆。她既听到了姐姐的消息，也记住了一个来客不知道她听过的地方。",
+      "voice": "res://assets/audio/voice/418_village_gate/line_20.ogg",
+      "next": "line_21"
+    },
+    {
+      "id": "line_21",
+      "type": "line",
+      "speaker": "诺缇雅",
+      "portrait_slot": "left",
+      "portrait_id": "notia",
+      "expression": "resolved",
+      "text": "水王级。还有……旧井。回去先记在手账上。",
+      "voice": "res://assets/audio/voice/418_village_gate/line_21.ogg",
+      "next": "mark_hidden"
+    },
+    {
+      "id": "mark_hidden",
+      "type": "effect",
+      "effects": [
+        {
+          "type": "set_flag",
+          "id": "eavesdropped_roxy_clue",
+          "value": true
+        },
+        {
+          "type": "set_flag",
+          "id": "village_gate_completed",
+          "value": true
+        }
+      ],
+      "next": "return_home"
+    },
+    {
+      "id": "line_22",
+      "type": "line",
+      "speaker": "",
+      "portrait_slot": "",
+      "portrait_id": "",
+      "expression": "",
+      "text": "村口的雾正在散。远道而来的客人已经走开，诺缇雅把姐姐的消息在心里默念一遍，转身回家。",
+      "voice": "res://assets/audio/voice/418_village_gate/line_22.ogg",
+      "next": "return_home"
+    },
+    {
+      "id": "return_early",
+      "type": "end"
+    },
+    {
+      "id": "return_home",
+      "type": "end"
+    }
+  ]
+}

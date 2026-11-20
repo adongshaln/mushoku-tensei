@@ -1,0 +1,53 @@
+{
+  "crimson_wolf": {
+    "name": "赤岩魔狼",
+    "rank": "C 级荒野魔兽",
+    "description": "背脊的赤岩硬甲抵挡正面撞击。远中距会蓄势突进，在近距以利爪和牙齿压迫对手。",
+    "art": "res://assets/combat/crimson_wolf.png",
+    "fallback": "beast",
+    "background": "wilderness",
+    "palette": "#b86146",
+    "hp": 35,
+    "mp": 0,
+    "defense": 9,
+    "stats": {
+      "DEX": 14,
+      "WIL": 9
+    },
+    "magic_resist": 0.05,
+    "initial_ticks": 1,
+    "weaknesses": {
+      "water": 1.12,
+      "ice": 1.12
+    },
+    "skills": [
+      "wolf_bite",
+      "wolf_lunge"
+    ]
+  },
+  "sword_god_phantom": {
+    "name": "石碑幻影",
+    "rank": "剑神流剑士",
+    "description": "守着古代试炼的石影。近距蓄力的光之太刀会连斩两次，离开其刀锋或冻结蓄力可令攻势落空。",
+    "art": "res://assets/combat/sword_god_phantom.png",
+    "fallback": "swordsman",
+    "background": "stone_trial",
+    "palette": "#618f95",
+    "hp": 118,
+    "mp": 0,
+    "defense": 12,
+    "stats": {
+      "DEX": 18,
+      "WIL": 14
+    },
+    "magic_resist": 0.24,
+    "initial_ticks": 0,
+    "weaknesses": {
+      "ice": 1.16
+    },
+    "skills": [
+      "blade_of_light",
+      "phantom_step"
+    ]
+  }
+}

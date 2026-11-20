@@ -1,0 +1,14 @@
+{
+  "old_hunter": {
+    "name": "村口老猎人援护",
+    "kind": "active",
+    "charges": 2,
+    "ranges": [
+      0
+    ],
+    "push": 1,
+    "enemy_delay": 3,
+    "sound": "shield_block",
+    "description": "近距使用，立刻逼退至中距并延后敌方 3 刻度。"
+  }
+}

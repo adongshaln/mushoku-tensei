@@ -1,0 +1,82 @@
+{
+  "418_survival": {
+    "name": "418 求生战",
+    "mode": "story_linked",
+    "enemy": "crimson_wolf",
+    "shoulder_art": "res://assets/combat/notia_young_shoulder.png",
+    "shoulder_style": "young",
+    "distance": 1,
+    "support": "old_hunter",
+    "defense": 9,
+    "player_ticks": 0,
+    "skills": [
+      "water_ball",
+      "mud_snare",
+      "step_back",
+      "eat_ration",
+      "steady_breath"
+    ],
+    "reactions": [
+      "instant_water_wall",
+      "migurd_dodge"
+    ],
+    "outcome_flag": "survival_418_last_result",
+    "victory_flag": "survival_418_won",
+    "post_defeat_hp": 12
+  },
+  "endgame_water_saint": {
+    "name": "结局后构筑沙盒",
+    "mode": "isolated_sandbox",
+    "enemy": "sword_god_phantom",
+    "shoulder_art": "res://assets/combat/notia_adult_shoulder.png",
+    "shoulder_style": "adult",
+    "distance": 0,
+    "defense": 10,
+    "player_ticks": 1,
+    "speed": 2,
+    "inline_dice": true,
+    "character": {
+      "name": "诺缇雅",
+      "hp": 96,
+      "mp": 68,
+      "stats": {
+        "INT": 24,
+        "DEX": 22,
+        "WIL": 16
+      },
+      "trait_skills": {
+        "隐匿": 2
+      },
+      "traits": [
+        {
+          "id": "incantationless",
+          "name": "无咏唱"
+        },
+        {
+          "id": "foresight_eye",
+          "name": "予见眼"
+        },
+        {
+          "id": "froststone_staff",
+          "name": "寒冰魔石短杖 · 水冰伤害 +30%"
+        }
+      ],
+      "damage_multipliers": {
+        "water": 1.3,
+        "ice": 1.3
+      },
+      "items": {}
+    },
+    "skills": [
+      "water_saint_rain",
+      "ice_volley",
+      "mana_shield",
+      "step_back"
+    ],
+    "reactions": [
+      "foresight_parry",
+      "instant_water_wall",
+      "migurd_dodge"
+    ]
+  }
+}

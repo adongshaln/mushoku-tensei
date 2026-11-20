@@ -1,0 +1,671 @@
+{
+  "title": "人之世界",
+  "world_camera": {
+    "center": [
+      0,
+      0
+    ],
+    "pitch": 62,
+    "distance": 19.6,
+    "zoom": [
+      11.9,
+      26.6
+    ],
+    "pan": [
+      5.7,
+      3.6
+    ]
+  },
+  "continents": [
+    {
+      "id": "demon",
+      "node": "continent_demon",
+      "rim": "continent_outline_demon",
+      "name": "魔大陆",
+      "subtitle": "东北魔族大陆 · 严酷荒原与魔神语之境",
+      "description": "严酷的山脊和荒原贯穿魔大陆。东北坐落利卡里斯镇与米格路德村，南端的温恩港隔海望向米里斯大陆。",
+      "camera": {
+        "center": [
+          4.8,
+          -2.1
+        ],
+        "pitch": 57,
+        "distance": 10.1,
+        "zoom": [
+          5.5,
+          14.2
+        ],
+        "pan": [
+          1.9,
+          2.1
+        ]
+      },
+      "regions": [
+        {
+          "id": "demon_biegoya",
+          "node": "region_demon_biegoya",
+          "rim": "rim_demon_biegoya",
+          "name": "比耶戈亚地方",
+          "subtitle": "魔大陆东北 · 赭岩与台地",
+          "description": "东北部的山脊与赭色台地之间，坐落着利卡里斯镇与米格路德村。",
+          "tags": [
+            "利卡里斯镇",
+            "米格路德村"
+          ],
+          "cities": [
+            {
+              "id": "rikarisu",
+              "node": "city_rikarisu",
+              "ring": "city_ring_rikarisu",
+              "name": "利卡里斯镇",
+              "arch": "arch_crater_city",
+              "pixel": [
+                1458,
+                127
+              ],
+              "subtitle": "比耶戈亚地方 · 环形石城",
+              "description": "魔大陆东北的环形石城。高低错落的塔楼和石墙围起城中心。",
+              "tags": [
+                "魔大陆",
+                "比耶戈亚地方",
+                "环形石城"
+              ]
+            },
+            {
+              "id": "migurd",
+              "node": "city_migurd",
+              "ring": "city_ring_migurd",
+              "name": "米格路德村",
+              "arch": "arch_village",
+              "pixel": [
+                1491,
+                102
+              ],
+              "subtitle": "比耶戈亚地方 · 起始村落",
+              "description": "米格路德族的村落，位于利卡里斯东北一带。木屋和坡地构成村落的轮廓。",
+              "tags": [
+                "起始村落",
+                "米格路德族",
+                "魔神语"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "demon_kurasuma",
+          "node": "region_demon_kurasuma",
+          "rim": "rim_demon_kurasuma",
+          "name": "克拉斯玛沿岸",
+          "subtitle": "魔大陆西北 · 海岸山地",
+          "description": "贴近林古斯海的西北领地。狭窄岸带紧邻内陆岩岭。",
+          "tags": [
+            "克拉斯玛镇",
+            "林古斯海"
+          ],
+          "cities": [
+            {
+              "id": "kurasuma",
+              "node": "city_kurasuma",
+              "ring": "city_ring_kurasuma",
+              "name": "克拉斯玛镇",
+              "arch": "arch_port",
+              "pixel": [
+                1172,
+                127
+              ],
+              "subtitle": "克拉斯玛沿岸 · 西北滨海聚落",
+              "description": "倚着西北岩岸的聚落，可俯望林古斯海。",
+              "tags": [
+                "克拉斯玛沿岸",
+                "海岸山地"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "demon_wastes",
+          "node": "region_demon_wastes",
+          "rim": "rim_demon_wastes",
+          "name": "中部荒原与伽斯洛",
+          "subtitle": "魔大陆中部 · 岩脊与内陆荒原",
+          "description": "内陆高地横过魔大陆中部，山谷与零星林区把赭石荒原分隔开来。",
+          "tags": [
+            "伽斯洛",
+            "魔大陆中部",
+            "内陆荒原"
+          ],
+          "cities": []
+        },
+        {
+          "id": "demon_south",
+          "node": "region_demon_south",
+          "rim": "rim_demon_south",
+          "name": "南部丘陵港区",
+          "subtitle": "魔大陆南端 · 岛礁与浅湾",
+          "description": "丘陵渐降至南端岸线，温恩港隔海望向米里斯北部。",
+          "tags": [
+            "温恩港",
+            "南部丘陵",
+            "海峡"
+          ],
+          "cities": [
+            {
+              "id": "wind_port",
+              "node": "city_wind_port",
+              "ring": "city_ring_wind_port",
+              "name": "温恩港",
+              "arch": "arch_port",
+              "pixel": [
+                1423,
+                463
+              ],
+              "subtitle": "南部丘陵港区 · 南端港口",
+              "description": "魔大陆南端的港口。浅湾与离岸岛礁围出狭长的水面。",
+              "tags": [
+                "魔大陆南端",
+                "港口",
+                "海峡"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "milis",
+      "node": "continent_milis",
+      "rim": "continent_outline_milis",
+      "name": "米里斯大陆",
+      "subtitle": "中南圣域大陆 · 大森林与神圣国度",
+      "description": "赞特港以南是大森林，神圣国的王都米里希翁位于南部，西港连接西端的海岸。",
+      "camera": {
+        "center": [
+          4.48,
+          2.35
+        ],
+        "pitch": 57,
+        "distance": 10.9,
+        "zoom": [
+          5.5,
+          14.8
+        ],
+        "pan": [
+          2.25,
+          1.85
+        ]
+      },
+      "regions": [
+        {
+          "id": "milis_zanto",
+          "node": "region_milis_zanto",
+          "rim": "rim_milis_zanto",
+          "name": "赞特港与北道",
+          "subtitle": "米里斯东北端 · 海峡门户",
+          "description": "米里斯东北端的一段海岸与北道，赞特港在海峡南侧。",
+          "tags": [
+            "赞特港",
+            "圣剑大道",
+            "北道"
+          ],
+          "cities": [
+            {
+              "id": "zanto_port",
+              "node": "city_zanto_port",
+              "ring": "city_ring_zanto_port",
+              "name": "赞特港",
+              "arch": "arch_port",
+              "pixel": [
+                1409,
+                520
+              ],
+              "subtitle": "赞特港与北道 · 北部港口",
+              "description": "北部港口面对魔大陆南端，在海峡与陆路之间形成门户。",
+              "tags": [
+                "北道",
+                "港口",
+                "海峡"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "milis_forest",
+          "node": "region_milis_forest",
+          "rim": "rim_milis_forest",
+          "name": "大森林领地",
+          "subtitle": "米里斯中东部 · 林间诸族",
+          "description": "大森林铺展在米里斯中东部，林间分布着不同族裔的领地和聚落。",
+          "tags": [
+            "兽族领地",
+            "精灵领地",
+            "霍比特领地",
+            "大森林"
+          ],
+          "cities": [
+            {
+              "id": "great_forest",
+              "node": "city_great_forest",
+              "ring": "city_ring_great_forest",
+              "name": "大森林聚落",
+              "arch": "arch_village",
+              "pixel": [
+                1395,
+                635
+              ],
+              "subtitle": "大森林领地 · 林间聚落",
+              "description": "树冠之间的聚落与林间小道组成大森林的人居风貌。",
+              "tags": [
+                "大森林",
+                "林间聚落",
+                "兽族领地"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "milis_holy",
+          "node": "region_milis_holy",
+          "rim": "rim_milis_holy",
+          "name": "米里斯神圣国",
+          "subtitle": "米里斯南部中央 · 王都与青龙山脉",
+          "description": "王都米里希翁所在的神圣国腹地，向北邻近青龙山脉与矮人领地。",
+          "tags": [
+            "王都米里希翁",
+            "米里斯神圣国",
+            "青龙山脉",
+            "矮人领地"
+          ],
+          "cities": [
+            {
+              "id": "milishion",
+              "node": "city_milishion",
+              "ring": "city_ring_milishion",
+              "name": "王都米里希翁",
+              "arch": "arch_capital",
+              "pixel": [
+                1352,
+                749
+              ],
+              "subtitle": "米里斯神圣国 · 王都",
+              "description": "米里斯神圣国的王都。聚落与道路沿南部山麓铺展开来。",
+              "tags": [
+                "王都",
+                "米里斯神圣国",
+                "圣剑大道"
+              ]
+            },
+            {
+              "id": "dwarf_hold",
+              "node": "city_dwarf_hold",
+              "ring": "city_ring_dwarf_hold",
+              "name": "矮人领地与青龙山脉",
+              "arch": "arch_fortress",
+              "pixel": [
+                1256,
+                697
+              ],
+              "subtitle": "米里斯神圣国 · 山脉地标",
+              "description": "青龙山脉的山岭与矮人领地相接，山口决定聚落与道路的走向。",
+              "tags": [
+                "青龙山脉",
+                "矮人领地",
+                "山口"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "milis_west",
+          "node": "region_milis_west",
+          "rim": "rim_milis_west",
+          "name": "西港门户",
+          "subtitle": "米里斯西端 · 狭长岸线",
+          "description": "大陆西端伸入南部海域，西港面向两岸间的水道。",
+          "tags": [
+            "西港",
+            "南部海域",
+            "西端岸线"
+          ],
+          "cities": [
+            {
+              "id": "west_port",
+              "node": "city_west_port",
+              "ring": "city_ring_west_port",
+              "name": "西港",
+              "arch": "arch_port",
+              "pixel": [
+                992,
+                825
+              ],
+              "subtitle": "西港门户 · 西端港口",
+              "description": "海岸向西收为狭长岬角，西港在临水的门户地带。",
+              "tags": [
+                "米里斯西端",
+                "西港",
+                "岬角"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "central",
+      "node": "continent_central",
+      "rim": "continent_outline_central",
+      "name": "中央大陆",
+      "subtitle": "西半部最大洲 · 赤龙山脉与诸国版图",
+      "description": "赤龙山脉横贯中央大陆。北方有魔法三国和比黑利尔王国，西部是阿斯拉王国，王龙王国与东港坐落南端。",
+      "camera": {
+        "center": [
+          -3.6,
+          -0.58
+        ],
+        "pitch": 57,
+        "distance": 15.4,
+        "zoom": [
+          6.8,
+          19.3
+        ],
+        "pan": [
+          3.35,
+          3.1
+        ]
+      },
+      "regions": [
+        {
+          "id": "central_magic",
+          "node": "region_central_magic",
+          "rim": "rim_central_magic",
+          "name": "北方魔法三国",
+          "subtitle": "中央大陆北部 · 雪原上的三国",
+          "description": "北方群山与雪原是拉诺亚、奈里斯和巴谢兰特的版图，魔法大学坐落于拉诺亚。",
+          "tags": [
+            "拉诺亚王国",
+            "奈里斯王国",
+            "巴谢兰特公国",
+            "魔法大学",
+            "赤龙上颚"
+          ],
+          "cities": [
+            {
+              "id": "sharia",
+              "node": "city_sharia",
+              "ring": "city_ring_sharia",
+              "name": "魔法大学／拉诺亚",
+              "arch": "arch_academy",
+              "pixel": [
+                509,
+                86
+              ],
+              "subtitle": "北方魔法三国 · 魔导学府",
+              "description": "拉诺亚的魔法大学是北方三国的标志性学府。",
+              "tags": [
+                "魔法大学",
+                "拉诺亚王国",
+                "北方三国"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "central_sword",
+          "node": "region_central_sword",
+          "rim": "rim_central_sword",
+          "name": "剑之圣地",
+          "subtitle": "中央大陆极西 · 山间道场",
+          "description": "极西山间的剑之圣地，邻近西海岸及山脊。",
+          "tags": [
+            "剑之圣地",
+            "极西山地"
+          ],
+          "cities": [
+            {
+              "id": "sword_sanctum",
+              "node": "city_sword_sanctum",
+              "ring": "city_ring_sword_sanctum",
+              "name": "剑之圣地",
+              "arch": "arch_fortress",
+              "pixel": [
+                176,
+                210
+              ],
+              "subtitle": "中央大陆极西 · 剑道圣地",
+              "description": "位于极西山地的剑道圣地，以山门和道场为地标。",
+              "tags": [
+                "西部山地",
+                "道场",
+                "剑术"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "central_asura",
+          "node": "region_central_asura",
+          "rim": "rim_central_asura",
+          "name": "阿斯拉王国与菲托亚领",
+          "subtitle": "中央大陆西部 · 王都、乡野与圆形遗址",
+          "description": "阿斯拉的平原与庄稼地沿西部山麓展开，菲托亚的圆形遗址坐落在领地西部。",
+          "tags": [
+            "王都阿尔斯",
+            "阿斯拉王国",
+            "菲托亚领",
+            "多纳蒂领",
+            "圆形转移遗址"
+          ],
+          "cities": [
+            {
+              "id": "arusu",
+              "node": "city_arusu",
+              "ring": "city_ring_arusu",
+              "name": "王都阿尔斯",
+              "arch": "arch_capital",
+              "pixel": [
+                248,
+                271
+              ],
+              "subtitle": "阿斯拉王国与菲托亚领 · 王都",
+              "description": "阿斯拉王国的王都，位于西部沃野与道路交汇处。",
+              "tags": [
+                "阿斯拉王国",
+                "王都",
+                "中央大陆"
+              ]
+            },
+            {
+              "id": "fittoa",
+              "node": "city_fittoa",
+              "ring": "city_ring_fittoa",
+              "name": "菲托亚领",
+              "arch": "arch_village",
+              "pixel": [
+                324,
+                245
+              ],
+              "subtitle": "阿斯拉王国与菲托亚领 · 圆形遗址旁",
+              "description": "菲托亚领西部的乡野与圆形转移遗址相邻。",
+              "tags": [
+                "菲托亚领",
+                "圆形转移遗址",
+                "阿斯拉王国"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "central_biheiriru",
+          "node": "region_central_biheiriru",
+          "rim": "rim_central_biheiriru",
+          "name": "比黑利尔王国与鬼岛",
+          "subtitle": "中央大陆极北 · 山岸与近海岛屿",
+          "description": "北部山岸延伸至近海岛屿，比黑利尔王国、鬼岛与龙神之穴位于这一带。",
+          "tags": [
+            "比黑利尔王国",
+            "鬼岛",
+            "龙神之穴"
+          ],
+          "cities": [
+            {
+              "id": "biheiriru",
+              "node": "city_biheiriru",
+              "ring": "city_ring_biheiriru",
+              "name": "比黑利尔王国",
+              "arch": "arch_fortress",
+              "pixel": [
+                711,
+                137
+              ],
+              "subtitle": "比黑利尔王国与鬼岛 · 极北山岸",
+              "description": "极北海岸与鬼岛近海的王国，以险峻山岸为背景。",
+              "tags": [
+                "鬼岛",
+                "龙神之穴",
+                "极北"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "central_strife",
+          "node": "region_central_strife",
+          "rim": "rim_central_strife",
+          "name": "纷争地带与赤龙山脉",
+          "subtitle": "中央大陆中部 · 山脉与要塞",
+          "description": "赤龙山脉横过领地，关隘和高地把纷争地带分隔成多片谷地。",
+          "tags": [
+            "纷争地带",
+            "赤龙山脉",
+            "赤龙上颚",
+            "赤龙下颚"
+          ],
+          "cities": [
+            {
+              "id": "strife_keep",
+              "node": "city_strife_keep",
+              "ring": "city_ring_strife_keep",
+              "name": "纷争地带要塞",
+              "arch": "arch_fortress",
+              "pixel": [
+                547,
+                218
+              ],
+              "subtitle": "纷争地带与赤龙山脉 · 中部要塞",
+              "description": "山谷间的要塞卡住了纷争地带的几条陆路。",
+              "tags": [
+                "纷争地带",
+                "中部谷地",
+                "要塞"
+              ]
+            },
+            {
+              "id": "red_dragon_jaw",
+              "node": "city_red_dragon_jaw",
+              "ring": "city_ring_red_dragon_jaw",
+              "name": "赤龙山脉关隘",
+              "arch": "arch_fortress",
+              "pixel": [
+                560,
+                533
+              ],
+              "subtitle": "纷争地带与赤龙山脉 · 关隘",
+              "description": "贴着赤龙山脉边缘的山口，是山地道路穿越山脊的地标。",
+              "tags": [
+                "赤龙山脉",
+                "赤龙下颚",
+                "山口"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "central_shiron",
+          "node": "region_central_shiron",
+          "rim": "rim_central_shiron",
+          "name": "西隆与邻国群",
+          "subtitle": "中央大陆中东 · 河谷和小国",
+          "description": "西隆、基卡与萨纳基亚几国分布在中东部沿海与河谷。",
+          "tags": [
+            "西隆王国",
+            "基卡王国",
+            "萨纳基亚王国",
+            "密林地带"
+          ],
+          "cities": [
+            {
+              "id": "shiron",
+              "node": "city_shiron",
+              "ring": "city_ring_shiron",
+              "name": "西隆王国",
+              "arch": "arch_capital",
+              "pixel": [
+                644,
+                530
+              ],
+              "subtitle": "西隆与邻国群 · 沿海诸国",
+              "description": "中东部的西隆王国与邻国相接，领地沿河谷铺展。",
+              "tags": [
+                "西隆王国",
+                "基卡王国",
+                "萨纳基亚王国"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "central_dragon_king",
+          "node": "region_central_dragon_king",
+          "rim": "rim_central_dragon_king",
+          "name": "王龙王国与东港",
+          "subtitle": "中央大陆南部 · 王龙山脉与海港",
+          "description": "王龙山脉与沿海道路沿南部半岛延伸，王龙王国与东港在这段海岸相接。",
+          "tags": [
+            "王龙山脉",
+            "王龙王国",
+            "东港"
+          ],
+          "cities": [
+            {
+              "id": "dragon_king",
+              "node": "city_dragon_king",
+              "ring": "city_ring_dragon_king",
+              "name": "王龙王国",
+              "arch": "arch_capital",
+              "pixel": [
+                715,
+                751
+              ],
+              "subtitle": "王龙王国与东港 · 半岛诸城",
+              "description": "王龙王国位于南部半岛，山脉向海岸收束。近岸的东港与王都构成相邻的城港组合。",
+              "tags": [
+                "王龙山脉",
+                "王龙王国",
+                "东港"
+              ],
+              "sites": [
+                {
+                  "id": "east_port",
+                  "node": "city_east_port",
+                  "ring": "city_ring_east_port",
+                  "name": "东港",
+                  "arch": "arch_port",
+                  "pixel": [
+                    803,
+                    805
+                  ],
+                  "subtitle": "王龙王国与东港 · 近岸港口",
+                  "description": "南部半岛近岸的港口，海岸道路从王龙王国延伸至此。",
+                  "tags": [
+                    "王龙王国",
+                    "东港",
+                    "南部海岸"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,270 @@
+{
+  "rules": {
+    "concentration": {
+      "stat": "WIL",
+      "dc_min": 10,
+      "damage_factor": 0.5,
+      "delay": 2
+    },
+    "foresight_trait": "foresight_eye",
+    "reactions_per_turn": 1,
+    "conductive_combo": {
+      "primer": "wet",
+      "elements": [
+        "ice",
+        "lightning"
+      ],
+      "multiplier": 1.75,
+      "status": "frozen"
+    },
+    "statuses": {
+      "wet": {
+        "name": "湿润",
+        "duration": 8,
+        "movement_recovery": 1
+      },
+      "frozen": {
+        "name": "冻结",
+        "duration": 5,
+        "delay": 3,
+        "interrupt_cast": true
+      },
+      "slow": {
+        "name": "迟缓",
+        "duration": 9,
+        "recovery": 2
+      },
+      "magic_break": {
+        "name": "魔抗削弱",
+        "duration": 8,
+        "magic_resist_delta": 0.18
+      }
+    }
+  },
+  "actions": {
+    "water_ball": {
+      "name": "水球术",
+      "ranges": [
+        1,
+        2
+      ],
+      "mp": 4,
+      "cast_ticks": 2,
+      "recovery_ticks": 1,
+      "damage": 13,
+      "stat": "INT",
+      "element": "water",
+      "status": [
+        "wet"
+      ],
+      "sound": "water_hit",
+      "description": "水球命中后附加湿润。"
+    },
+    "mud_snare": {
+      "name": "泥沼牵制",
+      "ranges": [
+        1,
+        2
+      ],
+      "mp": 3,
+      "cast_ticks": 1,
+      "recovery_ticks": 1,
+      "damage": 3,
+      "stat": "INT",
+      "element": "earth",
+      "push": 1,
+      "status": [
+        "slow"
+      ],
+      "sound": "water_hit",
+      "description": "逼退一段距离，并延长对手的行动间隔。"
+    },
+    "step_back": {
+      "name": "后撤步",
+      "ranges": [
+        0,
+        1
+      ],
+      "mp": 0,
+      "cast_ticks": 0,
+      "recovery_ticks": 1,
+      "move": 1,
+      "description": "立刻后撤一段距离。湿润时恢复多用一个刻度。"
+    },
+    "eat_ration": {
+      "name": "食用干粮",
+      "ranges": [
+        0,
+        1,
+        2
+      ],
+      "mp": 0,
+      "cast_ticks": 0,
+      "recovery_ticks": 1,
+      "item": "smoked_meat",
+      "heal": 14,
+      "restore_mp": 9,
+      "description": "消耗一份魔大陆熏肉干粮，回复 14 HP 和 9 MP。"
+    },
+    "steady_breath": {
+      "name": "蓄息",
+      "ranges": [
+        0,
+        1,
+        2
+      ],
+      "mp": 0,
+      "cast_ticks": 0,
+      "recovery_ticks": 2,
+      "restore_mp": 4,
+      "shield": 3,
+      "sound": "shield_block",
+      "description": "回复 4 MP，撑起 3 点临时护盾。"
+    },
+    "ice_volley": {
+      "name": "无咏唱·冰枪连射",
+      "ranges": [
+        0,
+        1,
+        2
+      ],
+      "mp": 8,
+      "cast_ticks": 0,
+      "recovery_ticks": 1,
+      "damage": 29,
+      "stat": "INT",
+      "element": "ice",
+      "sound": "water_hit",
+      "description": "击中湿润敌人时引发冰冻暴击，打断蓄力。"
+    },
+    "water_saint_rain": {
+      "name": "无咏唱·水圣级豪雨",
+      "ranges": [
+        0,
+        1,
+        2
+      ],
+      "mp": 7,
+      "cast_ticks": 0,
+      "recovery_ticks": 1,
+      "damage": 16,
+      "stat": "INT",
+      "element": "water",
+      "status": [
+        "wet",
+        "magic_break"
+      ],
+      "sound": "water_hit",
+      "description": "全距离豪雨。附加湿润并削减魔抗。"
+    },
+    "mana_shield": {
+      "name": "魔力护盾",
+      "ranges": [
+        0,
+        1,
+        2
+      ],
+      "mp": 6,
+      "cast_ticks": 0,
+      "recovery_ticks": 1,
+      "shield": 26,
+      "sound": "shield_block",
+      "description": "即时撑起 26 点护盾。"
+    },
+    "wolf_lunge": {
+      "name": "突进扑咬",
+      "ranges": [
+        1,
+        2
+      ],
+      "mp": 0,
+      "cast_ticks": 2,
+      "recovery_ticks": 3,
+      "attack_ranges": [
+        0
+      ],
+      "move_to": 0,
+      "damage": 12,
+      "stat": "DEX",
+      "element": "physical",
+      "sound": "slash_hit",
+      "intent": "准备突进扑咬",
+      "description": "蓄势后跨越距离直扑近前。"
+    },
+    "wolf_bite": {
+      "name": "裂石撕咬",
+      "ranges": [
+        0
+      ],
+      "mp": 0,
+      "cast_ticks": 0,
+      "recovery_ticks": 4,
+      "damage": 10,
+      "stat": "DEX",
+      "element": "physical",
+      "sound": "slash_hit",
+      "intent": "即将近距撕咬"
+    },
+    "phantom_step": {
+      "name": "踏影逼近",
+      "ranges": [
+        1,
+        2
+      ],
+      "mp": 0,
+      "cast_ticks": 1,
+      "recovery_ticks": 1,
+      "move_to": 0,
+      "intent": "身形压低，准备贴近"
+    },
+    "blade_of_light": {
+      "name": "光之太刀",
+      "ranges": [
+        0
+      ],
+      "mp": 0,
+      "cast_ticks": 2,
+      "recovery_ticks": 3,
+      "damage": 21,
+      "hits": 2,
+      "stat": "DEX",
+      "element": "physical",
+      "sound": "slash_hit",
+      "intent": "蓄力：光之太刀",
+      "concentration_interrupt": true,
+      "description": "近距双连斩，第二斩可被弹反打断。"
+    }
+  },
+  "reactions": {
+    "instant_water_wall": {
+      "name": "瞬发水壁",
+      "mp": 6,
+      "kind": "guard",
+      "reduction": 0.6,
+      "push_from": 0,
+      "push_to": 1,
+      "sound": "shield_block",
+      "description": "减伤 60%，将近距敌人推至中距。"
+    },
+    "migurd_dodge": {
+      "name": "米格路德娇小闪避",
+      "mp": 0,
+      "kind": "dodge",
+      "stat": "DEX",
+      "trait_skill": "隐匿",
+      "description": "用敏捷与体型加值对抗来袭总点，成功完全规避。"
+    },
+    "foresight_parry": {
+      "name": "予见弹反",
+      "mp": 4,
+      "kind": "parry",
+      "stat": "DEX",
+      "requires_trait": "foresight_eye",
+      "reaction_dc_bonus": -5,
+      "reflect": 0.8,
+      "enemy_delay": 2,
+      "sound": "shield_block",
+      "description": "双骰取高，成功反弹 80% 首击并取消后续连击。"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "routes": [
+    {"from": "city_migurd", "to": "city_rikarisu", "km": 60, "mode": "land", "terrain_factor": 0.65},
+    {"from": "city_rikarisu", "to": "city_kurasuma", "km": 700, "mode": "land", "terrain_factor": 0.65},
+    {"from": "city_rikarisu", "to": "city_wind_port", "km": 2000, "mode": "land", "terrain_factor": 0.65, "via": [[1463, 245], [1444, 343]]},
+    {"from": "city_kurasuma", "to": "city_wind_port", "km": 2150, "mode": "land", "terrain_factor": 0.65, "via": [[1249, 180], [1343, 297], [1389, 382]]},
+    {"from": "city_wind_port", "to": "city_zanto_port", "km": 90, "mode": "ship", "fare_copper": 1200},
+    {"from": "city_west_port", "to": "city_east_port", "km": 110, "mode": "ship", "fare_copper": 400},
+    {"from": "city_zanto_port", "to": "city_great_forest", "km": 240, "mode": "land", "terrain_factor": 0.8, "season": "milis_rain", "seasonal_factor": 0.55},
+    {"from": "city_zanto_port", "to": "city_milishion", "km": 1150, "mode": "land", "terrain_factor": 1},
+    {"from": "city_great_forest", "to": "city_milishion", "km": 540, "mode": "land", "terrain_factor": 0.9},
+    {"from": "city_milishion", "to": "city_dwarf_hold", "km": 280, "mode": "land", "terrain_factor": 0.75},
+    {"from": "city_milishion", "to": "city_west_port", "km": 840, "mode": "land", "terrain_factor": 1, "via": [[1258, 774], [1147, 796], [1076, 817]]},
+    {"from": "city_east_port", "to": "city_dragon_king", "km": 240, "mode": "land", "terrain_factor": 1},
+    {"from": "city_dragon_king", "to": "city_shiron", "km": 960, "mode": "land", "terrain_factor": 0.9, "via": [[667, 690], [629, 597]]},
+    {"from": "city_shiron", "to": "city_red_dragon_jaw", "km": 560, "mode": "land", "terrain_factor": 0.75},
+    {"from": "city_red_dragon_jaw", "to": "city_fittoa", "km": 600, "mode": "land", "terrain_factor": 0.8, "via": [[503, 467], [468, 374], [403, 310]]},
+    {"from": "city_fittoa", "to": "city_arusu", "km": 540, "mode": "land", "terrain_factor": 1},
+    {"from": "city_shiron", "to": "city_strife_keep", "km": 640, "mode": "land", "terrain_factor": 0.85},
+    {"from": "city_strife_keep", "to": "city_sharia", "km": 1150, "mode": "land", "terrain_factor": 0.8, "season": "northern_winter", "seasonal_factor": 0.65},
+    {"from": "city_fittoa", "to": "city_sharia", "km": 1400, "mode": "land", "terrain_factor": 0.7, "season": "northern_winter", "seasonal_factor": 0.65},
+    {"from": "city_sharia", "to": "city_sword_sanctum", "km": 1050, "mode": "land", "terrain_factor": 0.75, "season": "northern_winter", "seasonal_factor": 0.7},
+    {"from": "city_sharia", "to": "city_biheiriru", "km": 1450, "mode": "land", "terrain_factor": 0.72, "season": "northern_winter", "seasonal_factor": 0.65}
+  ]
+}
