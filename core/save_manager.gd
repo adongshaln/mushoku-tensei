@@ -40,38 +40,76 @@ func slot_label(id: String) -> String:
 
 func can_save() -> bool:
 	var scene := get_tree().current_scene
-	return scene != null and scene.scene_file_path in [CABIN, ATLAS] and not SceneTransition.is_busy() and (
-		not _restoring and not WorldBlackboard.is_journey_active() and not StoryletScheduler.is_busy())
+	return scene != null and scene.scene_file_path in [CABIN, ATLAS] and _state_stable()
 
 
-func slot_info(id: String) -> Dictionary:
-	var data := _read(id)
-	if data.is_empty():
-		return {"status": "invalid" if id in SLOTS and FileAccess.file_exists(_path(id)) else "empty"}
-	var result: Dictionary = data["meta"].duplicate(true)
-	result["status"] = "ready"
-	result["saved_at"] = data["saved_at"]
-	return result
+func is_restoring() -> bool:
+	return _restoring
 
 
-func latest_slot() -> String:
+func _state_stable() -> bool:
+	return not SceneTransition.is_busy() and not _restoring and not WorldBlackboard.is_journey_active() and not StoryletScheduler.is_busy()
+
+
+func has_any_save() -> bool:
+	return not get_latest_slot_id().is_empty()
+
+
+func get_latest_slot_id() -> String:
 	var newest := ""
 	var latest_time := -1.0
 	for id: String in SLOTS:
 		var data := _read(id)
 		if data.is_empty():
 			continue
-		var timestamp := float(data["saved_at"])
+		var timestamp := float(data["saved_at_unix"])
 		if timestamp >= latest_time:
 			newest = id
 			latest_time = timestamp
 	return newest
 
 
-func save_slot(id: String) -> bool:
-	if id not in SLOTS or not can_save():
+func latest_slot() -> String:
+	return get_latest_slot_id()
+
+
+func slot_info(id: String) -> Dictionary:
+	var data := _read(id)
+	var base := {
+		"slot_id": id,
+		"label": slot_label(id),
+		"is_auto": id == "auto"
+	}
+	if data.is_empty():
+		base["status"] = "invalid" if id in SLOTS and FileAccess.file_exists(_path(id)) else "empty"
+		return base
+	var result: Dictionary = data["meta"].duplicate(true)
+	result.merge(base, true)
+	result["status"] = "ready"
+	result["saved_at"] = str(data["saved_at"])
+	result["saved_at_unix"] = float(data["saved_at_unix"])
+	result["scene_path"] = str(data["scene_path"])
+	return result
+
+
+func list_slots() -> Array[Dictionary]:
+	var entries: Array[Dictionary] = []
+	for id: String in SLOTS:
+		entries.append(slot_info(id))
+	return entries
+
+
+func save_slot(slot_id: String, scene_path: String = "") -> bool:
+	if slot_id not in SLOTS or not _state_stable():
 		return false
 	var scene := get_tree().current_scene
+	var target_scene := scene_path
+	if target_scene.is_empty():
+		if scene == null or scene.scene_file_path not in [CABIN, ATLAS]:
+			return false
+		target_scene = scene.scene_file_path
+	elif target_scene not in [CABIN, ATLAS]:
+		return false
 	var modules := _unclaimed_modules.duplicate(true)
 	for module_id: String in _modules:
 		var callback: Callable = _modules[module_id]["serialize"]
@@ -80,15 +118,33 @@ func save_slot(id: String) -> bool:
 			if not state is Dictionary:
 				return false
 			modules[module_id] = state
+	var unix_now := Time.get_unix_time_from_system()
+	var saved_text := _format_datetime(Time.get_datetime_dict_from_system(false))
+	var char_name := str(WorldBlackboard.profile.get("name", ""))
+	var date_str := WorldBlackboard.date_text()
+	var loc_name := WorldBlackboard.city_label()
+	var currency_str := WorldBlackboard.get_currency_display_text()
 	var data := {
-		"schema_version": SCHEMA_VERSION, "saved_at": Time.get_unix_time_from_system(),
-		"meta": {"name": str(WorldBlackboard.profile.get("name", "")), "date": WorldBlackboard.date_text(),
-			"location": WorldBlackboard.city_label()},
-		"scene_path": scene.scene_file_path, "modules": modules
+		"schema_version": SCHEMA_VERSION,
+		"saved_at": saved_text,
+		"saved_at_unix": unix_now,
+		"scene_path": target_scene,
+		"meta": {
+			"character_name": char_name,
+			"name": char_name,
+			"age": WorldBlackboard.age(),
+			"date_text": date_str,
+			"date": date_str,
+			"location_name": loc_name,
+			"location": loc_name,
+			"currency_text": currency_str,
+			"chapter_hint": WorldBlackboard.chapter_hint()
+		},
+		"modules": modules
 	}
-	if scene.has_method("get_save_context"):
+	if scene != null and scene.scene_file_path == target_scene and scene.has_method("get_save_context"):
 		data["scene_context"] = scene.call("get_save_context")
-	var destination := _path(id)
+	var destination := _path(slot_id)
 	if DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(directory)) != OK:
 		return false
 	var temporary := destination + ".tmp"
@@ -107,19 +163,31 @@ func save_slot(id: String) -> bool:
 	return true
 
 
-func load_slot(id: String) -> bool:
-	var data := _read(id)
-	if data.is_empty() or WorldBlackboard.is_journey_active() or StoryletScheduler.is_busy():
+func load_slot(slot_id: String) -> bool:
+	var data := _read(slot_id)
+	if data.is_empty() or not _state_stable():
 		return false
 	var context: Dictionary = data["scene_context"]
 	return SceneTransition.change_to(str(data["scene_path"]), context, _hydrate.bind(data["modules"]))
 
 
-func remove_slot(id: String) -> bool:
-	if id not in SLOTS or not FileAccess.file_exists(_path(id)) or DirAccess.remove_absolute(_path(id)) != OK:
+func restore_slot_state(slot_id: String) -> bool:
+	var data := _read(slot_id)
+	if data.is_empty() or not _state_stable():
+		return false
+	_hydrate(data["modules"])
+	return true
+
+
+func delete_slot(slot_id: String) -> bool:
+	if slot_id not in SLOTS or not FileAccess.file_exists(_path(slot_id)) or DirAccess.remove_absolute(_path(slot_id)) != OK:
 		return false
 	slots_changed.emit()
 	return true
+
+
+func remove_slot(id: String) -> bool:
+	return delete_slot(id)
 
 
 func new_game(character_id: String) -> bool:
@@ -158,8 +226,12 @@ func _read(id: String) -> Dictionary:
 	var file := FileAccess.open(_path(id), FileAccess.READ)
 	if file == null:
 		return {}
+	var raw_text := file.get_as_text()
+	file.close()
+	if raw_text.strip_edges().is_empty():
+		return {}
 	var parser := JSON.new()
-	if parser.parse(file.get_as_text()) != OK or not parser.data is Dictionary:
+	if parser.parse(raw_text) != OK or not parser.data is Dictionary:
 		return {}
 	var data: Dictionary = parser.data
 	var raw_version: Variant = data.get("schema_version", 0)
@@ -184,11 +256,62 @@ func _read(id: String) -> Dictionary:
 	if str(world.get("current_city_id", WorldBlackboard.HOME_CITY)) != WorldBlackboard.HOME_CITY or (
 		not world.has("current_city_id") and str(world.get("current_location_id", home_region)) != home_region):
 		scene = ATLAS
-	var meta: Dictionary = data.get("meta", {}) if data.get("meta") is Dictionary else {}
+	var raw_meta: Dictionary = data.get("meta", {}) if data.get("meta") is Dictionary else {}
+	var meta := _normalize_meta(raw_meta, world)
 	var context: Dictionary = data.get("scene_context", {}) if data.get("scene_context") is Dictionary else {}
-	var saved: Variant = data.get("saved_at", FileAccess.get_modified_time(_path(id)))
-	var timestamp := float(saved) if saved is float or saved is int else float(FileAccess.get_modified_time(_path(id)))
-	return {"modules": modules, "meta": meta, "scene_path": scene, "scene_context": context, "saved_at": timestamp}
+	var mtime := float(FileAccess.get_modified_time(_path(id)))
+	var raw_unix: Variant = data.get("saved_at_unix", null)
+	var raw_saved: Variant = data.get("saved_at", null)
+	var unix_stamp := mtime
+	if raw_unix is float or raw_unix is int:
+		unix_stamp = float(raw_unix)
+	elif raw_saved is float or raw_saved is int:
+		unix_stamp = float(raw_saved)
+	var saved_display := ""
+	if raw_saved is String and not raw_saved.strip_edges().is_empty():
+		saved_display = raw_saved.strip_edges()
+	else:
+		saved_display = _format_datetime(Time.get_datetime_dict_from_unix_time(int(unix_stamp)))
+	return {
+		"modules": modules,
+		"meta": meta,
+		"scene_path": scene,
+		"scene_context": context,
+		"saved_at": saved_display,
+		"saved_at_unix": unix_stamp
+	}
+
+
+func _normalize_meta(raw: Dictionary, world: Dictionary) -> Dictionary:
+	var char_data: Dictionary = world.get("character", {}) if world.get("character") is Dictionary else {}
+	var prof: Dictionary = char_data.get("profile", {}) if char_data.get("profile") is Dictionary else {}
+	var wt: Dictionary = world.get("world_time", {}) if world.get("world_time") is Dictionary else {}
+	var char_name := str(raw.get("character_name", raw.get("name", prof.get("name", "旧手账"))))
+	var age_val := int(raw.get("age", maxi(0, int(wt.get("year", 418)) - int(prof.get("birth_year", 408)))))
+	var date_str := str(raw.get("date_text", raw.get("date", "")))
+	var city_id := str(world.get("current_city_id", WorldBlackboard.HOME_CITY))
+	var loc_name := str(raw.get("location_name", raw.get("location", WorldBlackboard.catalog.city_names.get(city_id, city_id))))
+	var copper := int(world.get("currency_copper", 0))
+	var currency_str := str(raw.get("currency_text", WorldBlackboard.format_currency(copper)))
+	var chapter := str(raw.get("chapter_hint", "旅途 · " + loc_name if not loc_name.is_empty() else "旅程手账"))
+	return {
+		"character_name": char_name,
+		"name": char_name,
+		"age": age_val,
+		"date_text": date_str,
+		"date": date_str,
+		"location_name": loc_name,
+		"location": loc_name,
+		"currency_text": currency_str,
+		"chapter_hint": chapter
+	}
+
+
+func _format_datetime(dt: Dictionary) -> String:
+	return "%04d-%02d-%02d %02d:%02d:%02d" % [
+		int(dt.get("year", 2026)), int(dt.get("month", 1)), int(dt.get("day", 1)),
+		int(dt.get("hour", 0)), int(dt.get("minute", 0)), int(dt.get("second", 0))
+	]
 
 
 func _day_stamp() -> int:

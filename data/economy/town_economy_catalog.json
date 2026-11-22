@@ -1,0 +1,509 @@
+{
+	"schema_version": 1,
+	"cities": {
+		"city_migurd": {
+			"city_id": "city_migurd",
+			"name": "米格路德村",
+			"continent": "demon",
+			"currency_id": "demon_ore",
+			"price_multiplier": 0.75,
+			"town_tier": "village",
+			"services": {
+				"adventurer_guild": false,
+				"inn": true,
+				"restaurant": true,
+				"merchant": true
+			},
+			"guild_absence_note": "本村为隐居于荒原谷地的米格路德族聚落，未设冒险者协会分部。如需兑换外地钱币，可前往村口旅宿或行脚旅商处代兑（手续费 5%）。"
+		},
+		"city_rikarisu": {
+			"city_id": "city_rikarisu",
+			"name": "利卡里斯镇",
+			"continent": "demon",
+			"currency_id": "demon_ore",
+			"price_multiplier": 1.00,
+			"town_tier": "medium",
+			"services": {
+				"adventurer_guild": true,
+				"inn": true,
+				"restaurant": true,
+				"merchant": true
+			}
+		},
+		"city_kurasuma": {
+			"city_id": "city_kurasuma",
+			"name": "克拉斯玛镇",
+			"continent": "demon",
+			"currency_id": "demon_ore",
+			"price_multiplier": 1.05,
+			"town_tier": "medium",
+			"services": {
+				"adventurer_guild": true,
+				"inn": true,
+				"restaurant": true,
+				"merchant": true
+			}
+		},
+		"city_wind_port": {
+			"city_id": "city_wind_port",
+			"name": "温恩港",
+			"continent": "demon",
+			"currency_id": "demon_ore",
+			"price_multiplier": 1.15,
+			"town_tier": "large",
+			"services": {
+				"adventurer_guild": true,
+				"inn": true,
+				"restaurant": true,
+				"merchant": true
+			}
+		},
+		"city_zanto_port": {
+			"city_id": "city_zanto_port",
+			"name": "赞特港",
+			"continent": "milis",
+			"currency_id": "millis",
+			"price_multiplier": 1.15,
+			"town_tier": "large",
+			"services": {
+				"adventurer_guild": true,
+				"inn": true,
+				"restaurant": true,
+				"merchant": true
+			}
+		},
+		"city_great_forest": {
+			"city_id": "city_great_forest",
+			"name": "大森林聚落",
+			"continent": "milis",
+			"currency_id": "millis",
+			"price_multiplier": 0.85,
+			"town_tier": "village",
+			"services": {
+				"adventurer_guild": false,
+				"inn": true,
+				"restaurant": true,
+				"merchant": true
+			},
+			"guild_absence_note": "兽族密林聚落远离神圣国行政中心，未设冒险者协会分部。如需兑换货币，请向树屋旅宿或林间商队办理代兑（手续费 5%）。"
+		},
+		"city_milishion": {
+			"city_id": "city_milishion",
+			"name": "王都米里希翁",
+			"continent": "milis",
+			"currency_id": "millis",
+			"price_multiplier": 1.30,
+			"town_tier": "capital",
+			"services": {
+				"adventurer_guild": true,
+				"inn": true,
+				"restaurant": true,
+				"merchant": true
+			}
+		},
+		"city_dwarf_hold": {
+			"city_id": "city_dwarf_hold",
+			"name": "矮人领地与青龙山脉",
+			"continent": "milis",
+			"currency_id": "millis",
+			"price_multiplier": 1.05,
+			"town_tier": "medium",
+			"services": {
+				"adventurer_guild": true,
+				"inn": true,
+				"restaurant": true,
+				"merchant": true
+			}
+		},
+		"city_west_port": {
+			"city_id": "city_west_port",
+			"name": "西港",
+			"continent": "milis",
+			"currency_id": "millis",
+			"price_multiplier": 1.15,
+			"town_tier": "large",
+			"services": {
+				"adventurer_guild": true,
+				"inn": true,
+				"restaurant": true,
+				"merchant": true
+			}
+		},
+		"city_sharia": {
+			"city_id": "city_sharia",
+			"name": "魔法大学／拉诺亚",
+			"continent": "central",
+			"currency_id": "magic_nations",
+			"price_multiplier": 1.30,
+			"town_tier": "capital",
+			"services": {
+				"adventurer_guild": true,
+				"inn": true,
+				"restaurant": true,
+				"merchant": true
+			}
+		},
+		"city_sword_sanctum": {
+			"city_id": "city_sword_sanctum",
+			"name": "剑之圣地",
+			"continent": "central",
+			"currency_id": "magic_nations",
+			"price_multiplier": 1.10,
+			"town_tier": "medium",
+			"services": {
+				"adventurer_guild": true,
+				"inn": true,
+				"restaurant": true,
+				"merchant": true
+			}
+		},
+		"city_arusu": {
+			"city_id": "city_arusu",
+			"name": "王都阿尔斯",
+			"continent": "central",
+			"currency_id": "asura",
+			"price_multiplier": 1.35,
+			"town_tier": "capital",
+			"services": {
+				"adventurer_guild": true,
+				"inn": true,
+				"restaurant": true,
+				"merchant": true
+			}
+		},
+		"city_fittoa": {
+			"city_id": "city_fittoa",
+			"name": "菲托亚领",
+			"continent": "central",
+			"currency_id": "asura",
+			"price_multiplier": 0.90,
+			"town_tier": "village",
+			"services": {
+				"adventurer_guild": false,
+				"inn": true,
+				"restaurant": true,
+				"merchant": true
+			},
+			"guild_absence_note": "菲托亚乡村领地以农耕与麦田为主，未设大型冒险者协会常驻柜台。可向村镇旅店或商队旅商兑换零钱（手续费 5%）。"
+		},
+		"city_biheiriru": {
+			"city_id": "city_biheiriru",
+			"name": "比黑利尔王国",
+			"continent": "central",
+			"currency_id": "minor_central",
+			"price_multiplier": 1.05,
+			"town_tier": "medium",
+			"services": {
+				"adventurer_guild": true,
+				"inn": true,
+				"restaurant": true,
+				"merchant": true
+			}
+		},
+		"city_strife_keep": {
+			"city_id": "city_strife_keep",
+			"name": "纷争地带要塞",
+			"continent": "central",
+			"currency_id": "minor_central",
+			"price_multiplier": 1.00,
+			"town_tier": "medium",
+			"services": {
+				"adventurer_guild": true,
+				"inn": true,
+				"restaurant": true,
+				"merchant": true
+			}
+		},
+		"city_red_dragon_jaw": {
+			"city_id": "city_red_dragon_jaw",
+			"name": "赤龙山脉关隘",
+			"continent": "central",
+			"currency_id": "minor_central",
+			"price_multiplier": 1.10,
+			"town_tier": "medium",
+			"services": {
+				"adventurer_guild": true,
+				"inn": true,
+				"restaurant": true,
+				"merchant": true
+			}
+		},
+		"city_shiron": {
+			"city_id": "city_shiron",
+			"name": "西隆王国",
+			"continent": "central",
+			"currency_id": "minor_central",
+			"price_multiplier": 1.15,
+			"town_tier": "large",
+			"services": {
+				"adventurer_guild": true,
+				"inn": true,
+				"restaurant": true,
+				"merchant": true
+			}
+		},
+		"city_dragon_king": {
+			"city_id": "city_dragon_king",
+			"name": "王龙王国",
+			"continent": "central",
+			"currency_id": "king_dragon",
+			"price_multiplier": 1.25,
+			"town_tier": "capital",
+			"services": {
+				"adventurer_guild": true,
+				"inn": true,
+				"restaurant": true,
+				"merchant": true
+			}
+		},
+		"city_east_port": {
+			"city_id": "city_east_port",
+			"name": "东港",
+			"continent": "central",
+			"currency_id": "king_dragon",
+			"price_multiplier": 1.15,
+			"town_tier": "large",
+			"services": {
+				"adventurer_guild": true,
+				"inn": true,
+				"restaurant": true,
+				"merchant": true
+			}
+		}
+	},
+	"supplies": [
+		{
+			"id": "ration_normal",
+			"name": "普通干粮",
+			"category": "ration",
+			"tag": "ration",
+			"base_price": 200,
+			"nutrition_days": 1,
+			"stamina_restore": 0,
+			"weight_kg": 0.6,
+			"subtitle": "耐存 1 日份 · 旅途主食",
+			"description": "烤黑麦硬饼与盐渍风干肉，价廉耐存，足以维持一日徒步赶路所需。"
+		},
+		{
+			"id": "ration_fine",
+			"name": "精良口粮",
+			"category": "ration",
+			"tag": "ration",
+			"base_price": 500,
+			"nutrition_days": 1,
+			"stamina_restore": 12,
+			"weight_kg": 0.5,
+			"subtitle": "耐存 1 日份 · 轻度回体 +12",
+			"description": "蜂蜜麦糕、香料熏肉与果干配餐，行军途中食用可舒缓疲惫、轻度恢复体力。"
+		},
+		{
+			"id": "emergency_herbs",
+			"name": "应急草药包",
+			"category": "consumable",
+			"tag": "medical",
+			"base_price": 600,
+			"nutrition_days": 0,
+			"stamina_restore": 25,
+			"weight_kg": 0.3,
+			"subtitle": "外伤止血 · 体力急救",
+			"description": "混合止血草、醒神薄荷与洁净亚麻布的随身药囊，危急时可稳住伤势与倦意。"
+		},
+		{
+			"id": "travel_waterskin",
+			"name": "加固皮水囊",
+			"category": "gear",
+			"tag": "gear",
+			"base_price": 450,
+			"nutrition_days": 0,
+			"stamina_restore": 0,
+			"weight_kg": 0.8,
+			"subtitle": "荒原防暑 · 常备行具",
+			"description": "双层缝制的魔兽革水囊，适合穿越魔大陆赤岩荒原与漫长官道。"
+		},
+		{
+			"id": "cold_weather_cloak",
+			"name": "防寒厚斗篷",
+			"category": "gear",
+			"tag": "gear",
+			"base_price": 1800,
+			"nutrition_days": 0,
+			"stamina_restore": 0,
+			"weight_kg": 1.4,
+			"subtitle": "御寒防雨 · 北境常备",
+			"description": "涂蜡厚羊毛旅人斗篷，抵御中央大陆北方寒冬与米里斯雨季湿冷。"
+		}
+	],
+	"inn_tiers": [
+		{
+			"id": "dorm",
+			"name": "简陋通铺",
+			"base_price": 500,
+			"large_town_only": false,
+			"stamina_restore": 60,
+			"full_stamina": false,
+			"hp_restore_ratio": 0.5,
+			"mp_restore_ratio": 0.5,
+			"clears_hunger": true,
+			"clears_fatigue": true,
+			"grants_modifier": "",
+			"subtitle": "次日清晨 · 体力 +60% · 消除饥饿",
+			"description": "大通铺配草垫与薄毯，虽然简朴却能安稳避风歇脚，天明前清除饥饿与奔波疲惫。"
+		},
+		{
+			"id": "standard_room",
+			"name": "普通单间含餐",
+			"base_price": 1500,
+			"large_town_only": false,
+			"stamina_restore": 100,
+			"full_stamina": true,
+			"hp_restore_ratio": 1.0,
+			"mp_restore_ratio": 1.0,
+			"clears_hunger": true,
+			"clears_fatigue": true,
+			"grants_modifier": "",
+			"subtitle": "次日清晨 · 体力全满 · 附早晚餐",
+			"description": "可反锁的安静单人木房，附带温热晚汤与晨间面包，醒来后体力与魔力焕然一新。"
+		},
+		{
+			"id": "luxury_bath",
+			"name": "舒适客房含热水浴",
+			"base_price": 4000,
+			"large_town_only": true,
+			"stamina_restore": 100,
+			"full_stamina": true,
+			"hp_restore_ratio": 1.0,
+			"mp_restore_ratio": 1.0,
+			"clears_hunger": true,
+			"clears_fatigue": true,
+			"grants_modifier": "well_rested",
+			"subtitle": "次日清晨 · 全满 · 精力充沛 +1（仅大中城镇）",
+			"description": "宽敞暖炉套房配独立热水木桶浴与丰盛早膳，彻底洗去长途风尘，次日全检定 +1。"
+		}
+	],
+	"restaurant_menus": {
+		"demon": [
+			{
+				"id": "demon_lizard_skewer",
+				"name": "烤蜥蜴肉串",
+				"base_price": 200,
+				"stamina_restore": 25,
+				"hp_restore": 8,
+				"grants_modifier": "well_fed",
+				"subtitle": "魔大陆街头名物 · 体力 +25 · 饱腹暖胃 +1",
+				"description": "撒满岩盐与干辣椒粉的炭火红蜥串，焦香扎实，是魔大陆旅人最常点的平价热食。"
+			},
+			{
+				"id": "demon_redrock_stew",
+				"name": "赤岩炖魔兽汤",
+				"base_price": 550,
+				"stamina_restore": 48,
+				"hp_restore": 16,
+				"grants_modifier": "well_fed",
+				"subtitle": "浓汤热锅 · 体力 +48 · 饱腹暖胃 +1",
+				"description": "以岩菇、根茎与慢火魔兽骨高汤熬煮的滚烫炖锅，一碗下肚便觉周身回暖。"
+			}
+		],
+		"milis": [
+			{
+				"id": "milis_holy_beef_stew",
+				"name": "圣都炖牛肉配白面包",
+				"base_price": 700,
+				"stamina_restore": 52,
+				"hp_restore": 18,
+				"grants_modifier": "well_fed",
+				"subtitle": "米里斯招牌 · 体力 +52 · 饱腹暖胃 +1",
+				"description": "香草番茄慢炖嫩牛肉佐松软白面包，蘸满肉汁温润醇厚，是圣剑大道沿线的旅人挚爱。"
+			},
+			{
+				"id": "milis_forest_herb_pie",
+				"name": "林间香草果蔬派",
+				"base_price": 380,
+				"stamina_restore": 30,
+				"hp_restore": 10,
+				"grants_modifier": "well_fed",
+				"subtitle": "清新热烘 · 体力 +30 · 饱腹暖胃 +1",
+				"description": "外皮酥脆、内馅裹满林间鲜菇与甘甜果实的烘烤肉派，清香爽口不腻。"
+			}
+		],
+		"central": [
+			{
+				"id": "central_ale_roast_platter",
+				"name": "麦酒烤肉拼盘",
+				"base_price": 800,
+				"stamina_restore": 55,
+				"hp_restore": 20,
+				"grants_modifier": "well_fed",
+				"subtitle": "中央酒馆定番 · 体力 +55 · 饱腹暖胃 +1",
+				"description": "铁盘盛放蜜汁烤肋排、香煎薯块与清甜黑麦饮，香气扑鼻，瞬间抚平长途劳顿。"
+			},
+			{
+				"id": "central_wheat_cream_soup",
+				"name": "阿斯拉奶油麦香浓汤",
+				"base_price": 450,
+				"stamina_restore": 34,
+				"hp_restore": 12,
+				"grants_modifier": "well_fed",
+				"subtitle": "温润轻食 · 体力 +34 · 饱腹暖胃 +1",
+				"description": "新磨小麦与浓醇牧场鲜奶细火熬制，配两片烤黄油吐司，温暖顺喉。"
+			}
+		]
+	},
+	"sea_ferry_fares": [
+		{
+			"id": "wind_zanto",
+			"from_city_id": "city_wind_port",
+			"to_city_id": "city_zanto_port",
+			"label": "温恩港 ↔ 赞特港（魔大陆—米里斯跨海客船）",
+			"base_fare": 25000,
+			"duration_days": 5,
+			"note": "穿越荒波海峡的大型客货帆船标准单程船票。"
+		},
+		{
+			"id": "west_east",
+			"from_city_id": "city_west_port",
+			"to_city_id": "city_east_port",
+			"label": "西港 ↔ 东港（米里斯—中央大陆跨海客船）",
+			"base_fare": 12000,
+			"duration_days": 3,
+			"note": "米里斯神圣国与王龙王国间定期往返的商贸定期船票。"
+		}
+	],
+	"modifiers": {
+		"well_fed": {
+			"id": "well_fed",
+			"name": "饱腹暖胃",
+			"category": "饮食增益",
+			"value": 1,
+			"polarity": "positive",
+			"duration_days": 1,
+			"description": "享用了热气腾腾的当地餐食，当日全检定 +1。"
+		},
+		"well_rested": {
+			"id": "well_rested",
+			"name": "精力充沛",
+			"category": "休整增益",
+			"value": 1,
+			"polarity": "positive",
+			"duration_days": 1,
+			"description": "在舒适客房沐浴安眠，次日全检定 +1。"
+		},
+		"hungry": {
+			"id": "hungry",
+			"name": "饥饿",
+			"category": "断粮惩罚",
+			"value": -1,
+			"polarity": "negative",
+			"duration_days": -1,
+			"description": "连续 1 日未能正常进食干粮，全检定 -1（用餐、补粮或投宿即可解除）。"
+		},
+		"starving": {
+			"id": "starving",
+			"name": "虚弱断粮",
+			"category": "断粮惩罚",
+			"value": -2,
+			"polarity": "negative",
+			"duration_days": -1,
+			"description": "连续 2 日以上断粮，体力透支且全检定 -2（用餐、补粮或投宿即可解除）。"
+		}
+	}
+}

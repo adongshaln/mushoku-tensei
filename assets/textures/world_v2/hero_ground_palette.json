@@ -1,0 +1,31 @@
+{
+  "hero_migurd_village": {
+    "triangles": 18794,
+    "skirt_rgb": [
+      0.6261,
+      0.4752,
+      0.3236
+    ],
+    "footprint": 0.4,
+    "roughness": 0.81,
+    "normal_scale": 0.45
+  },
+  "hero_rikarisu_town": {
+    "triangles": 32321,
+    "skirt_rgb": [],
+    "footprint": 0.5,
+    "roughness": 0.78,
+    "normal_scale": 0.46
+  },
+  "kit_demon_cliff_a": {
+    "triangles": 12198,
+    "skirt_rgb": [
+      0.4213,
+      0.1632,
+      0.0777
+    ],
+    "footprint": 1.0,
+    "roughness": 0.85,
+    "normal_scale": 0.5
+  }
+}

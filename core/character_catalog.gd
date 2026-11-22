@@ -34,6 +34,18 @@ func _register_city(city: Dictionary) -> void:
 	city_names[str(city["node"])] = str(city["name"])
 
 
+func ordered_slot_ids() -> Array[String]:
+	var ids: Array[String] = []
+	for slot_id: Variant in slots.keys():
+		if slot_id is String:
+			ids.append(slot_id)
+	ids.sort_custom(func(a: String, b: String) -> bool:
+		var oa := integer(slots.get(a, {}).get("order"), 999)
+		var ob := integer(slots.get(b, {}).get("order"), 999)
+		return a < b if oa == ob else oa < ob)
+	return ids
+
+
 static func merge(defaults: Dictionary, overrides: Dictionary) -> Dictionary:
 	var result := defaults.duplicate(true)
 	for key: Variant in overrides:

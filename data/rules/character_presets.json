@@ -3,20 +3,64 @@
   "default_character": "notia",
   "presets": {
     "notia": {
-      "label": "诺缇雅", "subtitle": "米格路德村的见习魔术师", "locked": false,
-      "start": {"year": 418, "month": 1, "day": 1, "slot": 0, "city_id": "city_migurd", "legacy_location": "migurd_village", "currency_copper": 45},
-      "inventory": {"travel_hood": {"name": "旅行兜帽", "count": 1}},
+      "label": "诺缇雅",
+      "subtitle": "米格路德村的见习魔术师 · 魔大陆开端",
+      "tag": "魔大陆 · 418 年",
+      "summary": "十岁的米格路德族少女，自幼习得初级水魔术与魔神语，带着姐姐的记忆踏出聚落。",
+      "locked": false,
+      "start": {
+        "year": 418,
+        "month": 1,
+        "day": 1,
+        "slot": 0,
+        "city_id": "city_migurd",
+        "legacy_location": "migurd_village",
+        "currency_copper": 45,
+        "scene_path": "res://scenes/room/room_explorer.tscn"
+      },
+      "inventory": {
+        "apprentice_staff": {"name": "学徒木杖", "count": 1, "tag": "equipment"},
+        "travel_hood": {"name": "旅行兜帽", "count": 1, "tag": "equipment"},
+        "old_silver_charm": {"name": "旧银护符", "count": 1, "tag": "equipment"}
+      },
       "character": {
-        "profile": {"character_id": "notia", "name": "诺缇雅", "race_id": "migurd", "birth_year": 408, "portrait": "res://assets/combat/notia_young_shoulder.png", "portrait_crop": [0, 0, 0.55, 1]},
+        "profile": {
+          "character_id": "notia",
+          "name": "诺缇雅",
+          "race_id": "migurd",
+          "race_name": "米格路德族",
+          "birth_year": 408,
+          "portrait": "res://assets/portraits/notia.png",
+          "portrait_crop": []
+        },
         "traits": ["size:small", "childhood_mp_growth"],
         "stats": {"STR": 6, "DEX": 12, "CON": 9, "INT": 13, "WIL": 8, "CHA": 11},
         "resources": {"hp": 38, "max_hp": 38, "mp": 30, "max_mp": 30, "mp_growth_exp": 0},
-        "proficiencies": {"magic": {"water": 1}, "sword": {"sword_god": 0}, "languages": {"demon_tongue": 3, "human_tongue": 0}, "skills": {"stealth": 2}},
+        "proficiencies": {
+          "magic": {"water": 1},
+          "sword": {"sword_god": 0},
+          "languages": {"demon_tongue": 3, "human_tongue": 0},
+          "skills": {"stealth": 2}
+        },
         "equipment": {},
         "relations": {"npcs": {}, "regions": {}, "factions": {}},
-        "combat_profile": {}
+        "combat_profile": {},
+        "extra_data": {}
       }
     },
-    "next_protagonist": {"label": "另一位旅人", "subtitle": "新的手账 · 待开放", "locked": true}
+    "central_traveler": {
+      "label": "中央大陆旅人",
+      "subtitle": "阿斯拉与魔法大学的未知篇 · 敬请期待",
+      "tag": "中央大陆 · 敬请期待",
+      "summary": "穿行于阿斯拉王都与北方学园都市之间的流浪剑士手账，将于后续版本开放。",
+      "locked": true
+    },
+    "milis_pilgrim": {
+      "label": "米里斯巡礼者",
+      "subtitle": "大森林与神圣国之章 · 敬请期待",
+      "tag": "米里斯大陆 · 敬请期待",
+      "summary": "沿着圣剑大道跨越密林与神圣国边界的见习神官手账，将于后续版本开放。",
+      "locked": true
+    }
   }
 }

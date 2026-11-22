@@ -1,0 +1,290 @@
+{
+	"schema_version": 1,
+	"categories": [
+		{
+			"id": "geography",
+			"name": "地理与疆域",
+			"short_name": "地理疆域",
+			"order": 1,
+			"accent_hex": "#4a7fa7",
+			"description": "记录六面世界三大洲的版图、关隘、城镇与气候疆界。"
+		},
+		{
+			"id": "races_lore",
+			"name": "种族与风土",
+			"short_name": "种族风土",
+			"order": 2,
+			"accent_hex": "#c88a3b",
+			"description": "记述魔族、兽族、人族诸邦的习俗、组织与传闻轶事。"
+		},
+		{
+			"id": "economy",
+			"name": "货币与行商",
+			"short_name": "货币行商",
+			"order": 3,
+			"accent_hex": "#5f8c6c",
+			"description": "汇总六大货币区的公定牌价、换汇渠道与跨海商旅常识。"
+		},
+		{
+			"id": "rules",
+			"name": "历法与旅途法则",
+			"short_name": "历法法则",
+			"order": 4,
+			"accent_hex": "#8c6548",
+			"description": "手账随附的甲龙历历法、D20 命运检定与生存补给须知。"
+		}
+	],
+	"entries": [
+		{
+			"id": "geo_demon_continent",
+			"category": "geography",
+			"title": "魔大陆",
+			"subtitle": "赤岩荒原与魔力浓雾交织的东方大地",
+			"summary": "人族世界版图东北方的广袤荒原大陆，魔物频出、城镇稀少，以铁石般坚韧的求生法则闻名。",
+			"body": "魔大陆位于世界东北，赤褐色岩漠与枯林绵延数百里，空气中游离着浓厚而躁动的魔力。各城邦如孤岛般星罗棋布，城镇之间动辄数日荒野跋涉。\n\n这里缺乏统一帝国，多数地区由古代魔王后裔或独立城主割据治理。对外来旅人而言，充足的干粮、稳定的护卫与辨识风向的眼力，比一袋金币更能保命。",
+			"default_unlocked": true,
+			"discovery_hint": "踏足魔大陆任意据点后收录。",
+			"unlock_triggers": {
+				"cities": ["city_migurd", "city_rikarisu", "city_kurasuma", "city_wind_port"],
+				"flags": [],
+				"currencies": []
+			}
+		},
+		{
+			"id": "geo_migurd_basin",
+			"category": "geography",
+			"title": "米格路德盆地",
+			"subtitle": "隐于红岩谷地与薄雾之中的翡翠发聚落",
+			"summary": "比耶戈亚地方南侧的一处背风岩盆，米格路德族世代栖居于此，以石基木屋与山泉农耕自给自足。",
+			"body": "从荒原高处俯瞰，米格路德盆地宛如红岩裂隙间一捧被晨雾护住的青绿。四周岩壁挡去了猛烈砂风，也隔绝了外界多数纷争。\n\n村落人口不多，物价质朴低廉（约公定基准的 0.75 倍），却没有常驻冒险者协会分部。离乡远行的族人往往会先在村中备妥干粮，再沿荒原古道向北前往利卡里斯镇。",
+			"default_unlocked": true,
+			"discovery_hint": "造访或启程自米格路德村后收录。",
+			"unlock_triggers": {
+				"cities": ["city_migurd"],
+				"flags": [],
+				"currencies": []
+			}
+		},
+		{
+			"id": "geo_rikarisu",
+			"category": "geography",
+			"title": "利卡里斯镇",
+			"subtitle": "比耶戈亚地方 · 环形陨坑中的赭石石城",
+			"summary": "依巨型环状岩坑建起的魔大陆东北要冲，冒险者协会、旅馆与商队云集，是踏出聚落后的第一座大城。",
+			"body": "利卡里斯镇沿陨石坑内壁层层叠筑，赭石高墙与高耸石塔围护着坑底集市。夜幕降临时，环形街巷逐层点亮暖黄窗火，宛如坠入荒原的一枚琥珀指环。\n\n作为比耶戈亚地方最繁华的枢纽，城内设有正式的冒险者协会分部——可在此办理零手续费的官方换汇与委托登记，亦能入住附带热水浴的舒适旅宿。",
+			"default_unlocked": false,
+			"discovery_hint": "抵达魔大陆东北要冲「利卡里斯镇」后解锁。",
+			"unlock_triggers": {
+				"cities": ["city_rikarisu"],
+				"flags": ["rikarisu_gate_reached"],
+				"currencies": []
+			}
+		},
+		{
+			"id": "geo_red_dragon_range",
+			"category": "geography",
+			"title": "赤龙山脉（上颚与下颚）",
+			"subtitle": "纵贯中央大陆南北的绯红脊梁",
+			"summary": "雄踞中央大陆中部的巨型山脉，将东西诸国与南北航路一分为二，唯有「赤龙下颚」关隘与险道可供商队通行。",
+			"body": "赤龙山脉因岩峰在夕照下泛出龙鳞般的赤金光泽而得名，常年盘踞着高阶赤龙与凶猛魔物。山脊北段称「上颚」，陡峭覆雪几近绝径；南段称「下颚」，建有层层设防的石砌关隘。\n\n凡欲从中央大陆东境与王龙王国北上阿斯拉或魔法都市者，大多须经下颚关隘验关通行。冬季大雪封山之际，商队常需备足双倍干粮与御寒斗篷。",
+			"default_unlocked": false,
+			"discovery_hint": "抵达「赤龙山脉关隘」或周边要塞后解锁。",
+			"unlock_triggers": {
+				"cities": ["city_red_dragon_jaw", "city_strife_keep", "city_shiron"],
+				"flags": [],
+				"currencies": []
+			}
+		},
+		{
+			"id": "geo_central_continent",
+			"category": "geography",
+			"title": "中央大陆",
+			"subtitle": "人族诸国林立、剑术与魔术繁盛的中心大陆",
+			"summary": "占据世界西方版图的辽阔大陆，划分为阿斯拉、王龙、北方魔法三国与纷争地带四大板块，亦是人类文明最丰饶之地。",
+			"body": "中央大陆气候层次分明：西境阿斯拉王国麦浪连天、繁华富庶；南境王龙王国商港兴旺；东北纷争地带则诸侯并起；更北的拉诺亚与魔法都市夏利亚终年寒凉，却汇聚了天下最负盛名的魔术学府与剑之圣地。\n\n各王国各自铸币，自小国币、拉诺亚币、王龙币至阿斯拉本位币阶梯分明，跨邦行旅务必留心手头通货与当地物价。",
+			"default_unlocked": false,
+			"discovery_hint": "踏上中央大陆任意城邦后解锁。",
+			"unlock_triggers": {
+				"cities": [
+					"city_arusu",
+					"city_fittoa",
+					"city_sharia",
+					"city_sword_sanctum",
+					"city_dragon_king",
+					"city_east_port",
+					"city_shiron",
+					"city_biheiriru",
+					"city_strife_keep",
+					"city_red_dragon_jaw"
+				],
+				"flags": [],
+				"currencies": []
+			}
+		},
+		{
+			"id": "geo_milis_holy_country",
+			"category": "geography",
+			"title": "米里斯神圣国",
+			"subtitle": "圣剑大道贯通、白石教堂映照碧波的神圣之都",
+			"summary": "屹立于米里斯大陆南半部的宗教大国，以王都米里希翁为核心，凭借圣剑大道连接赞特港与西港两大商贸门户。",
+			"body": "米里斯神圣国尊奉米里斯教义，疆域横跨苍翠丘陵与蓝山山脉，北接兽族守护的大森林。王都米里希翁由巍峨白石城墙环绕，圣水运河穿城而过，商贸繁华但王都物价亦高达基准的 1.30 倍。\n\n每逢甲龙历六至八月，米里斯大陆迎来绵长雨季，大森林与官道泥泞难行；但正因海陆通衢，米里斯币成为贯通魔大陆与中央大陆最可靠的桥梁通货之一。",
+			"default_unlocked": false,
+			"discovery_hint": "抵达米里斯大陆（赞特港、王都米里希翁等）后解锁。",
+			"unlock_triggers": {
+				"cities": ["city_milishion", "city_zanto_port", "city_west_port", "city_great_forest", "city_dwarf_hold"],
+				"flags": [],
+				"currencies": []
+			}
+		},
+		{
+			"id": "lore_migurd_tribe",
+			"category": "races_lore",
+			"title": "米格路德族",
+			"subtitle": "翡翠青发与无声念话相承的温厚魔族",
+			"summary": "以标志性蓝绿翡翠发色、娇小清秀的容貌与同族间无声「念话」闻名的长寿魔族，性情沉静守礼。",
+			"body": "米格路德族虽归属于魔族谱系，却鲜有好战之心，外貌与人族孩童或少年相仿，成年后容颜便极缓衰老。族人天生保有「念话」异能，在聚落内彼此只需心念微动便可无声交流。\n\n然而偶尔也会诞生听不见念话的「异数」——他们往往被迫更早直面语言的重量，也因此比任何族人都更渴望走出盆地，亲眼丈量更广阔的世界。",
+			"default_unlocked": true,
+			"discovery_hint": "初始收录于米格路德族旅人手账。",
+			"unlock_triggers": {
+				"cities": ["city_migurd"],
+				"flags": [],
+				"currencies": []
+			}
+		},
+		{
+			"id": "lore_demon_society",
+			"category": "races_lore",
+			"title": "魔族社会秩序",
+			"subtitle": "强者为尊却重诺守信的荒原法则",
+			"summary": "魔大陆并不崇尚繁复宫廷礼数，而是以实力、契约与当面直白的话语维系彼此尊重。",
+			"body": "在人族史书里，魔族常被渲染成嗜血诡谲的异类；真正行于魔大陆街巷才会发现，多数魔族城镇秩序井然，商贩爽快直率，只要守约付费、不轻易挑衅强者，旅人也能安心投宿。\n\n当然，荒原上的善意从来不以廉价施舍呈现——无论是雇佣马车、委托护卫还是在酒馆打听消息，清楚自己的斤两与筹码，才是魔大陆通行的礼貌。",
+			"default_unlocked": true,
+			"discovery_hint": "初始收录于魔大陆旅途常识。",
+			"unlock_triggers": {
+				"cities": ["city_migurd", "city_rikarisu"],
+				"flags": [],
+				"currencies": []
+			}
+		},
+		{
+			"id": "lore_adventurer_guild",
+			"category": "races_lore",
+			"title": "冒险者协会体系",
+			"subtitle": "跨越三大洲、以铭牌与公定牌价立信的自由同盟",
+			"summary": "不受单一王国辖制的跨洲互助组织，按 F 至 S 级评定冒险者资历，并为旅人提供官方免手续费换汇服务。",
+			"body": "无论身处魔大陆的利卡里斯镇、米里斯神圣国还是阿斯拉王都，冒险者协会的橡木柜台总是旅人最先造访的去处。新人自铜制 F 级铭牌起步，凭讨伐、护送与采集实绩逐阶晋升。\n\n对跨洲远行者而言，协会另一项不可替代的职能便是「官方汇兑」——各大城镇分部均按世界公定牌价提供 0% 免手续费兑换，唯偏僻小村未设分部，须另寻旅馆或旅商周转。",
+			"default_unlocked": false,
+			"discovery_hint": "抵达设有冒险者协会分部的城镇（如利卡里斯镇）后解锁。",
+			"unlock_triggers": {
+				"cities": ["city_rikarisu", "city_kurasuma", "city_wind_port", "city_milishion", "city_arusu", "city_sharia"],
+				"flags": ["rikarisu_guild_registered", "guild_visited"],
+				"currencies": []
+			}
+		},
+		{
+			"id": "lore_six_faced_world",
+			"category": "races_lore",
+			"title": "六面世界与远方传闻",
+			"subtitle": "人界居于六面之中，奇异风声时常随旅人流传",
+			"summary": "古籍记载世界原由人、魔、龙、兽、海、天六界相依而成，如今诸族共存于人界大地，仍有诸多古代转移遗迹埋于尘土。",
+			"body": "寻常旅人一生多半只在所属大陆奔波，唯有老练的吟游诗人与魔法大学学者，仍会谈起古代龙族留下的转移遗迹与「六面世界」的残卷传说。\n\n偶尔在偏远村口或海港酒馆，也能听见来自陌生国度的异象传闻——将每一点零星见闻细心抄进手账，终有一日会拼出意想不到的航路。",
+			"default_unlocked": false,
+			"discovery_hint": "经历村口风波或造访王都、魔法大学后解锁。",
+			"unlock_triggers": {
+				"cities": ["city_sharia", "city_milishion", "city_arusu"],
+				"flags": ["village_gate_completed", "survival_418_won"],
+				"currencies": []
+			}
+		},
+		{
+			"id": "eco_demon_ore_currency",
+			"category": "economy",
+			"title": "魔大陆矿石钱体系",
+			"subtitle": "铁矿、绿矿、银矿至金矿——六阶十进制魔矿铸币",
+			"summary": "魔大陆全域通用的精炼矿石铸币，按十进制逐阶进位，1 枚铁矿钱即为全世通货核算的 1 基准点。",
+			"body": "魔大陆矿脉丰饶却少见精工银匠，各地遂以魔矿纯度定值铸币，依次为：铁矿钱（1）、绿矿钱（10）、大绿矿钱（100）、银矿钱（1,000）、大银矿钱（10,000）与金矿钱（100,000）。\n\n在利卡里斯镇等标准物价城邦，一份普通干粮约需 2 大绿矿钱，简陋通铺一晚 5 大绿矿钱；若回到物价温和的米格路德村，同样花销还会更省上四分之一。",
+			"default_unlocked": true,
+			"discovery_hint": "持有魔大陆矿石钱或在魔大陆城镇行商后收录。",
+			"unlock_triggers": {
+				"cities": ["city_migurd", "city_rikarisu"],
+				"flags": [],
+				"currencies": ["demon_ore"]
+			}
+		},
+		{
+			"id": "eco_six_currency_rates",
+			"category": "economy",
+			"title": "六大货币区与换汇常识",
+			"subtitle": "矿石钱至阿斯拉币阶梯分明 · 协会零费对旅商五厘",
+			"summary": "六套货币以阿斯拉币（×1.00）为最高本位，10 大绿矿钱 = 2 米里斯大铜钱 = 1 阿斯拉大铜钱；协会换汇免手续费，旅商/旅馆/餐馆收 5%。",
+			"body": "六大货币区公定倍率依次为：魔大陆矿石钱 ×0.10、中央小国币 ×0.20、魔法三大国币 ×0.40、米里斯神圣国币 ×0.50、王龙王国币 ×0.80、阿斯拉王国币 ×1.00。\n\n踏入新大陆前，最稳妥的做法是在冒险者协会按 0% 免手续费提前换妥当地通货；若身在无协会的小村或手头急缺零钱，也可在旅馆、餐馆与旅商处办理 5% 手续费代兑，或直接以外币折算结账。",
+			"default_unlocked": false,
+			"discovery_hint": "首次在冒险者协会、旅馆或旅商处办理跨币种换汇，或持有外大陆通货后解锁。",
+			"unlock_triggers": {
+				"cities": [],
+				"flags": [],
+				"currencies": ["millis", "asura", "magic_nations", "king_dragon", "minor_central"]
+			}
+		},
+		{
+			"id": "eco_sea_ferry_trade",
+			"category": "economy",
+			"title": "跨海定期客船与四大海港",
+			"subtitle": "温恩港、赞特港、西港与东港串起三大洲航线",
+			"summary": "跨洲渡海需于海港码头购票登船，温恩港↔赞特港参考票价 25,000 基准点，西港↔东港参考票价 12,000 基准点。",
+			"body": "荒波海峡暗礁密布、海魔出没，唯有大型武装定期客货帆船方可稳定往返。其中魔大陆「温恩港」至米里斯「赞特港」航程五日、船票高昂（约 25 枚银矿钱或 5 枚米里斯银钱）；米里斯「西港」至中央大陆「东港」则航程三日、票价约 12,000 基准点。\n\n精明的旅人抵达海港前便会预留船资与备粮，免得望洋兴叹。",
+			"default_unlocked": false,
+			"discovery_hint": "抵达四大海港之一（温恩港、赞特港、西港、东港）后解锁。",
+			"unlock_triggers": {
+				"cities": ["city_wind_port", "city_zanto_port", "city_west_port", "city_east_port"],
+				"flags": [],
+				"currencies": ["king_dragon"]
+			}
+		},
+		{
+			"id": "rule_dragon_calendar",
+			"category": "rules",
+			"title": "甲龙历纪年与四季气候",
+			"subtitle": "十二月三十日制 · 四时段流转与大陆季风",
+			"summary": "全世通行甲龙历纪年，每年 12 个月、每月 30 日，每日分「上午、下午、傍晚、深夜」四时段，旅馆投宿推进至次日清晨。",
+			"body": "手账眉页所载时间皆依甲龙历计录。日常室内调查与闲聊默认不耗时，唯有获批行动、跨城跋涉与旅馆安眠会推动时序流转。\n\n四季气候亦随月令变幻：甲龙历六至八月为米里斯大陆雨季，十一月至次年二月为北方与中央高地严冬，远行前宜查阅手账日期与干粮余量。",
+			"default_unlocked": true,
+			"discovery_hint": "初始收录于手账扉页法则。",
+			"unlock_triggers": {
+				"cities": [],
+				"flags": [],
+				"currencies": []
+			}
+		},
+		{
+			"id": "rule_d20_destiny_check",
+			"category": "rules",
+			"title": "D20 命运检定与修正法则",
+			"subtitle": "二十面釉瓷骰裁定未知 · 大成功与大失败皆入史册",
+			"summary": "关键抉择与险境应对采用 1d20 + 属性修正 + 状态/装备修正对抗难度 DC；掷出自然 20 为大成功，自然 1 为大失败。",
+			"body": "角色的六维属性决定基础修正值（每高于 10 两点获得 +1），穿戴装束、种族天赋与旅途饮食休整状态则会叠加以暖金（正向）或冷海雾蓝（负向）标记展示。\n\n每当你在旅途中掷出自然 20 的奇迹大成功或自然 1 的惊险大失败，手账「旅途日记」都会自动将其镌刻为高光一页，见证命运的偏爱或试炼。",
+			"default_unlocked": true,
+			"discovery_hint": "初始收录于手账扉页法则。",
+			"unlock_triggers": {
+				"cities": [],
+				"flags": [],
+				"currencies": []
+			}
+		},
+		{
+			"id": "rule_rations_and_rest",
+			"category": "rules",
+			"title": "行囊干粮、断粮惩罚与旅馆休整",
+			"subtitle": "一顿热汤可振精神，两日断粮则寸步维艰",
+			"summary": "跨城赶路每日消耗干粮；断粮 1 日触发「饥饿 -1」，连续 2 日触发「虚弱断粮 -2」；餐馆热食赋予「饱腹暖胃 +1」，舒适热水浴赋予「精力充沛 +1」。",
+			"body": "行囊中的普通干粮与精良口粮是荒野赶路的生命线，后者更能于途中轻度回复体力。一旦口粮告罄仍强行赶路，便会依次陷入「饥饿（全检定 -1）」与「虚弱断粮（全检定 -2）」，体力随之急剧流失。\n\n抵达城镇后，在餐馆点一道当地热食即可驱散饥寒并获得当日「饱腹暖胃 +1」；投宿旅馆则推进甲龙历至次日清晨、彻底清除疲惫，若入住中大型城镇的热水浴套房，更可携「精力充沛 +1」清爽启程。",
+			"default_unlocked": true,
+			"discovery_hint": "初始收录于手账扉页法则。",
+			"unlock_triggers": {
+				"cities": [],
+				"flags": [],
+				"currencies": []
+			}
+		}
+	]
+}

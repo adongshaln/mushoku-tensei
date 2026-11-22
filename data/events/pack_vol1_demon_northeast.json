@@ -1,0 +1,1546 @@
+{
+  "schema_version": 1,
+  "pack_id": "vol1_demon_northeast",
+  "pack_title": "第一卷 · 魔大陆东北角（米格路德盆地 ↔ 利卡里斯镇）奇遇事件包",
+  "region_scope": {
+    "continent_id": "demon",
+    "region_id": "demon_biegoya",
+    "city_ids": ["city_migurd", "city_rikarisu"],
+    "legacy_locations": ["migurd_village", "misty_forest_path", "dryrock_spring", "rikarisu_gate"],
+    "routes": ["city_migurd<->city_rikarisu"],
+    "currency_id": "demon_ore",
+    "currency_note": "1 基准点 = 1 铁矿钱；1 绿矿钱 = 10；1 大绿矿钱 = 100（= 1 legacy copper）；1 银矿钱 = 1,000；普通干粮基准 200/份。"
+  },
+  "posture_multipliers": {
+    "steady": 1.0,
+    "forced_march": 1.32,
+    "stealth": 0.52
+  },
+  "pools": [
+    {
+      "id": "pool_vol1_migurd_basin",
+      "label": "米格路德盆地与种族风土",
+      "region_id": "demon_biegoya",
+      "match_zones": ["demon_wilds"],
+      "match_danger_tags": ["demon_wilds"],
+      "match_routes": ["city_migurd<->city_rikarisu"],
+      "match_cities": ["city_migurd", "city_rikarisu"],
+      "base_chance": 0.34,
+      "min_km": 30,
+      "trigger_progress": 0.30,
+      "events": [
+        {
+          "id": "vol1_dn_01_basin_mist_tracks",
+          "title": "晨雾尽头的红岩爪印",
+          "category": "demon_wilds",
+          "category_label": "盆地风土",
+          "region_id": "demon_biegoya",
+          "city_ids": ["city_migurd", "city_rikarisu"],
+          "legacy_locations": ["migurd_village", "misty_forest_path"],
+          "routes": ["city_migurd<->city_rikarisu"],
+          "trigger": {
+            "region_id": "demon_biegoya",
+            "encounter_zone": "demon_wilds",
+            "danger_tags": ["demon_wilds"],
+            "allowed_slots": [0, 1],
+            "weight": 12,
+            "cooldown_days": 4,
+            "once_only": false,
+            "required_flags": [],
+            "forbidden_flags": []
+          },
+          "summary": "刚跨过米格路德村外那道低矮木栅，晨雾便像潮湿的棉絮贴着赤褐草坡翻涌。湿土上斜印着一串带着淡硫磺味的浅爪印，草叶断口还挂着水珠——一只独行觅食的盆地小魔兽才刚从风口掠过。",
+          "codex_unlocks": ["geo_migurd_basin", "geo_demon_continent"],
+          "diary_hint": {
+            "category": "encounter",
+            "title": "晨雾中的红岩爪印",
+            "dedupe_key": "vol1_dn_01_basin_mist_tracks"
+          },
+          "options": [
+            {
+              "id": "track_mist_beast",
+              "label": "蹲下辨认爪印深浅与草叶折向，顺风避开兽穴",
+              "check": {
+                "stat": "INT",
+                "dc": 11,
+                "label": "感知与自然追踪",
+                "context": {
+                  "region_id": "city_migurd",
+                  "tags": ["intent:track", "terrain:basin_mist"]
+                }
+              },
+              "success_text": "你一眼看出那只是偏爱冷湿岩苔的幼年赤岩犬，早已朝低谷退去。避开它走过的石沟时，你在潮湿苔缝下顺手采到了 1 份新鲜应急草药包。",
+              "crit_success_text": "不仅精准摸清了盆地魔兽清晨避风的动线，你还在苔石背面发现一处村中猎户早年藏下的油纸包，里面竟装着完好的草药与熏肉干粮。",
+              "success_effects": [
+                {"type": "add_item", "id": "emergency_herbs", "name": "应急草药包", "count": 1, "tag": "medical"},
+                {"type": "set_flag", "id": "vol1_basin_ecology_known", "value": true}
+              ],
+              "crit_success_effects": [
+                {"type": "add_item", "id": "emergency_herbs", "name": "应急草药包", "count": 1, "tag": "medical"},
+                {"type": "add_item", "id": "smoked_meat", "name": "魔大陆熏肉干粮", "count": 1, "tag": "ration"},
+                {"type": "set_flag", "id": "vol1_basin_ecology_known", "value": true}
+              ],
+              "fail_text": "浓雾模糊了碎石坡上的兽迹，你正低头细看时惊起两只林鸦，只好退回主径多绕了一段路。",
+              "crit_fail_text": "脚下青苔猛然打滑，惊飞的鸦群引来远处一声低沉兽嚎，你紧抱行囊一路快步退回高坡，平白耽误了半个时段。",
+              "fail_effects": [
+                {"type": "advance_time", "slots": 1}
+              ]
+            },
+            {
+              "id": "slip_leeward_wall",
+              "label": "贴着背风岩壁收拢衣摆，悄然绕离雾带",
+              "check": {
+                "stat": "DEX",
+                "dc": 10,
+                "label": "雾林隐匿步法",
+                "context": {
+                  "skill_id": "stealth",
+                  "region_id": "city_migurd",
+                  "tags": ["intent:stealth", "terrain:basin_mist"]
+                }
+              },
+              "success_text": "你踩着露水打湿的草根轻步掠过，连衣角都没挂到一根枯枝。走出雾带时，心神反而愈发沉静。",
+              "success_effects": [
+                {
+                  "type": "add_buff",
+                  "id": "mist_step_poise",
+                  "name": "雾径轻步",
+                  "stat_bonus": {},
+                  "check_bonus": {"DEX": 1}
+                }
+              ],
+              "fail_text": "碎石滚落岩脚发出一串脆响，你屏息在灌木后蹲守良久，直到雾气散淡才重新启程。",
+              "fail_effects": [
+                {"type": "advance_time", "slots": 1}
+              ]
+            },
+            {
+              "id": "hunter_whistle_steady",
+              "label": "吹响村口猎户教的驱兽低哨，放稳脚步直行",
+              "effects": [
+                {"type": "advance_time", "slots": 1}
+              ],
+              "outcome_text": "低沉的木哨声在雾中荡开，灌木深处传来一阵窸窣退避声。虽走得慢了些，却安稳穿过了盆地边缘。"
+            }
+          ]
+        },
+        {
+          "id": "vol1_dn_02_emerald_hair_telepathy",
+          "title": "翡翠发色与无声回响",
+          "category": "safe_road",
+          "category_label": "盆地风土",
+          "region_id": "demon_biegoya",
+          "city_ids": ["city_migurd"],
+          "legacy_locations": ["migurd_village", "misty_forest_path"],
+          "routes": ["city_migurd<->city_rikarisu"],
+          "trigger": {
+            "region_id": "demon_biegoya",
+            "encounter_zone": "demon_wilds",
+            "danger_tags": ["demon_wilds"],
+            "allowed_slots": [0, 1, 2],
+            "weight": 14,
+            "cooldown_days": 0,
+            "once_only": true,
+            "required_flags": [],
+            "forbidden_flags": ["vol1_migurd_telepathy_echo"]
+          },
+          "summary": "山径转角处，两位背着晒干岩菇回村的米格路德族长辈停在风口。她们蓝绿色的翡翠长发在微风里轻轻扬起，彼此双唇未动，眼神却已无声流转了几个来回——直到看见你，才略显局促地改用魔神语开口。空气里那阵只有同族听得见的「念话」留白，忽然令你想起多年未归的姐姐。",
+          "codex_unlocks": ["lore_migurd_tribe", "lore_demon_society"],
+          "diary_hint": {
+            "category": "story",
+            "title": "山径上的翡翠发色与念话留白",
+            "dedupe_key": "vol1_dn_02_emerald_hair_telepathy"
+          },
+          "options": [
+            {
+              "id": "read_elders_concern",
+              "label": "凝神捕捉她们欲言又止的神情，轻声询问外头荒原的近况",
+              "check": {
+                "stat": "WIL",
+                "dc": 11,
+                "label": "洞察神色与倾听",
+                "context": {
+                  "region_id": "city_migurd",
+                  "tags": ["intent:persuade", "npc_attitude:friendly", "race:migurd"]
+                }
+              },
+              "success_text": "你没有被那片沉默刺伤，反而读懂了长辈眼底笨拙的关切。她们放松下来，细细叮嘱你赤岩荒原午后多砂风，临别硬塞进你行囊 2 份晒干熏肉干粮。",
+              "crit_success_text": "年长的妇人望着你的眉眼，轻声叹道当年那位独自离村的蓝发少女也是这般笃定。她将 2 份熏肉干粮塞进你怀里，温热的嘱托仿佛化作一丝清泉流过心底。",
+              "success_effects": [
+                {"type": "add_item", "id": "smoked_meat", "name": "魔大陆熏肉干粮", "count": 2, "tag": "ration"},
+                {
+                  "type": "add_buff",
+                  "id": "migurd_parting_warmth",
+                  "name": "同族远行嘱托",
+                  "stat_bonus": {},
+                  "check_bonus": {"WIL": 1}
+                },
+                {"type": "set_flag", "id": "vol1_migurd_telepathy_echo", "value": true}
+              ],
+              "crit_success_effects": [
+                {"type": "add_item", "id": "smoked_meat", "name": "魔大陆熏肉干粮", "count": 2, "tag": "ration"},
+                {"type": "restore_mp", "amount": 6},
+                {
+                  "type": "add_buff",
+                  "id": "migurd_parting_warmth",
+                  "name": "同族远行嘱托",
+                  "stat_bonus": {},
+                  "check_bonus": {"WIL": 1}
+                },
+                {"type": "set_flag", "id": "vol1_migurd_telepathy_echo", "value": true}
+              ],
+              "fail_text": "你想找几句轻松的话打破沉默，彼此却又同时停住口。最终只在风声里交换了一句「路上小心」，各自转身离去。",
+              "fail_effects": [
+                {"type": "set_flag", "id": "vol1_migurd_telepathy_echo", "value": true}
+              ]
+            },
+            {
+              "id": "courteous_migurd_bow",
+              "label": "按村中古礼郑重躬身，坦然表明自己已备好走出盆地",
+              "check": {
+                "stat": "CHA",
+                "dc": 10,
+                "label": "从容礼节",
+                "context": {
+                  "region_id": "city_migurd",
+                  "tags": ["intent:persuade", "npc_attitude:friendly"]
+                }
+              },
+              "success_text": "端正的礼节让两位长辈露出难得的笑意。其中一人从竹篓里取出 1 份裹着蜜果与熏肉的精良口粮递给你：「走到利卡里斯再拆开吃吧。」",
+              "success_effects": [
+                {"type": "add_item", "id": "ration_fine", "name": "精良口粮", "count": 1, "tag": "ration"},
+                {"type": "set_flag", "id": "vol1_migurd_telepathy_echo", "value": true}
+              ],
+              "fail_text": "你绷得太紧，语调听起来倒像在背诵村规。长辈愣了愣，轻拍你的肩头嘱咐你早些归来。",
+              "fail_effects": [
+                {"type": "set_flag", "id": "vol1_migurd_telepathy_echo", "value": true}
+              ]
+            },
+            {
+              "id": "pull_hood_pass_quietly",
+              "label": "拉低旅行兜帽，只浅浅颔首便错身踏入荒原风口",
+              "effects": [
+                {"type": "set_flag", "id": "vol1_migurd_telepathy_echo", "value": true}
+              ],
+              "outcome_text": "你没有回头，也没有勉强自己融入听不见的对话。身后的静默渐渐融进风里，前方是开阔的赤岩古道。"
+            }
+          ]
+        },
+        {
+          "id": "vol1_dn_03_broken_signpost_cache",
+          "title": "断折路标下的旧干粮盒",
+          "category": "safe_road",
+          "category_label": "盆地风土",
+          "region_id": "demon_biegoya",
+          "city_ids": ["city_migurd", "city_rikarisu"],
+          "legacy_locations": ["misty_forest_path", "dryrock_spring"],
+          "routes": ["city_migurd<->city_rikarisu"],
+          "trigger": {
+            "region_id": "demon_biegoya",
+            "encounter_zone": "demon_wilds",
+            "danger_tags": ["demon_wilds"],
+            "allowed_slots": [0, 1, 2, 3],
+            "weight": 11,
+            "cooldown_days": 6,
+            "once_only": false,
+            "required_flags": [],
+            "forbidden_flags": []
+          },
+          "summary": "盆地外的岔口斜插着一根被风沙啃去半截的硬木路标，魔神语刻就的「利卡里斯」四字只剩浅浅凹痕。路标底座碎石松动，半露出一个缠着蜡布的扁铁盒，像是哪位久行荒原的老旅人留下的应急暗格。",
+          "codex_unlocks": ["eco_demon_ore_currency"],
+          "diary_hint": {
+            "category": "encounter",
+            "title": "荒原路标下的旧旅人补给盒",
+            "dedupe_key": "vol1_dn_03_broken_signpost_cache"
+          },
+          "options": [
+            {
+              "id": "inspect_cache_box",
+              "label": "细心查验蜡布封口与石堆摆法，确认无害后再启盒",
+              "check": {
+                "stat": "INT",
+                "dc": 11,
+                "label": "仔细调查暗格",
+                "context": {
+                  "region_id": "city_migurd",
+                  "tags": ["intent:investigate"]
+                }
+              },
+              "success_text": "蜡布防潮完好，没有毒虫藏匿。盒内躺着 1 份耐存普通干粮，以及用细麻绳穿起的 18 枚绿矿钱（折合 1 大绿 8 绿矿钱，180 铁矿钱）——足够贴补一段路上的零用。",
+              "crit_success_text": "除了 1 份普通干粮与 18 枚绿矿钱，盒盖夹层里还压着半张炭笔绘就的赤岩避风沟草图，沿途捷径一目了然。",
+              "success_effects": [
+                {"type": "add_item", "id": "ration_normal", "name": "普通干粮", "count": 1, "tag": "ration"},
+                {"type": "add_item", "id": "demon_ore_pouch_180", "name": "散装绿矿钱袋（1大绿8绿）", "count": 1, "tag": "currency_pouch"},
+                {"type": "set_flag", "id": "vol1_signpost_cache_found", "value": true}
+              ],
+              "crit_success_effects": [
+                {"type": "add_item", "id": "ration_normal", "name": "普通干粮", "count": 1, "tag": "ration"},
+                {"type": "add_item", "id": "demon_ore_pouch_180", "name": "散装绿矿钱袋（1大绿8绿）", "count": 1, "tag": "currency_pouch"},
+                {
+                  "type": "add_buff",
+                  "id": "redrock_trail_notes",
+                  "name": "老旅人荒原草图",
+                  "stat_bonus": {},
+                  "check_bonus": {"INT": 1}
+                },
+                {"type": "set_flag", "id": "vol1_signpost_cache_found", "value": true}
+              ],
+              "economy_hooks": [
+                {"on": "success", "action": "add_currency", "currency_id": "demon_ore", "amount_min_units": 180, "display": "1 大绿矿钱 8 绿矿钱"},
+                {"on": "fail", "action": "adjust_stamina", "delta": -6}
+              ],
+              "fail_text": "铁盒卡扣早已锈死，强掰时锐利铁皮擦红了指节，里头只剩发潮变质的饼屑，白白耽搁了一阵工夫。",
+              "fail_effects": [
+                {"type": "advance_time", "slots": 1}
+              ]
+            },
+            {
+              "id": "restore_signpost_first",
+              "label": "先替后人扶正路标并描深字痕，再顺手清理盒中杂物",
+              "check": {
+                "stat": "WIL",
+                "dc": 10,
+                "label": "耐心修整路标",
+                "context": {
+                  "region_id": "city_migurd",
+                  "tags": ["intent:endure"]
+                }
+              },
+              "success_text": "木桩重新稳稳立在碎石堆中央，你也在石缝内侧找到了 1 份干粮与 12 枚绿矿钱（120 铁矿钱），仿佛老旅人对守望者的无声回礼。",
+              "success_effects": [
+                {"type": "add_item", "id": "ration_normal", "name": "普通干粮", "count": 1, "tag": "ration"},
+                {"type": "set_flag", "id": "vol1_signpost_repaired", "value": true}
+              ],
+              "economy_hooks": [
+                {"on": "success", "action": "add_currency", "currency_id": "demon_ore", "amount_min_units": 120, "display": "1 大绿矿钱 2 绿矿钱"}
+              ],
+              "fail_text": "赤岩碎土松软，费了不少力气才把路标勉强楔稳，铁盒里却早已空空如也。",
+              "fail_effects": [
+                {"type": "advance_time", "slots": 1},
+                {"type": "set_flag", "id": "vol1_signpost_repaired", "value": true}
+              ]
+            },
+            {
+              "id": "leave_cache_untouched",
+              "label": "不触动来历不明的铁盒，只拾一捆干枯灌木引火枝便走",
+              "effects": [
+                {"type": "restore_mp", "amount": 4}
+              ],
+              "outcome_text": "魔大陆的谨慎往往比贪心更保命。你把铁盒重新用碎石掩好，轻装踏上主道。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pool_vol1_redrock_wilds",
+      "label": "赤岩荒原行路与魔物险情",
+      "region_id": "demon_biegoya",
+      "match_zones": ["demon_wilds"],
+      "match_danger_tags": ["demon_wilds"],
+      "match_routes": ["city_migurd<->city_rikarisu"],
+      "match_cities": ["city_migurd", "city_rikarisu"],
+      "base_chance": 0.42,
+      "min_km": 40,
+      "trigger_progress": 0.50,
+      "events": [
+        {
+          "id": "vol1_dn_04_redrock_sandstorm",
+          "title": "赤岩裂谷的赭色砂幕",
+          "category": "demon_wilds",
+          "category_label": "赤岩险情",
+          "region_id": "demon_biegoya",
+          "city_ids": ["city_migurd", "city_rikarisu"],
+          "legacy_locations": ["misty_forest_path", "dryrock_spring"],
+          "routes": ["city_migurd<->city_rikarisu"],
+          "trigger": {
+            "region_id": "demon_biegoya",
+            "encounter_zone": "demon_wilds",
+            "danger_tags": ["demon_wilds"],
+            "allowed_slots": [0, 1, 2],
+            "weight": 13,
+            "cooldown_days": 5,
+            "once_only": false,
+            "required_flags": [],
+            "forbidden_flags": []
+          },
+          "summary": "午后的北方天际线陡然压低成一堵翻滚的暗红砂墙。热风裹着细砾噼啪抽打衣领，鼻腔里满是干燥的铁锈味——赤岩裂谷最难缠的骤起沙尘暴正迎面扑来。",
+          "codex_unlocks": ["geo_demon_continent"],
+          "diary_hint": {
+            "category": "encounter",
+            "title": "赤岩裂谷突遇沙尘暴",
+            "dedupe_key": "vol1_dn_04_redrock_sandstorm"
+          },
+          "options": [
+            {
+              "id": "shelter_in_crevice",
+              "label": "逆风辨明岩壁走向，抢先钻进背风岩缝避沙",
+              "check": {
+                "stat": "CON",
+                "dc": 12,
+                "label": "生存与体质抗沙",
+                "context": {
+                  "region_id": "city_rikarisu",
+                  "tags": ["intent:survive", "weather:sandstorm"]
+                }
+              },
+              "success_text": "你在砂墙吞没山道前钻进一处深窄岩缝。等狂风啸叫着扫过谷口，你拍净斗篷上的红尘，顺便歇回了些许魔力。",
+              "crit_success_text": "这处天然岩隙干燥温暖，风停时你还在岩角石板上拾到前人避风遗落的 1 份普通干粮，反倒因祸得福。",
+              "success_effects": [
+                {"type": "restore_mp", "amount": 5},
+                {"type": "advance_time", "slots": 1}
+              ],
+              "crit_success_effects": [
+                {"type": "add_item", "id": "ration_normal", "name": "普通干粮", "count": 1, "tag": "ration"},
+                {"type": "restore_mp", "amount": 6},
+                {"type": "advance_time", "slots": 1}
+              ],
+              "economy_hooks": [
+                {"on": "fail", "action": "adjust_stamina", "delta": -14}
+              ],
+              "fail_text": "岩缝比看上去浅得多，灌进来的红砂呛得你睁不开眼。风歇后不得不拆掉 1 份干粮压惊缓气，体力也损耗不少。",
+              "crit_fail_text": "狂风掀翻了你挡风的行囊，满嘴细砂呛得剧烈咳嗽，不仅耗掉 1 份干粮与半个时段，疲惫也攀上了双肩。",
+              "fail_effects": [
+                {"type": "consume_rations", "amount": 1},
+                {"type": "advance_time", "slots": 1}
+              ],
+              "crit_fail_effects": [
+                {"type": "consume_rations", "amount": 1},
+                {"type": "advance_time", "slots": 1},
+                {
+                  "type": "add_buff",
+                  "id": "travel_fatigue",
+                  "name": "旅途疲惫",
+                  "stat_bonus": {},
+                  "check_bonus": {"WIL": -1, "DEX": -1}
+                }
+              ]
+            },
+            {
+              "id": "push_through_storm",
+              "label": "压紧兜帽低头顶风，咬牙抢出裂谷风口",
+              "check": {
+                "stat": "WIL",
+                "dc": 13,
+                "label": "顶风强闯砂幕",
+                "hood_bonus_item": "travel_hood",
+                "hood_bonus_value": 2,
+                "context": {
+                  "region_id": "city_rikarisu",
+                  "tags": ["intent:endure", "weather:sandstorm"]
+                }
+              },
+              "success_text": "你借着兜帽护住双眼，盯紧路旁赤岩桩一寸寸硬扛过去，竟未延误半点行程，心志也随之沉稳一分。",
+              "success_effects": [
+                {
+                  "type": "add_buff",
+                  "id": "storm_tempered",
+                  "name": "风砂历练",
+                  "stat_bonus": {},
+                  "check_bonus": {"WIL": 1}
+                }
+              ],
+              "economy_hooks": [
+                {"on": "fail", "action": "adjust_stamina", "delta": -18}
+              ],
+              "fail_text": "漫天红雾彻底吞没了方向，等踉跄走出裂谷时，你已筋疲力尽，只得吃下 1 份干粮勉强稳住呼吸。",
+              "fail_effects": [
+                {"type": "consume_rations", "amount": 1},
+                {"type": "advance_time", "slots": 1},
+                {
+                  "type": "add_buff",
+                  "id": "travel_fatigue",
+                  "name": "旅途疲惫",
+                  "stat_bonus": {},
+                  "check_bonus": {"WIL": -1, "DEX": -1}
+                }
+              ]
+            },
+            {
+              "id": "pitch_tarp_and_wait",
+              "label": "就地压住防风油布，分食 1 份干粮静候砂幕过去",
+              "effects": [
+                {"type": "consume_rations", "amount": 1},
+                {"type": "advance_time", "slots": 1}
+              ],
+              "fallback_effects": [
+                {"type": "advance_time", "slots": 2}
+              ],
+              "fallback_text": "囊中干粮已空，你只能蜷缩在背风岩脚干熬了两个时段，所幸风停后人还安好。",
+              "outcome_text": "油布猎猎作响却替你挡去了最烈的一波风沙。吃完干粮拍拍衣袖，前路已重归澄明。"
+            }
+          ]
+        },
+        {
+          "id": "vol1_dn_05_stone_lizard_ambush",
+          "title": "赭岩脊上的红蜥蜴群",
+          "category": "demon_wilds",
+          "category_label": "赤岩险情",
+          "region_id": "demon_biegoya",
+          "city_ids": ["city_migurd", "city_rikarisu"],
+          "legacy_locations": ["misty_forest_path", "dryrock_spring"],
+          "routes": ["city_migurd<->city_rikarisu"],
+          "trigger": {
+            "region_id": "demon_biegoya",
+            "encounter_zone": "demon_wilds",
+            "danger_tags": ["demon_wilds"],
+            "allowed_slots": [0, 1, 2],
+            "weight": 14,
+            "cooldown_days": 4,
+            "once_only": false,
+            "required_flags": [],
+            "forbidden_flags": []
+          },
+          "combat_hook": {
+            "preset": "418_survival",
+            "note": "可选预留战斗接口，当前严格与冻结战斗模块零耦合，由 D20 分支完成闭环结算。"
+          },
+          "summary": "商道拐进一段风化红岩窄口。四五头背覆厚鳞的魔大陆红蜥蜴正伏在高石上晒日吐信，爪尖扣着松动岩碴——一旦单身旅人贸然踏入阴影，它们便会成群扑落。",
+          "codex_unlocks": ["geo_demon_continent"],
+          "diary_hint": {
+            "category": "encounter",
+            "title": "红岩窄口遭遇魔大陆红蜥蜴群",
+            "dedupe_key": "vol1_dn_05_stone_lizard_ambush"
+          },
+          "options": [
+            {
+              "id": "stealth_past_lizards",
+              "label": "借下风口与岩脊阴影，放轻脚步潜行绕过窄口",
+              "check": {
+                "stat": "DEX",
+                "dc": 12,
+                "label": "隐匿绕行",
+                "context": {
+                  "skill_id": "stealth",
+                  "region_id": "city_rikarisu",
+                  "tags": ["intent:stealth", "enemy:demon_beast"]
+                }
+              },
+              "success_text": "你踩着细砂无声贴过岩壁背阴面，领头的石甲红蜥只是懒懒眨了眨金瞳，浑然未觉你已安然掠过。",
+              "crit_success_text": "你如雾中青影般滑过窄口，还顺手从岩脚背阴处摘走一束罕见止血草，蜥蜴群连尾巴都没摆一下。",
+              "success_effects": [
+                {"type": "set_flag", "id": "vol1_lizard_ambush_evaded", "value": true}
+              ],
+              "crit_success_effects": [
+                {"type": "add_item", "id": "emergency_herbs", "name": "应急草药包", "count": 1, "tag": "medical"},
+                {"type": "set_flag", "id": "vol1_lizard_ambush_evaded", "value": true}
+              ],
+              "economy_hooks": [
+                {"on": "fail", "action": "adjust_stamina", "delta": -12}
+              ],
+              "fail_text": "脚底碎砾滑落惊动了蜥蜴群，尖锐嘶鸣声中你急忙撤步绕上外坡，慌乱间甩落了 1 份干粮才引开追兵。",
+              "fail_effects": [
+                {"type": "consume_rations", "amount": 1}
+              ]
+            },
+            {
+              "id": "water_burst_deterrence",
+              "label": "举起学徒木杖凝聚水魔术，朝空石激起一声骤响水爆威慑驱赶",
+              "check": {
+                "stat": "INT",
+                "dc": 12,
+                "label": "魔术战术威慑",
+                "context": {
+                  "region_id": "city_rikarisu",
+                  "tags": ["intent:magic_deter", "magic:water"]
+                }
+              },
+              "success_text": "水球在滚烫赤岩上轰然炸裂，腾起大片灼白水雾。习惯燥热的红蜥蜴群惊慌嘶叫着窜入高坡岩缝，商道顿时畅通。",
+              "crit_success_text": "水爆的声势与寒雾恰到好处，红蜥蜴群夺路而逃时竟撞落岩顶一枚风干兽角，你的施法手感也顺畅了几分。",
+              "success_effects": [
+                {"type": "set_flag", "id": "vol1_lizard_deterred", "value": true}
+              ],
+              "crit_success_effects": [
+                {"type": "add_item", "id": "red_lizard_scale", "name": "红蜥蜴背鳞片", "count": 1, "tag": "material"},
+                {"type": "restore_mp", "amount": 4},
+                {"type": "set_flag", "id": "vol1_lizard_deterred", "value": true}
+              ],
+              "economy_hooks": [
+                {"on": "crit_success", "action": "add_currency", "currency_id": "demon_ore", "amount_min_units": 150, "display": "红蜥鳞可换 1 大绿 5 绿矿钱"},
+                {"on": "fail", "action": "adjust_stamina", "delta": -10}
+              ],
+              "fail_text": "水爆偏了半步，只吓跑了外侧两只幼蜥。面对龇牙低伏的领头蜥蜴，你沉住气缓缓退开，改走远坡绕过窄口。",
+              "fail_effects": [
+                {"type": "advance_time", "slots": 1}
+              ]
+            },
+            {
+              "id": "toss_ration_decoy",
+              "label": "朝下方岩沟抛去 1 份干粮引开兽群，趁隙快步通过",
+              "effects": [
+                {"type": "consume_rations", "amount": 1}
+              ],
+              "fallback_effects": [
+                {"type": "advance_time", "slots": 1}
+              ],
+              "fallback_text": "行囊里已无余粮可抛，你只得耐心绕行外侧高岭，多走了一段才重返大路。",
+              "outcome_text": "熏肉香气瞬间吸引了红蜥蜴群争抢扑下斜坡，你趁机快步穿过窄口，毫发无伤。"
+            }
+          ]
+        },
+        {
+          "id": "vol1_dn_06_glinting_mana_vein",
+          "title": "半埋赤岩的微光魔石脉",
+          "category": "demon_wilds",
+          "category_label": "赤岩险情",
+          "region_id": "demon_biegoya",
+          "city_ids": ["city_migurd", "city_rikarisu"],
+          "legacy_locations": ["dryrock_spring", "misty_forest_path"],
+          "routes": ["city_migurd<->city_rikarisu"],
+          "trigger": {
+            "region_id": "demon_biegoya",
+            "encounter_zone": "demon_wilds",
+            "danger_tags": ["demon_wilds"],
+            "allowed_slots": [0, 1, 2],
+            "weight": 10,
+            "cooldown_days": 7,
+            "once_only": false,
+            "required_flags": [],
+            "forbidden_flags": []
+          },
+          "summary": "斜阳切进路边一处崩塌赤岩，深褐色石缝间浮出几缕柔和的淡青微光——那是魔大陆偶见的浅层绿魔石碎脉。只是岩缝深处隐约传来甲壳摩挲石壁的细碎沙沙声。",
+          "codex_unlocks": ["eco_demon_ore_currency"],
+          "diary_hint": {
+            "category": "encounter",
+            "title": "赤岩裂隙发掘绿魔石碎脉",
+            "dedupe_key": "vol1_dn_06_glinting_mana_vein"
+          },
+          "options": [
+            {
+              "id": "arcane_appraise_vein",
+              "label": "以魔力感知探清晶脉走向，精准剥离高纯度绿魔石",
+              "check": {
+                "stat": "INT",
+                "dc": 13,
+                "label": "奥术辨矿与采集",
+                "context": {
+                  "region_id": "city_rikarisu",
+                  "tags": ["intent:arcane_appraise", "magic:sense"]
+                }
+              },
+              "success_text": "你避开魔力紊乱的脆裂点，用木杖末端稳稳撬出两块色泽澄透的绿魔石原晶——进城找矿商出手，足可折换 3 大绿 5 绿矿钱（350 铁矿钱）。",
+              "crit_success_text": "指尖魔力与矿脉轻轻共振，整簇近乎无瑕的绿魔石结晶应声剥落！成色远超寻常货色，足值 6 大绿矿钱（600 铁矿钱），余韵还温养了你的魔力。",
+              "success_effects": [
+                {"type": "add_item", "id": "raw_green_mana_ore", "name": "高纯绿魔石原晶", "count": 1, "tag": "treasure"},
+                {"type": "set_flag", "id": "vol1_mana_vein_harvested", "value": true}
+              ],
+              "crit_success_effects": [
+                {"type": "add_item", "id": "flawless_green_mana_ore", "name": "澄透绿魔石晶簇", "count": 1, "tag": "treasure"},
+                {"type": "restore_mp", "amount": 8},
+                {"type": "set_flag", "id": "vol1_mana_vein_harvested", "value": true}
+              ],
+              "economy_hooks": [
+                {"on": "success", "action": "add_currency", "currency_id": "demon_ore", "amount_min_units": 350, "display": "3 大绿矿钱 5 绿矿钱"},
+                {"on": "crit_success", "action": "add_currency", "currency_id": "demon_ore", "amount_min_units": 600, "display": "6 大绿矿钱"},
+                {"on": "fail", "action": "adjust_stamina", "delta": -15}
+              ],
+              "fail_text": "敲击声惊动了缝隙里蛰伏的岩壳甲虫，你慌忙缩手，手背被锋利赤岩划出浅痕，只能狼狈退开。",
+              "crit_fail_text": "原矿在杖尖崩裂爆出刺目火花，岩缝里猛然窜出数只铁壳甲虫逼得你连退数丈，不仅一无所获，还耽搁了不少脚程。",
+              "fail_effects": [
+                {"type": "advance_time", "slots": 1}
+              ]
+            },
+            {
+              "id": "quick_pluck_outer_shard",
+              "label": "不深入裂隙，只巧手抠走最外缘的一小块碎魔石",
+              "check": {
+                "stat": "DEX",
+                "dc": 10,
+                "label": "巧手轻采",
+                "context": {
+                  "region_id": "city_rikarisu",
+                  "tags": ["intent:sleight"]
+                }
+              },
+              "success_text": "动作干净利落，你稳稳取下外缘一小粒绿魔石碎晶（约值 1 大绿 2 绿矿钱 / 120 铁矿钱），缝隙深处的沙沙声毫无异动。",
+              "success_effects": [
+                {"type": "add_item", "id": "green_mana_shard", "name": "绿魔石碎晶", "count": 1, "tag": "treasure"}
+              ],
+              "economy_hooks": [
+                {"on": "success", "action": "add_currency", "currency_id": "demon_ore", "amount_min_units": 120, "display": "1 大绿矿钱 2 绿矿钱"}
+              ],
+              "fail_text": "外缘风化太重，指尖刚用力，碎晶便化作一撮亮晶晶的青灰石粉随风散去。",
+              "fail_effects": []
+            },
+            {
+              "id": "mark_vein_in_journal",
+              "label": "在手账边缘记下这处岩壁的方位，不冒无谓之险",
+              "effects": [
+                {"type": "set_flag", "id": "vol1_mana_vein_marked", "value": true}
+              ],
+              "outcome_text": "荒原上最忌为小利耗尽精力。你在手账折角勾出岩壁轮廓，稳步重回商道。"
+            }
+          ]
+        },
+        {
+          "id": "vol1_dn_07_dry_well_turbid_water",
+          "title": "枯井石槽与微浊泉水",
+          "category": "demon_wilds",
+          "category_label": "赤岩险情",
+          "region_id": "demon_biegoya",
+          "city_ids": ["city_migurd", "city_rikarisu"],
+          "legacy_locations": ["dryrock_spring"],
+          "routes": ["city_migurd<->city_rikarisu"],
+          "trigger": {
+            "region_id": "demon_biegoya",
+            "encounter_zone": "demon_wilds",
+            "danger_tags": ["demon_wilds"],
+            "allowed_slots": [0, 1, 2],
+            "weight": 11,
+            "cooldown_days": 5,
+            "once_only": false,
+            "required_flags": [],
+            "forbidden_flags": []
+          },
+          "summary": "古道旁孤零零立着一口石砌旧井，井栏爬满干涸裂纹。探头望去，井底积着一汪泛着浅黄的浑水，漂浮着细碎草屑。烈日晒得唇舌发紧，行囊里的水囊也早已见底。",
+          "codex_unlocks": ["rule_rations_and_rest"],
+          "diary_hint": {
+            "category": "encounter",
+            "title": "赤岩枯井净水补给",
+            "dedupe_key": "vol1_dn_07_dry_well_turbid_water"
+          },
+          "options": [
+            {
+              "id": "purify_well_water",
+              "label": "施展初级水魔术滤去浮渣，并细嗅水气排查矿毒",
+              "check": {
+                "stat": "INT",
+                "dc": 11,
+                "label": "医疗与净水辨质",
+                "context": {
+                  "region_id": "city_rikarisu",
+                  "tags": ["intent:medicine", "magic:water"]
+                }
+              },
+              "success_text": "浑浊浮屑被水魔术轻柔推开，留下清凉甘冽的活水。畅饮之后灌满水囊，连日赶路的燥热疲惫一扫而空。",
+              "crit_success_text": "井底竟是未被赤岩毒矿侵染的深层冷泉！清泉入喉不仅洗去倦意，更让周身气血舒畅，步伐轻盈。",
+              "success_effects": [
+                {"type": "restore_mp", "amount": 10},
+                {"type": "remove_buff", "id": "travel_fatigue"}
+              ],
+              "crit_success_effects": [
+                {"type": "restore_mp", "amount": 14},
+                {"type": "remove_buff", "id": "travel_fatigue"},
+                {
+                  "type": "add_buff",
+                  "id": "clear_spring_vigor",
+                  "name": "清泉润心",
+                  "stat_bonus": {},
+                  "check_bonus": {"CON": 1}
+                }
+              ],
+              "economy_hooks": [
+                {"on": "success", "action": "adjust_stamina", "delta": 18},
+                {"on": "crit_success", "action": "adjust_stamina", "delta": 26},
+                {"on": "fail", "action": "adjust_stamina", "delta": -12}
+              ],
+              "fail_text": "表面看似澄清，水中却暗含一丝苦涩矿碱。饮下没走多远便觉腹中隐隐作痛，精神也沉了几分。",
+              "fail_effects": [
+                {
+                  "type": "add_buff",
+                  "id": "upset_stomach",
+                  "name": "浊水腹痛",
+                  "stat_bonus": {},
+                  "check_bonus": {"CON": -1, "WIL": -1}
+                }
+              ]
+            },
+            {
+              "id": "cloth_filter_sip",
+              "label": "叠起干净布巾缓缓滤过井水，小口试饮润喉",
+              "check": {
+                "stat": "CON",
+                "dc": 11,
+                "label": "体质试饮适应",
+                "context": {
+                  "region_id": "city_rikarisu",
+                  "tags": ["intent:survive"]
+                }
+              },
+              "success_text": "水味略涩却无大碍，几口润下便稳住了干渴，休息片刻重新精神抖擞。",
+              "success_effects": [
+                {"type": "restore_mp", "amount": 5}
+              ],
+              "economy_hooks": [
+                {"on": "success", "action": "adjust_stamina", "delta": 10},
+                {"on": "fail", "action": "adjust_stamina", "delta": -10}
+              ],
+              "fail_text": "粗布终究滤不净细微矿碱，没过片刻胃里便泛起一阵翻涌，只得靠石坐缓了好一会儿。",
+              "fail_effects": [
+                {"type": "advance_time", "slots": 1},
+                {
+                  "type": "add_buff",
+                  "id": "upset_stomach",
+                  "name": "浊水腹痛",
+                  "stat_bonus": {},
+                  "check_bonus": {"CON": -1, "WIL": -1}
+                }
+              ]
+            },
+            {
+              "id": "skip_well_chew_ration",
+              "label": "宁忍干渴也不冒病险，拆 1 份干粮慢嚼继续赶路",
+              "effects": [
+                {"type": "consume_rations", "amount": 1}
+              ],
+              "fallback_effects": [
+                {"type": "advance_time", "slots": 1}
+              ],
+              "fallback_text": "连干粮也已见底，你只得抿紧干裂嘴唇放慢步速，盼着早些望见利卡里斯的水井。",
+              "outcome_text": "咬下咸香耐嚼的肉干压住喉间燥火，你不回头地离开枯井，继续向前赶路。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pool_vol1_demon_caravan",
+      "label": "魔大陆行商与原作经济联动",
+      "region_id": "demon_biegoya",
+      "match_zones": ["demon_wilds"],
+      "match_danger_tags": ["demon_wilds"],
+      "match_routes": ["city_migurd<->city_rikarisu"],
+      "match_cities": ["city_migurd", "city_rikarisu"],
+      "base_chance": 0.38,
+      "min_km": 35,
+      "trigger_progress": 0.58,
+      "events": [
+        {
+          "id": "vol1_dn_08_demon_peddler_wagon",
+          "title": "摇铃而来的魔族游商马车",
+          "category": "safe_road",
+          "category_label": "荒原行商",
+          "region_id": "demon_biegoya",
+          "city_ids": ["city_migurd", "city_rikarisu"],
+          "legacy_locations": ["dryrock_spring", "rikarisu_gate"],
+          "routes": ["city_migurd<->city_rikarisu"],
+          "trigger": {
+            "region_id": "demon_biegoya",
+            "encounter_zone": "demon_wilds",
+            "danger_tags": ["demon_wilds"],
+            "allowed_slots": [0, 1, 2],
+            "weight": 14,
+            "cooldown_days": 4,
+            "once_only": false,
+            "required_flags": [],
+            "forbidden_flags": []
+          },
+          "summary": "石坡尽头传出一串清脆铜铃声，一辆双角驮兽牵引的铁皮篷车吱呀停在路旁。头绑红巾的魔族行商敞开车篷乘凉，里头整整齐齐码着烤硬饼、熏肉干粮与沉甸甸的多国钱匣——是常年往返利卡里斯与周边聚落的熟面孔游商。",
+          "codex_unlocks": ["eco_demon_ore_currency", "eco_six_currency_rates"],
+          "diary_hint": {
+            "category": "economy",
+            "title": "赤岩商道偶遇魔族游商马车",
+            "dedupe_key": "vol1_dn_08_demon_peddler_wagon"
+          },
+          "options": [
+            {
+              "id": "buy_two_rations_standard",
+              "label": "按魔大陆标准行价付 4 大绿矿钱（400 铁矿钱），补买 2 份普通干粮",
+              "effects": [
+                {"type": "spend_copper", "amount": 4},
+                {"type": "add_item", "id": "ration_normal", "name": "普通干粮", "count": 2, "tag": "ration"},
+                {"type": "set_flag", "id": "vol1_peddler_exchange_met", "value": true}
+              ],
+              "economy_hooks": [
+                {"on": "direct", "action": "buy_supply", "supply_id": "ration_normal", "quantity": 2, "currency_id": "demon_ore", "amount_min_units": 400}
+              ],
+              "fallback_effects": [
+                {"type": "restore_mp", "amount": 4},
+                {"type": "set_flag", "id": "vol1_peddler_exchange_met", "value": true}
+              ],
+              "fallback_text": "你摸了摸钱袋发现矿石钱略显拮据。红巾游商爽朗一笑，倒了杯温热麦茶递给你：「出门在外谁没手紧的时候？润润喉再赶路吧。」",
+              "outcome_text": "四枚大绿矿钱落进钱匣脆响一声，你接过两份油纸裹紧的普通干粮，行囊顿时踏实许多。"
+            },
+            {
+              "id": "haggle_and_ask_exchange",
+              "label": "凭口才讨价还价，并询价旅商 5% 手续费现场换汇",
+              "check": {
+                "stat": "CHA",
+                "dc": 12,
+                "label": "游说讲价与询汇",
+                "context": {
+                  "region_id": "city_rikarisu",
+                  "tags": ["intent:persuade", "npc_attitude:friendly"]
+                }
+              },
+              "success_text": "你顺口报出米格路德村 0.75 倍的温和物价，游商听得一乐，爽快按 3 大绿矿钱（300 铁矿钱）让利卖你 2 份普通干粮，还拍着钱匣道：「日后手头有外大陆货币急着变现，找我游商队只需 5% 手续费！」",
+              "crit_success_text": "一番不卑不亢的讨价逗得红巾游商哈哈大笑，不仅以 3 大绿矿钱卖你 2 份普通干粮，还额外添赠 1 份蜂蜜果干精良口粮，并详细抄录了各大陆牌价给你。",
+              "success_effects": [
+                {"type": "spend_copper", "amount": 3},
+                {"type": "add_item", "id": "ration_normal", "name": "普通干粮", "count": 2, "tag": "ration"},
+                {"type": "set_flag", "id": "vol1_peddler_exchange_met", "value": true},
+                {"type": "set_flag", "id": "vol1_peddler_discount_earned", "value": true}
+              ],
+              "crit_success_effects": [
+                {"type": "spend_copper", "amount": 3},
+                {"type": "add_item", "id": "ration_normal", "name": "普通干粮", "count": 2, "tag": "ration"},
+                {"type": "add_item", "id": "ration_fine", "name": "精良口粮", "count": 1, "tag": "ration"},
+                {"type": "set_flag", "id": "vol1_peddler_exchange_met", "value": true},
+                {"type": "set_flag", "id": "vol1_peddler_discount_earned", "value": true}
+              ],
+              "economy_hooks": [
+                {"on": "success", "action": "open_exchange", "venue_type": "traveling_merchant", "fee_rate": 0.05},
+                {"on": "fail", "action": "open_exchange", "venue_type": "traveling_merchant", "fee_rate": 0.05}
+              ],
+              "fail_text": "游商摇着手指笑道：「荒原运费贵着呢，一铁矿都少不了！」虽未砍下价，他仍乐意按 5% 手续费为你办理旅商换汇。",
+              "fail_effects": [
+                {"type": "set_flag", "id": "vol1_peddler_exchange_met", "value": true}
+              ]
+            },
+            {
+              "id": "exchange_only_and_tips",
+              "label": "暂不购粮，向游商请教旅商 5% 代兑与冒险者协会免手续费的门道",
+              "effects": [
+                {"type": "restore_mp", "amount": 4},
+                {"type": "set_flag", "id": "vol1_peddler_exchange_met", "value": true},
+                {"type": "set_flag", "id": "vol1_guild_exchange_tip", "value": true}
+              ],
+              "economy_hooks": [
+                {"on": "direct", "action": "open_exchange", "venue_type": "traveling_merchant", "fee_rate": 0.05}
+              ],
+              "outcome_text": "游商倒也坦荡：「急着换零钱或拿外币买货，我这儿收五厘（5%）佣金；要是不赶时间，进了利卡里斯去冒险者协会柜台，官方牌价一文不收！」"
+            }
+          ]
+        },
+        {
+          "id": "vol1_dn_09_broken_caravan_axle",
+          "title": "赤岩弯道上的断轴商车",
+          "category": "safe_road",
+          "category_label": "荒原行商",
+          "region_id": "demon_biegoya",
+          "city_ids": ["city_migurd", "city_rikarisu"],
+          "legacy_locations": ["dryrock_spring", "rikarisu_gate"],
+          "routes": ["city_migurd<->city_rikarisu"],
+          "trigger": {
+            "region_id": "demon_biegoya",
+            "encounter_zone": "demon_wilds",
+            "danger_tags": ["demon_wilds"],
+            "allowed_slots": [0, 1, 2],
+            "weight": 12,
+            "cooldown_days": 7,
+            "once_only": false,
+            "required_flags": [],
+            "forbidden_flags": []
+          },
+          "summary": "一道碎石急弯旁，载满兽皮与果干的商队大车斜歪在路肩——右后硬木轮轴生生折成两截。两名伙计满头大汗撬着车辕，圆脸魔族商队头目急得直搓手，生怕天黑前赶不到利卡里斯闭城。",
+          "codex_unlocks": ["lore_demon_society", "eco_demon_ore_currency"],
+          "diary_hint": {
+            "category": "economy",
+            "title": "赤岩弯道助商队修轴获赠银矿钱",
+            "dedupe_key": "vol1_dn_09_broken_caravan_axle"
+          },
+          "options": [
+            {
+              "id": "magic_and_craft_repair",
+              "label": "用石块架稳车底，借水魔术润胀木楔巧手换上备用车轴",
+              "check": {
+                "stat": "INT",
+                "dc": 12,
+                "label": "巧手与魔术辅修",
+                "context": {
+                  "region_id": "city_rikarisu",
+                  "tags": ["intent:craft", "magic:water"]
+                }
+              },
+              "success_text": "润湿的木楔严丝合缝咬紧毂孔，车轮重新转得稳当无声。商队头目喜笑颜开，当场奉上 1 枚沉甸甸的银矿钱（1,000 铁矿钱）与一张利卡里斯城内熟客引荐条！",
+              "crit_success_text": "你借水流精准冲净泥沙再嵌紧木楔，连老车匠都竖起大拇指。头目除了奉上 1 枚银矿钱与利卡里斯引荐条，还硬塞进你背包 1 份精良口粮！",
+              "success_effects": [
+                {"type": "add_item", "id": "rikarisu_merchant_voucher", "name": "利卡里斯商队引荐条", "count": 1, "tag": "quest"},
+                {"type": "set_flag", "id": "vol1_rikarisu_merchant_voucher", "value": true}
+              ],
+              "crit_success_effects": [
+                {"type": "add_item", "id": "rikarisu_merchant_voucher", "name": "利卡里斯商队引荐条", "count": 1, "tag": "quest"},
+                {"type": "add_item", "id": "ration_fine", "name": "精良口粮", "count": 1, "tag": "ration"},
+                {"type": "set_flag", "id": "vol1_rikarisu_merchant_voucher", "value": true}
+              ],
+              "economy_hooks": [
+                {"on": "success", "action": "add_currency", "currency_id": "demon_ore", "amount_min_units": 1000, "display": "1 银矿钱（1,000 铁矿钱）"},
+                {"on": "crit_success", "action": "add_currency", "currency_id": "demon_ore", "amount_min_units": 1000, "display": "1 银矿钱（1,000 铁矿钱）"},
+                {"on": "fail", "action": "add_currency", "currency_id": "demon_ore", "amount_min_units": 200, "display": "2 大绿矿钱谢礼"}
+              ],
+              "fail_text": "水魔术放得太急，泥浆溅了你与头目满脸花，车楔还弹出去半丈远，引得伙计们憋笑憋得通红。好在一番手忙脚乱后车轴总算装稳，头目边擦泥点边大笑着塞给你 2 大绿矿钱（200 铁矿钱）和 1 份普通干粮致谢。",
+              "crit_fail_text": "水球失准正中头目圆肚皮，把威风凛凛的商队大叔淋成了落汤鸡，一车人愣了三秒爆出一阵震天大笑。闹归闹，车轴终究靠大家齐心装好了，头目仍豪爽地递来 2 大绿矿钱和 1 份普通干粮：「小法师，这趟路算记住你啦！」",
+              "fail_effects": [
+                {"type": "add_item", "id": "ration_normal", "name": "普通干粮", "count": 1, "tag": "ration"},
+                {"type": "advance_time", "slots": 1}
+              ]
+            },
+            {
+              "id": "heave_axle_by_strength",
+              "label": "挽起袖子和伙计一起硬扛车辕，凭力气强顶车厢换轴",
+              "check": {
+                "stat": "STR",
+                "dc": 13,
+                "label": "力量扛辕",
+                "context": {
+                  "region_id": "city_rikarisu",
+                  "tags": ["intent:athletics"]
+                }
+              },
+              "success_text": "你咬紧牙关与伙计齐声发力，稳稳顶起半边车厢让备轴顺利落位。头目佩服你的韧劲，大方赠你 1 枚银矿钱（1,000 铁矿钱）与城内引荐条。",
+              "success_effects": [
+                {"type": "add_item", "id": "rikarisu_merchant_voucher", "name": "利卡里斯商队引荐条", "count": 1, "tag": "quest"},
+                {"type": "set_flag", "id": "vol1_rikarisu_merchant_voucher", "value": true}
+              ],
+              "economy_hooks": [
+                {"on": "success", "action": "add_currency", "currency_id": "demon_ore", "amount_min_units": 1000, "display": "1 银矿钱（1,000 铁矿钱）"},
+                {"on": "fail", "action": "add_currency", "currency_id": "demon_ore", "amount_min_units": 150, "display": "1 大绿 5 绿矿钱谢礼"},
+                {"on": "fail", "action": "adjust_stamina", "delta": -10}
+              ],
+              "fail_text": "娇小的身板扛起货车果然太过勉强，你双臂发抖差点脱手，好在伙计眼疾手快垫进木桩。头目连声道谢，仍送了你 1 份干粮与 15 枚绿矿钱（150 铁矿钱）。",
+              "fail_effects": [
+                {"type": "add_item", "id": "ration_normal", "name": "普通干粮", "count": 1, "tag": "ration"},
+                {"type": "advance_time", "slots": 1}
+              ]
+            },
+            {
+              "id": "help_gather_crates",
+              "label": "替商队把滚落路边的货箱搬回道旁，留足体力继续上路",
+              "effects": [
+                {"type": "advance_time", "slots": 1},
+                {"type": "add_item", "id": "ration_normal", "name": "普通干粮", "count": 1, "tag": "ration"}
+              ],
+              "outcome_text": "伙计们感激地接过货箱，随手递来一份温热硬饼。你挥手告别商队，轻步迈向远方。"
+            }
+          ]
+        },
+        {
+          "id": "vol1_dn_10_blackmarket_foreign_coin",
+          "title": "黑市摊上的“古怪外陆硬币”",
+          "category": "safe_road",
+          "category_label": "荒原行商",
+          "region_id": "demon_biegoya",
+          "city_ids": ["city_migurd", "city_rikarisu"],
+          "legacy_locations": ["dryrock_spring", "rikarisu_gate"],
+          "routes": ["city_migurd<->city_rikarisu"],
+          "trigger": {
+            "region_id": "demon_biegoya",
+            "encounter_zone": "demon_wilds",
+            "danger_tags": ["demon_wilds"],
+            "allowed_slots": [0, 1, 2],
+            "weight": 10,
+            "cooldown_days": 8,
+            "once_only": false,
+            "required_flags": [],
+            "forbidden_flags": []
+          },
+          "summary": "商道岔口的破旧遮阳篷下，一名独眼魔族杂货贩摊开兽皮，上头杂乱摆着锈匕首、骨串与几枚泛着暗红铜泽、刻有圣剑徽记的异域圆币。他眯眼压低声线：「外大陆漂海来的真家伙——只要 3 大绿矿钱（300 铁矿钱），随便挑一枚！」",
+          "codex_unlocks": ["eco_six_currency_rates"],
+          "diary_hint": {
+            "category": "economy",
+            "title": "荒原黑市摊辨识米里斯外陆硬币",
+            "dedupe_key": "vol1_dn_10_blackmarket_foreign_coin"
+          },
+          "options": [
+            {
+              "id": "appraise_foreign_coin",
+              "label": "凑近掂量币重，借魔力微感辨别金属质地与圣剑齿纹",
+              "check": {
+                "stat": "INT",
+                "dc": 13,
+                "label": "奥术与货币鉴定",
+                "context": {
+                  "region_id": "city_rikarisu",
+                  "tags": ["intent:appraise", "magic:sense"]
+                }
+              },
+              "success_text": "前几枚轻飘发闷全是镀铜铅片，唯有最角落那枚纹路利落、压手沉实——竟是货真价实的 1 枚米里斯大铜钱（公定 500 基准点，折合 5 大绿矿钱）！你不动声色付下 3 大绿矿钱将其收入囊中。",
+              "crit_success_text": "你一眼看穿摊上大半是铅芯赝品，偏挑中那枚真米里斯大铜钱，还轻轻弹响假币给摊主听。独眼贩子脸色微变，干脆按 2 大绿矿钱（200 铁矿钱）脱手打发你走，净赚一笔！",
+              "success_effects": [
+                {"type": "spend_copper", "amount": 3},
+                {"type": "add_item", "id": "millis_large_copper_coin", "name": "米里斯大铜钱（外陆真币）", "count": 1, "tag": "foreign_currency"},
+                {"type": "set_flag", "id": "vol1_found_true_millis_coin", "value": true}
+              ],
+              "crit_success_effects": [
+                {"type": "spend_copper", "amount": 2},
+                {"type": "add_item", "id": "millis_large_copper_coin", "name": "米里斯大铜钱（外陆真币）", "count": 1, "tag": "foreign_currency"},
+                {"type": "set_flag", "id": "vol1_found_true_millis_coin", "value": true}
+              ],
+              "economy_hooks": [
+                {"on": "success", "action": "trade_currency", "pay_currency": "demon_ore", "pay_min_units": 300, "gain_currency": "millis", "gain_min_units": 100, "display": "付 3 大绿矿钱 → 得 1 米里斯大铜钱（值 5 大绿矿钱）"},
+                {"on": "crit_success", "action": "trade_currency", "pay_currency": "demon_ore", "pay_min_units": 200, "gain_currency": "millis", "gain_min_units": 100, "display": "付 2 大绿矿钱 → 得 1 米里斯大铜钱（值 5 大绿矿钱）"},
+                {"on": "fail", "action": "add_currency", "currency_id": "demon_ore", "amount_min_units": -300, "display": "误购锡铅仿币损失 3 大绿矿钱"}
+              ],
+              "fail_text": "你挑中那枚色泽最亮眼的圆币付了 3 大绿矿钱，走出百步指甲一刮竟露出灰白铅底——算是花钱在荒原上了堂识货课。",
+              "fail_effects": [
+                {"type": "spend_copper", "amount": 3},
+                {"type": "add_item", "id": "fake_foreign_coin", "name": "镀铜锡铅仿币", "count": 1, "tag": "trinket"}
+              ]
+            },
+            {
+              "id": "call_out_peddler_bluff",
+              "label": "笑着点破摊上混着铅片假币，顺势套问外大陆牌价",
+              "check": {
+                "stat": "CHA",
+                "dc": 12,
+                "label": "沉着拆穿周旋",
+                "context": {
+                  "region_id": "city_rikarisu",
+                  "tags": ["intent:persuade", "npc_attitude:wary"]
+                }
+              },
+              "success_text": "独眼贩子讪笑着把假币拢进布袋，倒也大方吐露了实话：「米里斯币可是咱矿石钱的五倍价，阿斯拉币更是整整十倍，进城换钱可别被黑心商忽悠咯。」",
+              "success_effects": [
+                {"type": "set_flag", "id": "vol1_blackmarket_exposed", "value": true}
+              ],
+              "fail_text": "独眼贩子冷哼一声拉下破布帘：「不买别挡着后头客人！」你毫发未损地转身离开。",
+              "fail_effects": []
+            },
+            {
+              "id": "walk_past_blackmarket",
+              "label": "荒原黑市十买九坑，只扫一眼便径直绕过遮阳篷",
+              "outcome_text": "捂紧钱袋不贪意外之财，伴着摊主不满的嘀咕声，你稳步朝前走去。"
+            }
+          ]
+        },
+        {
+          "id": "vol1_dn_11_campfire_adventurer_tales",
+          "title": "赤岩篝火旁的冒险者夜话",
+          "category": "safe_road",
+          "category_label": "荒原行商",
+          "region_id": "demon_biegoya",
+          "city_ids": ["city_migurd", "city_rikarisu"],
+          "legacy_locations": ["dryrock_spring", "rikarisu_gate"],
+          "routes": ["city_migurd<->city_rikarisu"],
+          "trigger": {
+            "region_id": "demon_biegoya",
+            "encounter_zone": "demon_wilds",
+            "danger_tags": ["demon_wilds"],
+            "allowed_slots": [2, 3],
+            "weight": 15,
+            "cooldown_days": 0,
+            "once_only": true,
+            "required_flags": [],
+            "forbidden_flags": ["vol1_campfire_lore_heard"]
+          },
+          "summary": "暮色把赤岩染成深紫，避风岩坳里亮起一堆噼啪跳动的篝火。两名满身风尘的 D 级老冒险者正架锅翻烤红蜥肉串，见你独自背着学徒木杖经过，便招手邀你同坐烤火。火光摇曳间，他们聊起了利卡里斯城门、冒险者协会免手续费换汇，以及遥远中央大陆那道横亘南北的赤龙山脉。",
+          "codex_unlocks": ["geo_red_dragon_range", "lore_adventurer_guild", "eco_six_currency_rates", "lore_six_faced_world"],
+          "diary_hint": {
+            "category": "story",
+            "title": "赤岩篝火夜话：协会、汇兑与赤龙山脉",
+            "dedupe_key": "vol1_dn_11_campfire_adventurer_tales"
+          },
+          "options": [
+            {
+              "id": "share_ration_chat_lore",
+              "label": "分享 1 份干粮作礼，与老冒险者畅聊赤龙山脉与远方见闻",
+              "check": {
+                "stat": "CHA",
+                "dc": 11,
+                "label": "篝火攀谈与历史见闻",
+                "context": {
+                  "region_id": "city_rikarisu",
+                  "tags": ["intent:persuade", "npc_attitude:friendly"]
+                }
+              },
+              "success_text": "老冒险者爽快递来两串焦香滚烫的烤蜥蜴肉，边嚼边细说利卡里斯协会 0% 换汇规矩与中央大陆「赤龙下颚」关隘的险峻。暖意与见闻一同装进了你的行囊。",
+              "crit_success_text": "聊得投契，剑士大叔竟顺手把利卡里斯平价旅宿与协会老书记官的名号全写在了你的手账边，还赠你 1 份精良口粮当见面礼。",
+              "success_effects": [
+                {"type": "consume_rations", "amount": 1},
+                {"type": "restore_mp", "amount": 10},
+                {"type": "remove_buff", "id": "travel_fatigue"},
+                {
+                  "type": "add_buff",
+                  "id": "campfire_fellowship",
+                  "name": "篝火暖谈",
+                  "stat_bonus": {},
+                  "check_bonus": {"CHA": 1}
+                },
+                {"type": "set_flag", "id": "vol1_campfire_lore_heard", "value": true},
+                {"type": "set_flag", "id": "vol1_guild_exchange_tip", "value": true}
+              ],
+              "crit_success_effects": [
+                {"type": "consume_rations", "amount": 1},
+                {"type": "add_item", "id": "ration_fine", "name": "精良口粮", "count": 1, "tag": "ration"},
+                {"type": "restore_mp", "amount": 12},
+                {"type": "remove_buff", "id": "travel_fatigue"},
+                {
+                  "type": "add_buff",
+                  "id": "campfire_fellowship",
+                  "name": "篝火暖谈",
+                  "stat_bonus": {},
+                  "check_bonus": {"CHA": 1}
+                },
+                {"type": "set_flag", "id": "vol1_campfire_lore_heard", "value": true},
+                {"type": "set_flag", "id": "vol1_guild_exchange_tip", "value": true}
+              ],
+              "economy_hooks": [
+                {"on": "success", "action": "adjust_stamina", "delta": 20},
+                {"on": "crit_success", "action": "adjust_stamina", "delta": 25}
+              ],
+              "fail_text": "聊到一半对方熬不住白日奔波先靠岩打起了盹，但半串热烤肉仍驱散了夜里的凉意。",
+              "fail_effects": [
+                {"type": "restore_mp", "amount": 6},
+                {"type": "set_flag", "id": "vol1_campfire_lore_heard", "value": true}
+              ]
+            },
+            {
+              "id": "listen_and_note_facts",
+              "label": "安静坐在一旁烘手，留心记下协会汇兑常识与城门近况",
+              "check": {
+                "stat": "INT",
+                "dc": 10,
+                "label": "记取历史与行路常识",
+                "context": {
+                  "region_id": "city_rikarisu",
+                  "tags": ["intent:study"]
+                }
+              },
+              "success_text": "你将「冒险者协会 0% 换汇」「利卡里斯城门严查私斗」以及「赤龙山脉阻隔中央大陆东西」三条要点清晰记在手账眉页。",
+              "success_effects": [
+                {"type": "remove_buff", "id": "travel_fatigue"},
+                {"type": "set_flag", "id": "vol1_campfire_lore_heard", "value": true},
+                {"type": "set_flag", "id": "vol1_guild_exchange_tip", "value": true}
+              ],
+              "fail_text": "火苗噼啪作响掩去了几个陌生地名，你暖透手脚后便轻声道别。",
+              "fail_effects": [
+                {"type": "remove_buff", "id": "travel_fatigue"},
+                {"type": "set_flag", "id": "vol1_campfire_lore_heard", "value": true}
+              ]
+            },
+            {
+              "id": "warm_boots_sleep_early",
+              "label": "礼貌致谢后只借火烘干鞋袜，趁夜静早早养神",
+              "effects": [
+                {"type": "remove_buff", "id": "travel_fatigue"},
+                {"type": "restore_mp", "amount": 6},
+                {"type": "set_flag", "id": "vol1_campfire_lore_heard", "value": true}
+              ],
+              "outcome_text": "暖烘烘的火星在夜色里缓慢升腾，你靠着尚有余温的红岩安稳歇了半个时辰。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pool_vol1_rikarisu_approach",
+      "label": "利卡里斯镇近郊与城门前奏",
+      "region_id": "demon_biegoya",
+      "match_zones": ["demon_wilds"],
+      "match_danger_tags": ["demon_wilds"],
+      "match_routes": ["city_migurd<->city_rikarisu"],
+      "match_cities": ["city_rikarisu"],
+      "base_chance": 0.36,
+      "min_km": 35,
+      "trigger_progress": 0.82,
+      "events": [
+        {
+          "id": "vol1_dn_12_rikarisu_outer_outpost",
+          "title": "赤岩外哨与魔族卫兵盘查",
+          "category": "border_check",
+          "category_label": "城门前奏",
+          "region_id": "demon_biegoya",
+          "city_ids": ["city_rikarisu"],
+          "legacy_locations": ["rikarisu_gate"],
+          "routes": ["city_migurd<->city_rikarisu"],
+          "trigger": {
+            "region_id": "demon_biegoya",
+            "encounter_zone": "demon_wilds",
+            "danger_tags": ["demon_wilds"],
+            "allowed_slots": [0, 1, 2, 3],
+            "weight": 14,
+            "cooldown_days": 5,
+            "once_only": false,
+            "required_flags": [],
+            "forbidden_flags": []
+          },
+          "summary": "距离利卡里斯环形外墙尚余半里，赤褐石坡上设着一座矮石外哨。两名披挂铁片肩甲的角族卫兵横戟而立，逐一盘问进城散客的来历与行囊。远处城门吊桥与厚重石墙已在眼前，真正入城前需先过这道外围盘查。",
+          "codex_unlocks": ["geo_rikarisu", "lore_demon_society"],
+          "diary_hint": {
+            "category": "encounter",
+            "title": "通过利卡里斯城外赤岩哨卡",
+            "dedupe_key": "vol1_dn_12_rikarisu_outer_outpost"
+          },
+          "options": [
+            {
+              "id": "courteous_demon_tongue_reply",
+              "label": "用利落魔神语报出来自米格路德盆地，依魔族礼节坦然受检",
+              "check": {
+                "stat": "CHA",
+                "dc": 11,
+                "label": "礼仪与游说应答",
+                "hood_bonus_item": "travel_hood",
+                "hood_bonus_value": 2,
+                "context": {
+                  "region_id": "city_rikarisu",
+                  "tags": ["intent:persuade", "npc_attitude:wary"]
+                }
+              },
+              "success_text": "听见你吐字地道的魔神语，角族卫兵紧绷的眉峰松开几分，抬戟放行时还顺口提醒：「进城门左拐直走就是冒险者协会，别在巷口乱逛。」",
+              "crit_success_text": "卫兵欣赏你小小年纪不怯场的爽利劲儿，随手抛给你一枚临时免检木签：「拿着这个去前头城门，省得挤在商队后头吃灰。」",
+              "success_effects": [
+                {"type": "set_flag", "id": "vol1_outer_outpost_cleared", "value": true}
+              ],
+              "crit_success_effects": [
+                {
+                  "type": "add_buff",
+                  "id": "smooth_gate_pass",
+                  "name": "外哨免检木签",
+                  "stat_bonus": {},
+                  "check_bonus": {"CHA": 1}
+                },
+                {"type": "set_flag", "id": "vol1_outer_outpost_cleared", "value": true}
+              ],
+              "fail_text": "卫兵多打量了你的木杖与小巧身形几眼，逐样翻验完行囊才挥手放行，略微耽搁了些时间。",
+              "fail_effects": [
+                {"type": "advance_time", "slots": 1},
+                {"type": "set_flag", "id": "vol1_outer_outpost_cleared", "value": true}
+              ]
+            },
+            {
+              "id": "calm_mana_presence",
+              "label": "沉下眼神挺直背脊，显露一丝平稳魔力气场表明并非流寇",
+              "check": {
+                "stat": "WIL",
+                "dc": 12,
+                "label": "沉着威慑",
+                "context": {
+                  "region_id": "city_rikarisu",
+                  "tags": ["intent:intimidate", "magic:water"]
+                }
+              },
+              "success_text": "崇尚实力的魔族卫兵感应到你平稳凝练的魔力流动，微微颔首退开半步：「有两下子的小魔术师，过去吧。」",
+              "success_effects": [
+                {"type": "set_flag", "id": "vol1_outer_outpost_cleared", "value": true}
+              ],
+              "economy_hooks": [
+                {"on": "fail", "action": "add_currency", "currency_id": "demon_ore", "amount_min_units": -100, "display": "外哨清道费 1 大绿矿钱"}
+              ],
+              "fail_text": "气场稍显生涩反倒惹来卫兵一声嗤笑，对方按外哨杂项收了你 1 大绿矿钱（100 铁矿钱）才慢悠悠抬起长戟。",
+              "fail_effects": [
+                {"type": "spend_copper", "amount": 1},
+                {"type": "set_flag", "id": "vol1_outer_outpost_cleared", "value": true}
+              ]
+            },
+            {
+              "id": "pay_outpost_registration",
+              "label": "随货运骡队按规缴纳 1 大绿矿钱（100 铁矿钱）外哨快速登记费",
+              "effects": [
+                {"type": "spend_copper", "amount": 1},
+                {"type": "set_flag", "id": "vol1_outer_outpost_cleared", "value": true}
+              ],
+              "economy_hooks": [
+                {"on": "direct", "action": "add_currency", "currency_id": "demon_ore", "amount_min_units": -100, "display": "外哨登记费 1 大绿矿钱"}
+              ],
+              "fallback_effects": [
+                {"type": "advance_time", "slots": 1},
+                {"type": "set_flag", "id": "vol1_outer_outpost_cleared", "value": true}
+              ],
+              "fallback_text": "手头矿石钱不够付快速通道费，只得排在普通散客队尾慢步通过了外哨。",
+              "outcome_text": "卫兵在登记木牌上划了一道刻痕，爽快放你走向前方的利卡里斯城门。"
+            }
+          ]
+        },
+        {
+          "id": "vol1_dn_13_gate_bounty_flyers",
+          "title": "城门石柱上的新手悬赏传单",
+          "category": "safe_road",
+          "category_label": "城门前奏",
+          "region_id": "demon_biegoya",
+          "city_ids": ["city_rikarisu"],
+          "legacy_locations": ["rikarisu_gate"],
+          "routes": ["city_migurd<->city_rikarisu"],
+          "trigger": {
+            "region_id": "demon_biegoya",
+            "encounter_zone": "demon_wilds",
+            "danger_tags": ["demon_wilds"],
+            "allowed_slots": [0, 1, 2, 3],
+            "weight": 15,
+            "cooldown_days": 0,
+            "once_only": true,
+            "required_flags": [],
+            "forbidden_flags": ["vol1_rikarisu_bounty_noted"]
+          },
+          "summary": "利卡里斯城门外的石砌告示柱上，钉满被荒原风吹得哗啦作响的粗糙麻纸传单——全是冒险者协会张贴的 F 级新手急单：「清点商栈岩盐，日薪 3 大绿矿钱」「寻回南郊走失驮羊，赏 8 大绿矿钱」「护送药农采红苔，酬 1 银矿钱」。几名魔族少年正踮脚热切议论。",
+          "codex_unlocks": ["lore_adventurer_guild", "geo_rikarisu"],
+          "diary_hint": {
+            "category": "story",
+            "title": "城门外抄录利卡里斯 F 级新手悬赏",
+            "dedupe_key": "vol1_dn_13_gate_bounty_flyers"
+          },
+          "options": [
+            {
+              "id": "screen_bounty_flyers",
+              "label": "逐行核对报酬、耗时与潜藏风险，挑出最稳妥的新手单抄入手账",
+              "check": {
+                "stat": "INT",
+                "dc": 11,
+                "label": "甄别悬赏陷阱",
+                "context": {
+                  "region_id": "city_rikarisu",
+                  "tags": ["intent:investigate"]
+                }
+              },
+              "success_text": "你一眼看出那张高薪护送单标明的山谷正是赤岩狼出没处，果断改抄下商栈清点与近郊寻羊两张稳单。心里对进城后怎么赚第一笔盘缠已经有了谱。",
+              "crit_success_text": "不仅避开了陷阱委托，你还注意到传单底角一行小字——利卡里斯协会本月对首次登记新人免收铜铭牌工本费，进城立省 2 大绿矿钱！",
+              "success_effects": [
+                {"type": "add_item", "id": "rikarisu_bounty_flyer", "name": "利卡里斯新手悬赏抄本", "count": 1, "tag": "quest"},
+                {
+                  "type": "add_buff",
+                  "id": "prepared_adventurer",
+                  "name": "筹划妥当",
+                  "stat_bonus": {},
+                  "check_bonus": {"INT": 1}
+                },
+                {"type": "set_flag", "id": "vol1_rikarisu_bounty_noted", "value": true}
+              ],
+              "crit_success_effects": [
+                {"type": "add_item", "id": "rikarisu_bounty_flyer", "name": "利卡里斯新手悬赏抄本", "count": 1, "tag": "quest"},
+                {
+                  "type": "add_buff",
+                  "id": "prepared_adventurer",
+                  "name": "筹划妥当",
+                  "stat_bonus": {},
+                  "check_bonus": {"INT": 1}
+                },
+                {"type": "set_flag", "id": "vol1_rikarisu_bounty_noted", "value": true},
+                {"type": "set_flag", "id": "vol1_guild_free_badge_known", "value": true}
+              ],
+              "fail_text": "旁边几名抢单的学徒挤成一团，你只来得及顺手撕下一张最普通的城内杂务传单便退出了人群。",
+              "fail_effects": [
+                {"type": "add_item", "id": "rikarisu_bounty_flyer", "name": "利卡里斯新手悬赏抄本", "count": 1, "tag": "quest"},
+                {"type": "set_flag", "id": "vol1_rikarisu_bounty_noted", "value": true}
+              ]
+            },
+            {
+              "id": "ask_local_apprentice",
+              "label": "向身旁刚揭下传单的本地学徒搭话，打听城里接单门道",
+              "check": {
+                "stat": "CHA",
+                "dc": 11,
+                "label": "同行攀谈打听",
+                "context": {
+                  "region_id": "city_rikarisu",
+                  "tags": ["intent:persuade", "npc_attitude:friendly"]
+                }
+              },
+              "success_text": "热心的见习魔族战士压低声音指点你：「进协会找最左边柜台的老书记官，他对刚离家的新人最公道，绝不会把坑人单子塞给你！」",
+              "success_effects": [
+                {"type": "add_item", "id": "rikarisu_bounty_flyer", "name": "利卡里斯新手悬赏抄本", "count": 1, "tag": "quest"},
+                {"type": "set_flag", "id": "vol1_rikarisu_bounty_noted", "value": true},
+                {"type": "set_flag", "id": "vol1_guild_clerk_tip", "value": true}
+              ],
+              "fail_text": "对方警惕地把委托纸揣进怀里，丢下一句「自己去协会看牌子」便大步跨进城门。",
+              "fail_effects": [
+                {"type": "set_flag", "id": "vol1_rikarisu_bounty_noted", "value": true}
+              ]
+            },
+            {
+              "id": "take_salt_clerk_flyer",
+              "label": "顺手揭下「清点商栈岩盐（日薪 3 大绿矿钱）」的传单塞进袖口",
+              "effects": [
+                {"type": "add_item", "id": "rikarisu_bounty_flyer", "name": "利卡里斯新手悬赏抄本", "count": 1, "tag": "quest"},
+                {"type": "set_flag", "id": "vol1_rikarisu_bounty_noted", "value": true}
+              ],
+              "outcome_text": "先凭稳妥杂务赚够干粮与通铺房费，再图更远的旅途——你捏着麻纸传单，心里多了几分踏实。"
+            }
+          ]
+        },
+        {
+          "id": "vol1_dn_14_dusk_rikarisu_spires",
+          "title": "黄昏远眺：岩坑里的琥珀石城",
+          "category": "safe_road",
+          "category_label": "旅途里程碑",
+          "region_id": "demon_biegoya",
+          "city_ids": ["city_rikarisu"],
+          "legacy_locations": ["rikarisu_gate"],
+          "routes": ["city_migurd<->city_rikarisu"],
+          "trigger": {
+            "region_id": "demon_biegoya",
+            "encounter_zone": "demon_wilds",
+            "danger_tags": ["demon_wilds"],
+            "allowed_slots": [1, 2, 3],
+            "weight": 18,
+            "cooldown_days": 0,
+            "once_only": true,
+            "required_flags": [],
+            "forbidden_flags": ["vol1_dusk_rikarisu_seen"]
+          },
+          "summary": "翻过最后一道赭红缓坡，风忽然宽阔起来。下方的巨型环形陨坑里，利卡里斯镇层层叠筑的尖塔与石墙正被残阳镀上一层暖金。第一批窗灯沿着环城阶梯次第亮起，远望宛如嵌在暗红荒原中的一枚温热琥珀。从米格路德村的薄雾木屋走到这里不过数十里，却像真正跨出了人生第一道门槛。",
+          "codex_unlocks": ["geo_rikarisu"],
+          "diary_hint": {
+            "category": "story",
+            "title": "黄昏初望利卡里斯尖塔",
+            "dedupe_key": "vol1_dn_14_dusk_rikarisu_spires"
+          },
+          "options": [
+            {
+              "id": "sketch_dusk_spires",
+              "label": "迎着晚风停在坡顶，把此刻石城轮廓与心境工整记入手账",
+              "check": {
+                "stat": "WIL",
+                "dc": 10,
+                "label": "沉淀初程心志",
+                "context": {
+                  "region_id": "city_rikarisu",
+                  "tags": ["intent:reflect"]
+                }
+              },
+              "success_text": "笔尖划过暖羊皮纸的沙沙声与荒原晚风合为一拍。你合上手账时，离乡的忐忑彻底化作了清亮而笃定的勇气。",
+              "crit_success_text": "夕照映在纸页上泛出淡金微光，风里仿佛掠过一丝似曾相识的水汽与旧墨香。你感到体内魔力轻轻共鸣，满怀希冀地望向石城灯火。",
+              "success_effects": [
+                {"type": "restore_mp", "amount": 10},
+                {
+                  "type": "add_buff",
+                  "id": "first_city_resolve",
+                  "name": "初望石城之志",
+                  "stat_bonus": {},
+                  "check_bonus": {"WIL": 1, "CHA": 1}
+                },
+                {"type": "set_flag", "id": "vol1_dusk_rikarisu_seen", "value": true}
+              ],
+              "crit_success_effects": [
+                {"type": "restore_mp", "amount": 18},
+                {
+                  "type": "add_buff",
+                  "id": "first_city_resolve",
+                  "name": "初望石城之志",
+                  "stat_bonus": {},
+                  "check_bonus": {"WIL": 1, "CHA": 1}
+                },
+                {"type": "set_flag", "id": "vol1_dusk_rikarisu_seen", "value": true}
+              ],
+              "fail_text": "暮色沉得比预想更快，你匆匆勾勒了两笔尖塔轮廓便收起炭笔，眼前的万家灯火却已悄然温暖了胸口。",
+              "fail_effects": [
+                {"type": "restore_mp", "amount": 6},
+                {"type": "set_flag", "id": "vol1_dusk_rikarisu_seen", "value": true}
+              ]
+            },
+            {
+              "id": "survey_city_layout",
+              "label": "借着最后一抹晚霞，俯瞰城墙脉络、集市烟火与协会尖塔方位",
+              "check": {
+                "stat": "INT",
+                "dc": 11,
+                "label": "俯瞰城郭布局",
+                "context": {
+                  "region_id": "city_rikarisu",
+                  "tags": ["intent:investigate"]
+                }
+              },
+              "success_text": "坑底集市、旅馆区与悬着铁徽的冒险者协会大楼尽收眼底，你还没进城便已把主要街巷记了七八分。",
+              "success_effects": [
+                {"type": "restore_mp", "amount": 6},
+                {"type": "set_flag", "id": "vol1_dusk_rikarisu_seen", "value": true},
+                {"type": "set_flag", "id": "vol1_rikarisu_layout_mapped", "value": true}
+              ],
+              "fail_text": "暮霭很快漫过下城街巷，细节虽看不太真切，但那片暖黄灯海仍让你脚步轻快起来。",
+              "fail_effects": [
+                {"type": "set_flag", "id": "vol1_dusk_rikarisu_seen", "value": true}
+              ]
+            },
+            {
+              "id": "touch_charm_step_forward",
+              "label": "轻按胸前旧银护符，默念一声「我出发了」，迎着晚风缓步走下石坡",
+              "effects": [
+                {"type": "restore_mp", "amount": 8},
+                {"type": "set_flag", "id": "vol1_dusk_rikarisu_seen", "value": true}
+              ],
+              "outcome_text": "细砂在靴底发出清脆轻响，山谷里隐约飘来烤肉与柴火的气息。灯火渐近，属于你的魔大陆旅途正式启幕。"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

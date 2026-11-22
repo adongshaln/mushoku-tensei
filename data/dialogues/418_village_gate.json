@@ -31,6 +31,7 @@
       "accent": "#527d69",
       "coat": "#aa927c",
       "build": "warrior",
+      "bust_flip": true,
       "expressions": {
         "watchful": "警觉",
         "gentle": "温和"
@@ -56,6 +57,7 @@
       "accent": "#a45c4c",
       "coat": "#ead6bf",
       "build": "child",
+      "bust_flip": true,
       "expressions": {
         "impatient": "不耐烦",
         "calm": "放松"

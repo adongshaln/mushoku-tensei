@@ -3,3 +3,14 @@ dist/
 coverage/
 .DS_Store
 .godot/
+
+# Environment & secrets
+.env
+.env.*
+
+# Temporary & log artifacts
+*.tmp
+*.log
+
+# Raw uncleaned 3D source meshes (keep finished heroes/ only)
+assets/3d/world_v2/raw_heroes/

@@ -1,0 +1,26 @@
+{
+  "central_continent": [
+    66,
+    0,
+    1178,
+    996
+  ],
+  "demon_continent": [
+    1289,
+    0,
+    683,
+    624
+  ],
+  "millis_continent": [
+    1089,
+    459,
+    858,
+    565
+  ],
+  "southwest_continent": [
+    62,
+    401,
+    989,
+    623
+  ]
+}

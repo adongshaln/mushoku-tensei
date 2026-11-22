@@ -1,11 +1,14 @@
 extends Node
 
+signal check_resolved(outcome: Dictionary, context: Dictionary)
+
 const RULES_PATH := "res://data/rules/context_rules.json"
 
 var _rng := RandomNumberGenerator.new()
 var _rules: Array[Dictionary] = []
 var _bands: Dictionary = {}
 var _providers: Dictionary[String, Dictionary] = {}
+var _roll_seq := 0
 
 
 func _ready() -> void:
@@ -34,6 +37,12 @@ func roll_check(stat: String, dc: int, mode: String = "natural", advantage: int 
 	var summary := collect_check(stat, context)
 	var outcome := roll_modified_check(summary, dc, mode, advantage)
 	outcome["suppressed_modifiers"] = summary["suppressed_modifiers"]
+	outcome["stat"] = stat
+	outcome["skill_label"] = str(context.get("label", WorldBlackboard.stat_label(stat)))
+	outcome["context_note"] = str(context.get("context_note", context.get("reason", "")))
+	_roll_seq += 1
+	outcome["roll_uid"] = "dice_%d_%d" % [Time.get_ticks_usec(), _roll_seq]
+	check_resolved.emit(outcome.duplicate(true), context.duplicate(true))
 	return outcome
 
 

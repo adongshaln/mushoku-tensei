@@ -1,9 +1,78 @@
 {
   "schema": {"version": 1, "description": "slot 引用槽位；tags 与 suppress_tags 为开放标签；modifiers 可分别带 stat、conditions 和 suppressible_by。"},
   "items": {
-    "travel_hood": {"label": "旅行兜帽", "slot": "cloak", "description": "一件日常旅行用的带帽披肩。抬起兜帽时，面容藏在阴影里。", "tags": ["outfit:hooded"], "suppress_tags": ["mask:race_appearance"], "modifiers": []},
-    "traveler_charm": {"label": "旅人护符", "slot": "charm", "description": "磨得发亮的护符，在赶路时提醒佩戴者稳住呼吸。", "modifiers": [
-      {"id": "charm_composure", "label": "旅人护符", "category": "装束", "value": 1, "conditions": {"context_tags_all": ["activity:travel", "stat:WIL"]}, "tags": ["source:equipment"]}
-    ]}
+    "apprentice_staff": {
+      "label": "学徒木杖",
+      "slot": "weapon",
+      "model_3d": "res://assets/3d/props/wand_apprentice_water.glb",
+      "model_tilt_deg": -18.0,
+      "description": "用枯岩木削制的短杖，杖头镶嵌水蓝晶石与金环，便于稳定魔力流向。",
+      "tags": ["focus:water_magic"],
+      "suppress_tags": [],
+      "modifiers": [
+        {
+          "id": "staff_water_focus",
+          "label": "学徒木杖",
+          "category": "装束",
+          "value": 1,
+          "conditions": {"context_tags_all": ["skill:water_magic", "stat:INT"]},
+          "tags": ["source:equipment"]
+        }
+      ]
+    },
+    "travel_hood": {
+      "label": "旅行兜帽",
+      "slot": "cloak",
+      "description": "一件日常旅行用的带帽披肩。抬起兜帽时，蓝发与面容便藏在阴影里。",
+      "tags": ["outfit:hooded"],
+      "suppress_tags": ["mask:race_appearance"],
+      "modifiers": []
+    },
+    "old_silver_charm": {
+      "label": "旧银护符",
+      "slot": "charm",
+      "model_3d": "res://assets/3d/props/charm_old_silver.glb",
+      "model_tilt_deg": 0.0,
+      "description": "姐姐离村前留下的绞丝银坠，正面嵌海蓝晶石、背面透雕星花纹，握在掌心时微凉安心。",
+      "tags": ["keepsake:migurd"],
+      "suppress_tags": [],
+      "modifiers": [
+        {
+          "id": "old_silver_calm",
+          "label": "旧银护符",
+          "category": "装束",
+          "value": 1,
+          "conditions": {"context_tags_all": ["activity:travel", "stat:WIL"]},
+          "tags": ["source:equipment"]
+        }
+      ]
+    },
+    "guild_card_f": {
+      "label": "F 级公会铭牌",
+      "slot": "title",
+      "model_3d": "res://assets/3d/props/guild_card_f.glb",
+      "model_tilt_deg": 0.0,
+      "description": "冒险者公会颁发的 F 级铜质身份铭牌，正面压印等级字母，背面蚀刻交叉长剑与魔杖徽记。",
+      "tags": ["guild:rank_f"],
+      "suppress_tags": [],
+      "modifiers": []
+    },
+    "traveler_charm": {
+      "label": "旅人护符",
+      "slot": "charm",
+      "description": "磨得发亮的护符，在赶路时提醒佩戴者稳住呼吸。",
+      "tags": ["keepsake:traveler"],
+      "suppress_tags": [],
+      "modifiers": [
+        {
+          "id": "charm_composure",
+          "label": "旅人护符",
+          "category": "装束",
+          "value": 1,
+          "conditions": {"context_tags_all": ["activity:travel", "stat:WIL"]},
+          "tags": ["source:equipment"]
+        }
+      ]
+    }
   }
 }

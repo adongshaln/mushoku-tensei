@@ -5,6 +5,24 @@ signal landed(strength: float)
 
 const SKIN_PATH := "res://assets/3d/d20_skin.glb"
 const FACES_PATH := "res://assets/3d/d20_faces.json"
+const POLYHEDRAL_TABLES_PATH := "res://assets/3d/dice/dice_face_tables.json"
+const DIE_SKINS: Dictionary[String, String] = {
+	"d4": "res://assets/3d/dice/d4_skin.glb",
+	"d6": "res://assets/3d/dice/d6_skin.glb",
+	"d8": "res://assets/3d/dice/d8_skin.glb",
+	"d10": "res://assets/3d/dice/d10_skin.glb",
+	"d12": "res://assets/3d/dice/d12_skin.glb",
+	"d20": "res://assets/3d/d20_skin.glb"
+}
+const DIE_SIDES: Dictionary[String, int] = {
+	"d4": 4, "d6": 6, "d8": 8, "d10": 10, "d12": 12, "d20": 20
+}
+const DIE_SCALES: Dictionary[String, float] = {
+	"d4": 1.15, "d6": 1.06, "d8": 0.90, "d10": 0.92, "d12": 0.96, "d20": 1.0
+}
+const DIE_FACE_DEPTHS: Dictionary[String, float] = {
+	"d4": 0.34, "d6": 0.616, "d8": 0.577, "d10": 0.59, "d12": 0.75, "d20": 0.779
+}
 const KEY_ENERGY := 1.12
 const KEY_HOVER_ENERGY := 1.22
 const CERAMIC_FACE_Z := 0.779
@@ -48,12 +66,26 @@ var _face_ups: Array[Vector3] = []
 var _body_mesh: ArrayMesh
 var _wire_mesh: ArrayMesh
 var _skin: PackedScene
+var _die_type := "d20"
 var _phase := Phase.IDLE
 var _idle_time := 0.0
 var _hover_target := Vector2.ZERO
 var _hover_current := Vector2.ZERO
 var _settled_emitted := false
+var _time_scale := 1.0
 static var _studio_sky: Sky
+static var _polyhedral_tables: Dictionary = {}
+static var _skin_cache: Dictionary[String, PackedScene] = {}
+static var _normal_cache: Dictionary[String, Array] = {}
+static var _up_cache: Dictionary[String, Array] = {}
+
+
+static func sides_for(die_type: String) -> int:
+	return int(DIE_SIDES.get(die_type.to_lower(), 20))
+
+
+static func reflection_sky() -> Sky:
+	return _reflection_sky()
 
 
 func _ready() -> void:
@@ -106,7 +138,7 @@ func get_face_projection() -> Transform2D:
 		return Transform2D(0.0, size * 0.5)
 	var die := _focus_die
 	var basis := die.target.inverse()
-	var depth := CERAMIC_FACE_Z if _skin != null else 0.812
+	var depth := float(DIE_FACE_DEPTHS.get(_die_type, CERAMIC_FACE_Z)) if _skin != null else 0.812
 	var center := die.to_global(basis * Vector3(0, 0, depth))
 	var ratio := size / Vector2(_viewport.size)
 	var projected := _camera.unproject_position(center)
@@ -117,6 +149,14 @@ func get_face_projection() -> Transform2D:
 
 func get_stage_texture() -> ViewportTexture:
 	return _viewport.get_texture()
+
+
+func set_time_scale(scale_val: float) -> void:
+	_time_scale = clampf(scale_val, 0.5, 4.0)
+
+
+func get_time_scale() -> float:
+	return _time_scale
 
 
 func play_modifier_impact(is_positive: bool, impact_dir: Vector2, is_clutch: bool = false) -> void:
@@ -145,7 +185,7 @@ func play_modifier_impact(is_positive: bool, impact_dir: Vector2, is_clutch: boo
 		pulse.light_energy = energy * pow(1.0 - progress, 2.4)
 	kick.call(0.0)
 	_impact_tween = create_tween()
-	_impact_tween.tween_method(kick, 0.0, 1.0, 0.33 if is_clutch else 0.27)
+	_impact_tween.tween_method(kick, 0.0, 1.0, (0.33 if is_clutch else 0.27) / _time_scale)
 	_impact_tween.tween_callback(_restore_impact)
 
 
@@ -196,30 +236,85 @@ static func _reflection_sky() -> Sky:
 	return _studio_sky
 
 
-func _load_skin() -> bool:
-	if not ResourceLoader.exists(SKIN_PATH, "PackedScene") or not FileAccess.file_exists(FACES_PATH):
+func _load_skin(die_type: String = "d20") -> bool:
+	var kind := die_type.to_lower() if DIE_SKINS.has(die_type.to_lower()) else "d20"
+	if _skin_cache.has(kind) and _normal_cache.has(kind) and _up_cache.has(kind):
+		_skin = _skin_cache[kind]
+		_face_normals = _to_vec3_array(_normal_cache[kind])
+		_face_ups = _to_vec3_array(_up_cache[kind])
+		return true
+	var skin_path := DIE_SKINS[kind]
+	if not ResourceLoader.exists(skin_path, "PackedScene"):
 		return false
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(FACES_PATH))
-	if not parsed is Dictionary or parsed.size() != FACES.size():
-		return false
+	var sides := DIE_SIDES[kind]
 	var normals: Array[Vector3] = []
 	var ups: Array[Vector3] = []
-	for face_index: int in FACES.size():
-		var face: Variant = parsed.get(str(face_index + 1))
-		if not face is Dictionary:
+	if kind == "d20":
+		if not FileAccess.file_exists(FACES_PATH):
 			return false
-		var normal := _read_unit_vector(face.get("normal"))
-		var up := _read_unit_vector(face.get("up"))
-		if normal == Vector3.ZERO or up == Vector3.ZERO or absf(normal.dot(up)) > 0.00001:
+		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(FACES_PATH))
+		if not parsed is Dictionary or parsed.size() != FACES.size():
 			return false
-		normals.append(normal)
-		ups.append(up)
-	_skin = ResourceLoader.load(SKIN_PATH, "PackedScene") as PackedScene
-	if _skin == null:
+		for face_index: int in FACES.size():
+			var face: Variant = parsed.get(str(face_index + 1))
+			if not face is Dictionary:
+				return false
+			var normal := _read_unit_vector(face.get("normal"))
+			var up := _read_unit_vector(face.get("up"))
+			if normal == Vector3.ZERO or up == Vector3.ZERO or absf(normal.dot(up)) > 0.0001:
+				return false
+			normals.append(normal)
+			ups.append(up)
+	else:
+		var table := _load_polyhedral_table(kind)
+		if table.is_empty():
+			return false
+		var is_d4_apex := str(table.get("reading_mode", "")) == "apex_top" and table.get("apex_views") is Dictionary
+		for face_index: int in sides:
+			var key := str(face_index + 1)
+			var face_entry: Variant
+			if is_d4_apex:
+				var views: Variant = (table["apex_views"] as Dictionary).get(key)
+				if not views is Array or (views as Array).is_empty():
+					return false
+				face_entry = (views as Array)[0]
+			else:
+				face_entry = table.get(key)
+			if not face_entry is Dictionary:
+				return false
+			var normal := _read_unit_vector((face_entry as Dictionary).get("normal"))
+			var up := _read_unit_vector((face_entry as Dictionary).get("up"))
+			if normal == Vector3.ZERO or up == Vector3.ZERO or absf(normal.dot(up)) > 0.001:
+				return false
+			normals.append(normal)
+			ups.append(up)
+	var loaded := ResourceLoader.load(skin_path, "PackedScene") as PackedScene
+	if loaded == null:
 		return false
+	_skin = loaded
 	_face_normals = normals
 	_face_ups = ups
+	_skin_cache[kind] = loaded
+	_normal_cache[kind] = normals.duplicate()
+	_up_cache[kind] = ups.duplicate()
 	return true
+
+
+static func _load_polyhedral_table(kind: String) -> Dictionary:
+	if _polyhedral_tables.is_empty() and FileAccess.file_exists(POLYHEDRAL_TABLES_PATH):
+		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(POLYHEDRAL_TABLES_PATH))
+		if parsed is Dictionary:
+			_polyhedral_tables = parsed
+	var entry: Variant = _polyhedral_tables.get(kind)
+	return entry if entry is Dictionary else {}
+
+
+static func _to_vec3_array(raw: Array) -> Array[Vector3]:
+	var result: Array[Vector3] = []
+	for item: Variant in raw:
+		if item is Vector3:
+			result.append(item)
+	return result
 
 
 static func _read_unit_vector(values: Variant) -> Vector3:
@@ -229,7 +324,7 @@ static func _read_unit_vector(values: Variant) -> Vector3:
 		if not value is float and not value is int:
 			return Vector3.ZERO
 	var vector := Vector3(float(values[0]), float(values[1]), float(values[2]))
-	if not vector.is_finite() or absf(vector.length_squared() - 1.0) > 0.00001:
+	if not vector.is_finite() or absf(vector.length_squared() - 1.0) > 0.001:
 		return Vector3.ZERO
 	return vector.normalized()
 
@@ -247,10 +342,17 @@ func _compute_faces(vertices: Array[Vector3]) -> void:
 		_face_ups.append(normal.cross(x_axis))
 
 
-func setup(rolls: Array[int]) -> void:
+func setup(rolls: Array[int], die_type: String = "d20") -> void:
 	clear_modifier_impact()
-	if _face_normals.is_empty() and not _load_skin():
-		_build_meshes()
+	var resolved := die_type.to_lower() if DIE_SKINS.has(die_type.to_lower()) else "d20"
+	_die_type = resolved
+	_skin = null
+	_face_normals.clear()
+	_face_ups.clear()
+	if not _load_skin(resolved):
+		_die_type = "d20"
+		if not _load_skin("d20"):
+			_build_meshes()
 	for die: Die in _dice:
 		if die.motion != null:
 			die.motion.kill()
@@ -263,13 +365,15 @@ func setup(rolls: Array[int]) -> void:
 	_idle_time = 0.0
 	_hover_target = Vector2.ZERO
 	_hover_current = Vector2.ZERO
+	var sides := maxi(1, _face_normals.size())
+	var base_scale := float(DIE_SCALES.get(_die_type, 1.0))
 	var two := rolls.size() > 1
 	for index: int in rolls.size():
 		var die := _build_die()
 		_holder.add_child(die)
 		die.position = Vector3(0 if not two else (-1.02 if index == 0 else 1.02), 0, 0)
-		die.scale = Vector3.ONE * (0.92 if two else 1.0)
-		die.target = _face_quat(clampi(rolls[index], 1, 20) - 1)
+		die.scale = Vector3.ONE * base_scale * (0.92 if two else 1.0)
+		die.target = _face_quat(clampi(rolls[index], 1, sides) - 1)
 		_dice.append(die)
 	if not _dice.is_empty():
 		_focus_die = _dice[0]
@@ -285,7 +389,7 @@ func toss() -> void:
 		die.spin = Vector3(
 			randf_range(6.0, 11.0) * (1.0 if randf() > 0.5 else -1.0),
 			randf_range(7.0, 12.0) * (1.0 if randf() > 0.5 else -1.0),
-			randf_range(4.0, 9.0) * (1.0 if randf() > 0.5 else -1.0))
+			randf_range(4.0, 9.0) * (1.0 if randf() > 0.5 else -1.0)) * _time_scale
 		die.motion = die.create_tween()
 		var height := func(weight: float) -> void:
 			die.position.y = _toss_height(weight)
@@ -295,7 +399,7 @@ func toss() -> void:
 					if index == 0:
 						landed.emit(0.46 - float(mark) * 0.11)
 			die.roll_progress = weight
-		die.motion.tween_method(height, 0.0, 1.0, 1.02).set_delay(index * 0.09)
+		die.motion.tween_method(height, 0.0, 1.0, 1.02 / _time_scale).set_delay((index * 0.09) / _time_scale)
 		die.motion.tween_callback(_settle_die.bind(die))
 
 
@@ -317,10 +421,10 @@ func converge(winner: int) -> Tween:
 	for index: int in _dice.size():
 		var die := _dice[index]
 		if index == winner:
-			tween.parallel().tween_property(die, "position:x", 0.0, 0.42).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
+			tween.parallel().tween_property(die, "position:x", 0.0, 0.42 / _time_scale).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 		else:
-			tween.parallel().tween_property(die, "scale", Vector3.ONE * 0.001, 0.3).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
-			tween.parallel().tween_property(die, "position:y", -0.25, 0.3).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
+			tween.parallel().tween_property(die, "scale", Vector3.ONE * 0.001, 0.3 / _time_scale).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
+			tween.parallel().tween_property(die, "position:y", -0.25, 0.3 / _time_scale).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 	tween.tween_callback(func() -> void:
 		for index: int in _dice.size():
 			if index != winner:
@@ -372,7 +476,7 @@ func _settle_die(die: Die) -> void:
 	die.phase = Phase.SETTLING
 	die.position.y = 0.0
 	die.motion = die.create_tween()
-	die.motion.tween_property(die, "quaternion", die.target, 0.46).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
+	die.motion.tween_property(die, "quaternion", die.target, 0.46 / _time_scale).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
 	die.motion.tween_callback(func() -> void:
 		die.phase = Phase.READY
 		_finish_settle())

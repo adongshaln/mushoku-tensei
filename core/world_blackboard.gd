@@ -8,10 +8,14 @@ signal flags_changed
 signal stat_changed(stat_key: String, delta: int, new_value: int, reason_text: String)
 signal location_changed(city_id: String)
 signal region_location_changed(region_id: String)
+signal transport_changed(mode: String)
 signal currency_changed(copper: int)
+signal currency_display_changed(text: String)
+signal chronicle_recorded(entry: Dictionary)
 signal state_changed
 
 const SLOTS: Array[String] = ["上午", "下午", "傍晚", "深夜"]
+const VALID_TRANSPORTS: Array[String] = ["foot", "caravan", "ship", "teleport"]
 const DAYS_PER_MONTH := 30
 const MONTHS_PER_YEAR := 12
 const PROTAGONIST_PATH := "res://data/protagonists/notia.json" # Legacy importer path.
@@ -24,7 +28,9 @@ const LEGACY_REGIONS: Dictionary[String, String] = {HOME_CITY: "migurd_village",
 
 var current_location_id := "migurd_village"
 var current_city_id: String = HOME_CITY
+var current_transport := "foot"
 var currency_copper := 45
+var local_currency_text := ""
 
 var _world_time: Dictionary[String, int] = {"year": 418, "month": 1, "day": 1, "slot": 0}
 var catalog: Catalog
@@ -49,6 +55,8 @@ var relations: Dictionary:
 	get: return _character["relations"]
 var combat_profile: Dictionary:
 	get: return _character["combat_profile"]
+var extra_data: Dictionary:
+	get: return _character["extra_data"]
 var STAT_NAMES: Dictionary:
 	get: return catalog.definitions.get("stats", {}).duplicate()
 var _buffs: Dictionary[String, Dictionary] = {}
@@ -128,6 +136,36 @@ func format_currency(copper: int) -> String:
 	return ("−" if copper < 0 else "") + " ".join(parts)
 
 
+func get_currency_display_text() -> String:
+	return local_currency_text if not local_currency_text.is_empty() else format_currency(currency_copper)
+
+
+func sync_economy_display(copper_equiv: int, formatted_text: String) -> void:
+	var next_copper := maxi(0, copper_equiv)
+	var copper_dirty := next_copper != currency_copper
+	var text_dirty := formatted_text != local_currency_text
+	currency_copper = next_copper
+	local_currency_text = formatted_text
+	if copper_dirty:
+		currency_changed.emit(currency_copper)
+	if text_dirty:
+		currency_display_changed.emit(get_currency_display_text())
+	if copper_dirty or text_dirty:
+		state_changed.emit()
+
+
+func restore_vitals(hp_delta: int, mp_delta: int, full_restore: bool = false) -> void:
+	var max_hp := int(resources.get("max_hp", 0))
+	var max_mp := int(resources.get("max_mp", 0))
+	var next_hp := max_hp if full_restore else clampi(int(resources.get("hp", 0)) + maxi(0, hp_delta), 0, max_hp)
+	var next_mp := max_mp if full_restore else clampi(int(resources.get("mp", 0)) + maxi(0, mp_delta), 0, max_mp)
+	if next_hp != int(resources.get("hp", 0)) or next_mp != int(resources.get("mp", 0)):
+		resources["hp"] = next_hp
+		resources["mp"] = next_mp
+		protagonist_changed.emit()
+		state_changed.emit()
+
+
 func can_afford(copper: int) -> bool:
 	return copper >= 0 and copper <= currency_copper - int(_city_journey.get("fare", 0))
 
@@ -178,6 +216,7 @@ func serialize_state() -> Dictionary:
 		"character": _character.duplicate(true),
 		"world_time": Catalog.merge(_calendar_extras, _world_time),
 		"current_city_id": current_city_id, "current_location_id": current_location_id,
+		"current_transport": current_transport,
 		"currency_copper": currency_copper,
 		"inventory": _inventory.duplicate(true), "buffs": _buffs.duplicate(true),
 		"flags": _flags.duplicate(true), "performed": _performed.duplicate(true),
@@ -186,7 +225,9 @@ func serialize_state() -> Dictionary:
 	return result
 
 
-func deserialize_state(payload: Dictionary) -> void:
+func deserialize_state(payload: Dictionary) -> bool:
+	if not payload is Dictionary:
+		return false
 	var actor: Dictionary = payload.get("character", {}) if payload.get("character") is Dictionary else {}
 	if actor.is_empty() and payload.get("protagonist") is Dictionary:
 		actor = _import_legacy_actor(payload["protagonist"])
@@ -194,10 +235,19 @@ func deserialize_state(payload: Dictionary) -> void:
 	var id := str(identity.get("character_id", catalog.default_character))
 	var preset: Dictionary = catalog.presets.get(id, {})
 	if not preset.get("character") is Dictionary:
-		preset = catalog.presets[catalog.default_character]
+		preset = catalog.presets.get(catalog.default_character, {})
+	if not preset.get("character") is Dictionary:
+		return false
 	_character = Catalog.merge(preset["character"], actor)
+	for container: String in ["profile", "stats", "resources", "proficiencies", "equipment", "relations", "combat_profile", "extra_data"]:
+		if not _character.get(container) is Dictionary:
+			_character[container] = {}
+	var race_id := str(profile.get("race_id", ""))
+	if str(profile.get("race_name", "")).is_empty() and not race_id.is_empty():
+		var race_entry: Dictionary = catalog.races.get(race_id, {})
+		profile["race_name"] = str(race_entry.get("label", race_id))
 	var normalized_tags: Array[String] = []
-	for tag: Variant in _character["traits"]:
+	for tag: Variant in _character.get("traits", []):
 		if tag is String:
 			normalized_tags.append(tag)
 	_character["traits"] = normalized_tags
@@ -223,7 +273,10 @@ func deserialize_state(payload: Dictionary) -> void:
 		current_city_id = fallback_city
 	if not payload.has("current_location_id"):
 		current_location_id = LEGACY_REGIONS.get(current_city_id, current_city_id)
+	var raw_transport := str(payload.get("current_transport", preset_start.get("transport", "foot")))
+	current_transport = raw_transport if raw_transport in VALID_TRANSPORTS else "foot"
 	currency_copper = maxi(0, Catalog.integer(payload.get("currency_copper"), Catalog.integer(preset_start.get("currency_copper", 0))))
+	local_currency_text = ""
 	_inventory = _record_dictionary(_dictionary(payload.get("inventory", preset.get("inventory", {}))))
 	_buffs = _record_dictionary(_dictionary(payload.get("buffs", {})))
 	_flags.clear()
@@ -248,13 +301,26 @@ func deserialize_state(payload: Dictionary) -> void:
 	flags_changed.emit()
 	location_changed.emit(current_city_id)
 	region_location_changed.emit(current_location_id)
+	transport_changed.emit(current_transport)
 	currency_changed.emit(currency_copper)
 	state_changed.emit()
+	return true
 
 
 func serialize_state_keys() -> PackedStringArray:
-	return ["character", "world_time", "current_city_id", "current_location_id", "currency_copper",
-		"inventory", "buffs", "flags", "performed", "chronicle"]
+	return ["character", "world_time", "current_city_id", "current_location_id", "current_transport",
+		"currency_copper", "inventory", "buffs", "flags", "performed", "chronicle"]
+
+
+func set_current_transport(mode: String) -> bool:
+	if mode not in VALID_TRANSPORTS:
+		return false
+	if current_transport == mode:
+		return true
+	current_transport = mode
+	transport_changed.emit(current_transport)
+	state_changed.emit()
+	return true
 
 
 func _dictionary(value: Variant) -> Dictionary:
@@ -337,6 +403,47 @@ func city_label() -> String:
 	return catalog.city_names.get(current_city_id, current_city_id)
 
 
+func race_label() -> String:
+	var explicit := str(profile.get("race_name", "")).strip_edges()
+	if not explicit.is_empty():
+		return explicit
+	var race_id := str(profile.get("race_id", ""))
+	var race: Dictionary = catalog.races.get(race_id, {})
+	return str(race.get("label", race_id))
+
+
+func chapter_hint() -> String:
+	if current_city_id != HOME_CITY:
+		return "旅途 · " + city_label()
+	if bool(_flags.get("village_gate_completed", false)):
+		return "雾中来客 · 聚落余波"
+	if bool(_flags.get("survival_418_won", false)):
+		return "荒野初试 · 归返木屋"
+	return "序章 · " + city_label()
+
+
+func status_polarity(buff: Dictionary) -> int:
+	var declared := str(buff.get("polarity", "")).to_lower()
+	if declared == "positive":
+		return 1
+	if declared == "negative":
+		return -1
+	var tags: Variant = buff.get("tags", [])
+	if tags is Array or tags is PackedStringArray:
+		for tag: Variant in tags:
+			var text := str(tag)
+			if text.begins_with("condition:fatigued") or text.begins_with("debuff:"):
+				return -1
+	var net := 0
+	for group: String in ["stat_bonus", "check_bonus"]:
+		var map := _dictionary(buff.get(group))
+		for val: Variant in map.values():
+			net += Catalog.integer(val)
+	if net < 0:
+		return -1
+	return 1
+
+
 func actor_tags() -> Array[String]:
 	var result: Array[String] = []
 	result.assign(traits)
@@ -385,7 +492,9 @@ func flag_facts() -> Dictionary[String, Variant]:
 
 
 func record_chronicle(title: String, description: String = "") -> void:
-	_chronicle.append({"title": title, "text": description, "date": date_text(), "city_id": current_city_id})
+	var entry := {"title": title, "text": description, "date": date_text(), "city_id": current_city_id}
+	_chronicle.append(entry)
+	chronicle_recorded.emit(entry.duplicate(true))
 
 
 func get_chronicle() -> Array[Dictionary]:
@@ -466,7 +575,30 @@ func consume_rations(amount: int) -> int:
 
 
 func _is_ration(id: String) -> bool:
-	return id == RATION_ID or str(_inventory[id].get("tag", "")) == "ration"
+	return _inventory.has(id) and (id == RATION_ID or str(_inventory[id].get("tag", "")) == "ration")
+
+
+func is_ration_item(id: String) -> bool:
+	return _is_ration(id)
+
+
+func eat_ration(item_id: String = "") -> bool:
+	var consumed := false
+	if item_id.is_empty():
+		consumed = consume_rations(1) == 1
+	elif _is_ration(item_id):
+		consumed = consume_item(item_id, 1)
+	if not consumed:
+		return false
+	if has_buff(TRAVEL_FATIGUE_ID):
+		remove_buff(TRAVEL_FATIGUE_ID)
+	var hp_now := int(resources.get("hp", 0))
+	var hp_max := int(resources.get("max_hp", hp_now))
+	if hp_now < hp_max:
+		resources["hp"] = mini(hp_max, hp_now + 6)
+		protagonist_changed.emit()
+		state_changed.emit()
+	return true
 
 
 func _take_rations(amount: int) -> int:
@@ -540,21 +672,33 @@ func advance_city_travel(elapsed_days: int) -> void:
 
 
 func finish_city_travel() -> Dictionary[String, Variant]:
+	return finish_city_travel_at("")
+
+
+func finish_city_travel_at(override_city_id: String, actual_days: int = -1, actual_rations: int = -1, actual_fare: int = -1) -> Dictionary[String, Variant]:
 	if _city_journey.is_empty():
 		return {}
 	var journey := _city_journey
 	_city_journey = {}
-	var remaining := int(journey["days"]) - int(journey["elapsed"])
-	_shift_time(remaining * SLOTS.size())
-	var fare := int(journey["fare"])
-	currency_copper -= fare
-	var used := _take_rations(int(journey["rations"]))
-	var fatigued := used < int(journey["rations"])
+	var settled_days := int(journey["days"]) if actual_days < 0 else maxi(int(journey["elapsed"]), actual_days)
+	var remaining := maxi(0, settled_days - int(journey["elapsed"]))
+	if remaining > 0:
+		_shift_time(remaining * SLOTS.size())
+	var fare := int(journey["fare"]) if actual_fare < 0 else clampi(actual_fare, 0, currency_copper)
+	currency_copper = maxi(0, currency_copper - fare)
+	var needed_rations := int(journey["rations"]) if actual_rations < 0 else maxi(0, actual_rations)
+	var used := _take_rations(needed_rations)
+	var fatigued := used < needed_rations
 	var status: Dictionary = catalog.statuses.get(TRAVEL_FATIGUE_ID, {})
 	var added_fatigue := fatigued and _store_buff(TRAVEL_FATIGUE_ID, TRAVEL_FATIGUE_NAME, {}, status.get("check_bonus", {}), status)
-	current_city_id = str(journey["destination"])
+	var dest_city := str(journey["destination"]) if override_city_id.is_empty() or not catalog.city_names.has(override_city_id) else override_city_id
+	var stopped_early := not override_city_id.is_empty() and dest_city != str(journey["destination"])
+	current_city_id = dest_city
 	current_location_id = LEGACY_REGIONS.get(current_city_id, current_city_id)
-	record_chronicle("抵达%s" % city_label(), "行进 %d 天后抵达。" % int(journey["days"]))
+	if stopped_early:
+		record_chronicle("驻停于%s" % city_label(), "行进途中暂歇于%s（耗时 %d 天）。" % [city_label(), settled_days])
+	else:
+		record_chronicle("抵达%s" % city_label(), "行进 %d 天后抵达。" % settled_days)
 	if remaining > 0:
 		world_time_changed.emit()
 	if fare > 0:
@@ -567,7 +711,14 @@ func finish_city_travel() -> Dictionary[String, Variant]:
 	location_changed.emit(current_city_id)
 	region_location_changed.emit(current_location_id)
 	state_changed.emit()
-	return {"city_id": current_city_id, "days": int(journey["days"]), "rations_consumed": used, "fatigue": fatigued, "fare": fare}
+	return {
+		"city_id": current_city_id,
+		"days": settled_days,
+		"rations_consumed": used,
+		"fatigue": fatigued,
+		"fare": fare,
+		"stopped_early": stopped_early
+	}
 
 
 func resolve_travel(to_region_id: String, time_cost: int, ration_cost: int, forced_without_rations: bool) -> Dictionary:

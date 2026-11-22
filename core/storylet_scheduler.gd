@@ -121,6 +121,14 @@ func show_hint(text: String) -> void:
 	_notify(text)
 
 
+func dismiss_toast() -> void:
+	if _toast_timer != null:
+		_toast_timer.stop()
+	if _toast != null:
+		Motion.cancel(_toast, ^"modulate:a")
+		_toast.hide()
+
+
 func register_hook_handler(hook_id: String, handler: Callable) -> void:
 	_handlers[hook_id] = handler
 

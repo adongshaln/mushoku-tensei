@@ -59,6 +59,7 @@ var _mist_material: ShaderMaterial
 var _title: Label
 var _subtitle: Label
 var _divider: Control
+var _dc_header: Label
 var _dc_label: Label
 var _dc_badge: HBoxContainer
 var _number: Label
@@ -71,6 +72,8 @@ var _title_font: SystemFont
 var _body_font: SystemFont
 var _serif: SystemFont
 var _hud_opacities: Dictionary[CanvasItem, float] = {}
+var _time_scale := 1.0
+var _highlight_recorded := false
 
 
 func _ready() -> void:
@@ -142,6 +145,35 @@ func _ready() -> void:
 	_hint.offset_right = 560
 	_hint.offset_top = -14
 	_hint.offset_bottom = 14
+	_bind_dice_speed_settings()
+
+
+func _bind_dice_speed_settings() -> void:
+	var sm := get_node_or_null("/root/SettingsManager")
+	if sm != null:
+		if sm.has_signal("settings_changed") and not sm.is_connected("settings_changed", _on_settings_changed):
+			sm.connect("settings_changed", _on_settings_changed)
+		if sm.has_signal("settings_loaded") and not sm.is_connected("settings_loaded", _sync_dice_speed_settings):
+			sm.connect("settings_loaded", _sync_dice_speed_settings)
+		if sm.has_signal("settings_reset") and not sm.is_connected("settings_reset", _sync_dice_speed_settings):
+			sm.connect("settings_reset", _sync_dice_speed_settings)
+	_sync_dice_speed_settings()
+
+
+func _on_settings_changed(section: String, key: String, _value: Variant) -> void:
+	if section == "reading" and key == "dice_animation_speed":
+		_sync_dice_speed_settings()
+
+
+func _sync_dice_speed_settings() -> void:
+	var sm := get_node_or_null("/root/SettingsManager")
+	_time_scale = clampf(float(sm.call("get_dice_time_scale")), 0.5, 4.0) if sm != null and sm.has_method("get_dice_time_scale") else 1.0
+	if _stage != null:
+		_stage.set_time_scale(_time_scale)
+
+
+func get_time_scale() -> float:
+	return _time_scale
 
 
 func _build_backdrop() -> void:
@@ -200,9 +232,9 @@ func _build_heading() -> void:
 	star.size = Vector2(13, 13)
 	_divider.add_child(star)
 
-	var target := Kit.create_label("目标难度", 17, Color("#C9B89E"), _body_font)
-	target.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	top.add_child(target)
+	_dc_header = Kit.create_label("目标难度", 17, Color("#C9B89E"), _body_font)
+	_dc_header.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	top.add_child(_dc_header)
 	_dc_badge = HBoxContainer.new()
 	_dc_badge.alignment = BoxContainer.ALIGNMENT_CENTER
 	_dc_badge.add_theme_constant_override("separation", 9)
@@ -280,6 +312,27 @@ func is_active() -> bool:
 	return _active
 
 
+func present_polyhedral(die_type: String, title: String, subtitle := "", fixed_roll := 0, auto_roll := false) -> void:
+	var kind := die_type.to_lower()
+	var sides := Stage.sides_for(kind)
+	var rolled := clampi(fixed_roll, 1, sides) if fixed_roll > 0 else randi_range(1, sides)
+	var rolls: Array[int] = [rolled]
+	var empty_bonuses: Array[Dictionary] = []
+	present({
+		"die_type": kind,
+		"dc": 0,
+		"rolls": rolls,
+		"raw_roll": rolled,
+		"base_mod": 0,
+		"bonus_list": empty_bonuses,
+		"total": rolled,
+		"passed": true,
+		"is_nat20": kind == "d20" and rolled == 20,
+		"is_nat1": kind == "d20" and rolled == 1,
+		"mode": "polyhedral"
+	}, title, subtitle, auto_roll)
+
+
 func present(check: Dictionary, title: String, subtitle := "", auto_roll := false) -> void:
 	_stop_sequence()
 	_clear_resonance()
@@ -288,6 +341,8 @@ func present(check: Dictionary, title: String, subtitle := "", auto_roll := fals
 	_check = check
 	_active = true
 	_phase = "idle"
+	_highlight_recorded = false
+	_sync_dice_speed_settings()
 	_last_polarity = 0
 	_streak = 0
 	_stamp_locked_until = 0
@@ -302,15 +357,20 @@ func present(check: Dictionary, title: String, subtitle := "", auto_roll := fals
 	_title.text = title
 	_subtitle.text = subtitle
 	_subtitle.visible = not subtitle.is_empty()
-	_dc_label.text = str(int(check["dc"]))
+	var dc_val := int(check.get("dc", 0))
+	var has_dc := dc_val > 0
+	_dc_header.visible = has_dc
+	_dc_badge.visible = has_dc
+	_dc_label.text = str(dc_val)
+	var die_type := str(check.get("die_type", "d20")).to_lower()
 	var rolls: Array[int] = check["rolls"]
-	_stage.setup(rolls)
+	_stage.setup(rolls, die_type)
 	_build_chips()
 	_hint.text = "即将自动掷出 · 点击立即开掷" if auto_roll else "点击骰子或按空格掷出"
 	Motion.fade_in(_root, 0.22)
 	if auto_roll:
 		_sequence = create_tween()
-		_sequence.tween_interval(0.6)
+		_sequence.tween_interval(0.6 / _time_scale)
 		_sequence.tween_callback(_begin_roll)
 
 
@@ -341,6 +401,14 @@ func _restore_hud(animated: bool) -> void:
 
 
 func _exit_tree() -> void:
+	var sm := get_node_or_null("/root/SettingsManager")
+	if sm != null:
+		if sm.is_connected("settings_changed", _on_settings_changed):
+			sm.disconnect("settings_changed", _on_settings_changed)
+		if sm.is_connected("settings_loaded", _sync_dice_speed_settings):
+			sm.disconnect("settings_loaded", _sync_dice_speed_settings)
+		if sm.is_connected("settings_reset", _sync_dice_speed_settings):
+			sm.disconnect("settings_reset", _sync_dice_speed_settings)
 	_restore_hud(false)
 
 
@@ -480,7 +548,7 @@ func _start_breath() -> void:
 	_dial.pulse(0.36)
 	_hint.text = ""
 	_sequence = create_tween()
-	_sequence.tween_interval(BARE_BEAT)
+	_sequence.tween_interval(BARE_BEAT / _time_scale)
 	_sequence.tween_callback(_start_absorption)
 
 
@@ -497,19 +565,23 @@ func _start_absorption() -> void:
 	_phase = "absorb"
 	_hint.text = "修正值吸收中 · 点击或按空格加速"
 	var count := _beats.size()
-	var gap := 0.30 if count <= 3 else clampf(0.84 / float(count - 1), 0.14, 0.28)
-	var first_wake := CLUTCH_WAKE_SECONDS if _beats[0].crossing and _beats[0].value > 0 else WAKE_SECONDS
-	var first_contact := first_wake + FLIGHT_SECONDS
+	var s := _time_scale
+	var wake_base := WAKE_SECONDS / s
+	var clutch_base := CLUTCH_WAKE_SECONDS / s
+	var flight_sec := FLIGHT_SECONDS / s
+	var gap := (0.30 if count <= 3 else clampf(0.84 / float(count - 1), 0.14, 0.28)) / s
+	var first_wake := clutch_base if _beats[0].crossing and _beats[0].value > 0 else wake_base
+	var first_contact := first_wake + flight_sec
 	_sequence = create_tween().set_parallel(true)
 	for index: int in count:
 		var beat := _beats[index]
 		var clutch := beat.crossing and beat.value > 0
-		var wake_time := CLUTCH_WAKE_SECONDS if clutch else WAKE_SECONDS
+		var wake_time := clutch_base if clutch else wake_base
 		var contact := first_contact + gap * index
-		var launch := contact - FLIGHT_SECONDS
+		var launch := contact - flight_sec
 		_sequence.tween_callback(_wake.bind(beat, wake_time)).set_delay(maxf(0.0, launch - wake_time))
 		_sequence.tween_callback(_launch.bind(beat)).set_delay(launch)
-		_sequence.tween_method(_fly.bind(beat), 0.0, 1.0, FLIGHT_SECONDS).set_delay(launch)
+		_sequence.tween_method(_fly.bind(beat), 0.0, 1.0, flight_sec).set_delay(launch)
 		_sequence.tween_callback(_contact.bind(beat)).set_delay(contact)
 	_sequence.finished.connect(_finish_absorption)
 
@@ -643,29 +715,64 @@ func _is_critical_face() -> bool:
 
 func _stamp() -> void:
 	_phase = "stamp"
-	var passed := bool(_check["passed"])
-	var message := "✦ 检定成功" if passed else "✦ 失败推进"
-	var tone := Kit.MODIFIER_WARM_VALUE if passed else Kit.MODIFIER_COLD_VALUE
-	if _is_critical_face():
-		var high := bool(_check["is_nat20"])
-		if high and passed:
-			message = "✦ 大成功！"
-		elif not high and not passed:
-			message = "✦ 大失败"
-		else:
-			message += "  ·  自然 %d" % int(_check["raw_roll"])
-		tone = Kit.MODIFIER_WARM_VALUE if high else Kit.MODIFIER_COLD_VALUE
+	var die_type := str(_check.get("die_type", "d20")).to_lower()
+	var dc_val := int(_check.get("dc", 0))
+	var has_dc := dc_val > 0
+	var passed := bool(_check.get("passed", true))
+	var message := "✦ %s 掷出：%d" % [die_type.to_upper(), int(_check["total"])]
+	var tone := Kit.MODIFIER_WARM_VALUE
+	if has_dc:
+		message = "✦ 检定成功" if passed else "✦ 失败推进"
+		tone = Kit.MODIFIER_WARM_VALUE if passed else Kit.MODIFIER_COLD_VALUE
+		if _is_critical_face():
+			var high := bool(_check["is_nat20"])
+			if high and passed:
+				message = "✦ 大成功！"
+			elif not high and not passed:
+				message = "✦ 大失败"
+			else:
+				message += "  ·  自然 %d" % int(_check["raw_roll"])
+			tone = Kit.MODIFIER_WARM_VALUE if high else Kit.MODIFIER_COLD_VALUE
 	_stamp_label.text = message
 	_stamp_label.add_theme_color_override("font_color", tone)
 	_stamp_box.add_theme_stylebox_override("panel", Kit.style(Color("#302318E8"), 26, 12, 9, 1, Color(tone, 0.52)))
-	var terms := "d20(%d)" % int(_check["raw_roll"])
+	var terms := "%s(%d)" % [die_type, int(_check["raw_roll"])]
 	for beat: Modifier in _beats:
 		terms += " − %d" % absi(beat.value) if beat.value < 0 else " + %d" % beat.value
-	_equation.text = "%s = %d   /   DC %d" % [terms, int(_check["total"]), int(_check["dc"])]
+	if has_dc:
+		_equation.text = "%s = %d   /   DC %d" % [terms, int(_check["total"]), dc_val]
+	else:
+		_equation.text = "%s  ·  总计 %d" % [terms, int(_check["total"])]
 	_stamp_box.show()
 	Motion.stamp_impact(_stamp_box)
-	AudioManager.play_sfx("dice_success" if passed else "dice_fail")
+	AudioManager.play_sfx("dice_success" if passed or not has_dc else "dice_fail")
+	_record_critical_highlight(has_dc, dc_val)
 	_hint.text = "点击任意处继续"
+
+
+func _record_critical_highlight(has_dc: bool, dc_val: int) -> void:
+	if _highlight_recorded or not has_dc or not _is_critical_face():
+		return
+	_highlight_recorded = true
+	var jm := get_node_or_null("/root/JournalManager")
+	if jm == null or not jm.has_method("record_dice_highlight"):
+		return
+	var roll_uid := str(_check.get("roll_uid", ""))
+	var dkey := ("dice_uid:" + roll_uid) if not roll_uid.is_empty() else ""
+	var skill := str(_check.get("skill_label", _title.text))
+	if skill.is_empty():
+		skill = _title.text
+	var ctx := _subtitle.text if not _subtitle.text.is_empty() else str(_check.get("context_note", ""))
+	jm.call(
+		"record_dice_highlight",
+		skill,
+		int(_check.get("raw_roll", 0)),
+		dc_val,
+		bool(_check.get("is_nat20", false)),
+		bool(_check.get("is_nat1", false)),
+		ctx,
+		dkey
+	)
 
 
 func _drop_chips() -> void:

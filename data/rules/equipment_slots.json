@@ -1,9 +1,9 @@
 {
-  "schema": {"version": 1, "description": "slots 的键同时是角色 equipment 所用的槽位 ID。"},
+  "schema": {"version": 1, "description": "slots 的键同时是角色 equipment 所用的槽位 ID，按 order 顺序动态渲染。"},
   "slots": {
-    "weapon": {"label": "武器"},
-    "cloak": {"label": "披风与装束"},
-    "charm": {"label": "护符"},
-    "title": {"label": "称号"}
+    "weapon": {"label": "武器 / 魔杖", "order": 1, "empty_hint": "尚未握持武器或魔导具"},
+    "cloak": {"label": "外衣 / 披风", "order": 2, "empty_hint": "身着日常村居布衣"},
+    "charm": {"label": "随身护符", "order": 3, "empty_hint": "尚未佩戴护符或信物"},
+    "title": {"label": "印记 / 称号", "order": 4, "empty_hint": "尚未在旅途中获授称号"}
   }
 }

@@ -1,0 +1,246 @@
+{
+  "version": 1,
+  "maximum_active_chunks": 12,
+  "world_bounds": [
+    -8.36,
+    -4.705,
+    8.36,
+    4.705
+  ],
+  "chunks": [
+    {
+      "id": "chunk_demon_ne",
+      "scene": "res://scenes/world_map/chunks/chunk_demon_ne.tscn",
+      "terrain": "res://assets/3d/world_v2/chunks/chunk_demon_ne_terrain.glb",
+      "pbr_prefix": "res://assets/textures/world_v2/chunks/chunk_demon_ne",
+      "bounds": [
+        4.828620689655,
+        -4.705,
+        7.855517241379,
+        -2.281212121212
+      ],
+      "grid_cells": [
+        168,
+        170
+      ],
+      "seam_width": 0.52,
+      "scatter_exclusion_margin": 0.88,
+      "cities": [
+        "city_migurd",
+        "city_rikarisu"
+      ],
+      "props": [
+        {
+          "kind": "crystal",
+          "xz": [
+            6.68,
+            -3.12
+          ],
+          "scale": [
+            0.092,
+            0.092,
+            0.092
+          ],
+          "yaw": 29
+        },
+        {
+          "kind": "crystal",
+          "xz": [
+            6.87,
+            -3.28
+          ],
+          "scale": [
+            0.08,
+            0.08,
+            0.08
+          ],
+          "yaw": 132
+        },
+        {
+          "kind": "crystal",
+          "xz": [
+            5.75,
+            -3.51
+          ],
+          "scale": [
+            0.066,
+            0.066,
+            0.066
+          ],
+          "yaw": -22
+        }
+      ],
+      "terrain_group": "demon"
+    },
+    {
+      "id": "chunk_demon_nw",
+      "scene": "res://scenes/world_map/chunks/chunk_demon_nw.tscn",
+      "terrain": "res://assets/3d/world_v2/chunks/chunk_demon_nw_terrain.glb",
+      "pbr_prefix": "res://assets/textures/world_v2/chunks/chunk_demon_nw",
+      "terrain_group": "demon",
+      "shadow_softness": 0.8,
+      "bounds": [
+        2.234137931034,
+        -4.705,
+        4.828620689655,
+        -2.281212121212
+      ],
+      "grid_cells": [
+        144,
+        170
+      ],
+      "seam_width": 0.52,
+      "scatter_exclusion_margin": 0.38,
+      "hide_legacy_plinth": true,
+      "cities": [
+        "city_kurasuma"
+      ],
+      "props": [
+        {
+          "kind": "crystal",
+          "xz": [
+            4.05,
+            -3.56
+          ],
+          "scale": [
+            0.068,
+            0.068,
+            0.068
+          ],
+          "yaw": 25
+        },
+        {
+          "kind": "crystal",
+          "xz": [
+            4.43,
+            -2.95
+          ],
+          "scale": [
+            0.075,
+            0.075,
+            0.075
+          ],
+          "yaw": 87
+        }
+      ]
+    },
+    {
+      "id": "chunk_demon_south",
+      "scene": "res://scenes/world_map/chunks/chunk_demon_south.tscn",
+      "terrain": "res://assets/3d/world_v2/chunks/chunk_demon_south_terrain.glb",
+      "pbr_prefix": "res://assets/textures/world_v2/chunks/chunk_demon_south",
+      "terrain_group": "demon",
+      "bounds": [
+        2.234137931034,
+        -2.281212121212,
+        7.855517241379,
+        0.641590909091
+      ],
+      "grid_cells": [
+        312,
+        82
+      ],
+      "seam_width": 0.52,
+      "scatter_exclusion_margin": 0.38,
+      "hide_legacy_plinth": true,
+      "cities": [
+        "city_wind_port"
+      ],
+      "props": [
+        {
+          "kind": "crystal",
+          "xz": [
+            5.2,
+            -1.14
+          ],
+          "scale": [
+            0.084,
+            0.084,
+            0.084
+          ],
+          "yaw": -35
+        },
+        {
+          "kind": "crystal",
+          "xz": [
+            6.22,
+            -0.51
+          ],
+          "scale": [
+            0.061,
+            0.061,
+            0.061
+          ],
+          "yaw": 107
+        }
+      ]
+    }
+  ],
+  "city_pixel_offsets": {
+    "city_migurd": [
+      16,
+      -11
+    ],
+    "city_rikarisu": [
+      -20,
+      14
+    ],
+    "city_wind_port": [
+      -7,
+      -14
+    ]
+  },
+  "detailed_roads": [
+    {
+      "from": "city_migurd",
+      "to": "city_rikarisu",
+      "via": [
+        [
+          6.46,
+          -3.56
+        ],
+        [
+          6.3,
+          -3.46
+        ]
+      ]
+    },
+    {
+      "from": "city_rikarisu",
+      "to": "city_kurasuma",
+      "via": [
+        [
+          5.64,
+          -3.25
+        ],
+        [
+          5.11,
+          -3.5
+        ],
+        [
+          4.55,
+          -3.45
+        ],
+        [
+          4.11,
+          -3.18
+        ],
+        [
+          3.66,
+          -3.31
+        ]
+      ]
+    },
+    {
+      "from": "city_rikarisu",
+      "to": "city_wind_port"
+    },
+    {
+      "from": "city_kurasuma",
+      "to": "city_wind_port"
+    }
+  ],
+  "atomic_terrain_groups": [
+    "demon"
+  ]
+}

@@ -4,16 +4,18 @@ const Prop := preload("res://scenes/room/interactive_prop.gd")
 const PlaceholderArt := preload("res://core/placeholder_art_factory.gd")
 const Kit := preload("res://ui/ui_theme_kit.gd")
 const Motion := preload("res://ui/ui_motion.gd")
+const CABIN_AMBIENCE := preload("res://shaders/cabin_ambience.gdshader")
 const ROOM_PATH := "res://data/rooms/migurd_cabin.json"
 const DIALOGUE_SCENE := "res://scenes/dialogue/dialogue_view.tscn"
 const COMBAT_SCENE := "res://scenes/combat/combat_view.tscn"
 const MAP_SCENE := "res://scenes/world_map/world_atlas_view.tscn"
 const ROOM_ART_OVERRIDE := "res://assets/rooms/migurd_cabin/bg.png"
-const SIDE_MARGIN := 44.0
-const DRAWER_WIDTH := 458.0
+const SIDE_MARGIN := 36.0
+const DRAWER_WIDTH := 460.0
 const LIGHT := [Color.WHITE, Color("#ffe8c8"), Color("#e7b185"), Color("#8a9ac1")]
+const NIGHT_FACTORS := [0.0, 0.0, 0.45, 1.0]
 const SLOT_ICONS := ["morning", "afternoon", "evening", "night"]
-const SLOT_TONES := [Color("#e8b465"), Color("#f0d9a0"), Color("#e0906a"), Color("#9fc3dd")]
+const SLOT_TONES := [Color("#f0c272"), Color("#f8df9f"), Color("#e5966a"), Color("#9fc7e4")]
 
 var _room: Dictionary
 var _props: Array[Prop] = []
@@ -28,13 +30,17 @@ var _body_font: SystemFont
 var _title_font: SystemFont
 var _last_buffs: PackedStringArray
 var _bag_count := -1
+var _portrait_path := ""
 
 var _stage: Control
 var _background: TextureRect
+var _ambience_rect: ColorRect
+var _ambience_mat: ShaderMaterial
+var _medallion: Kit.PortraitMedallion
 var _date: Label
 var _slot_icon: Kit.MicroIcon
 var _name_label: Label
-var _wil_label: Label
+var _wil_badge_holder: HBoxContainer
 var _hp_meter: ProgressBar
 var _mp_meter: ProgressBar
 var _hp_text: Label
@@ -42,6 +48,7 @@ var _mp_text: Label
 var _buff_row: HBoxContainer
 var _bag_group: HBoxContainer
 var _bag_text: Label
+var _story_status_panel: PanelContainer
 var _story_status: Label
 var _nameplate: PanelContainer
 var _nameplate_text: Label
@@ -70,9 +77,6 @@ func _ready() -> void:
 	_build_header()
 	_build_drawer()
 	_build_feedback()
-	var menu := JournalUI.make_toolbar(_title_font)
-	add_child(menu)
-	menu.position = Vector2(SIDE_MARGIN, 153.0)
 	resized.connect(_fit_stage)
 	WorldBlackboard.world_time_changed.connect(_on_time_changed)
 	WorldBlackboard.protagonist_changed.connect(_refresh_header)
@@ -86,7 +90,7 @@ func _ready() -> void:
 func get_dice_hud_items() -> Array[CanvasItem]:
 	var items: Array[CanvasItem] = []
 	for child: Node in get_children():
-		if child is CanvasItem and child != _stage:
+		if child is CanvasItem and child != _stage and child != _ambience_rect:
 			items.append(child)
 	for child: Node in _stage.get_children():
 		if child is CanvasItem and child != _background:
@@ -99,7 +103,7 @@ func _setup_fonts() -> void:
 	_title_font = Kit.make_font(true)
 	theme = Theme.new()
 	theme.default_font = _body_font
-	theme.default_font_size = 23
+	theme.default_font_size = 22
 
 
 func _build_stage() -> void:
@@ -118,7 +122,8 @@ func _build_stage() -> void:
 	_art_missing = _background.texture == null
 	if _art_missing:
 		_background.texture = PlaceholderArt.make_background()
-	_background.modulate = LIGHT[int(WorldBlackboard.get_world_time()["slot"])]
+	var cur_slot := int(WorldBlackboard.get_world_time()["slot"])
+	_background.modulate = LIGHT[cur_slot]
 
 	for definition: Dictionary in _room.get("hotspots", []):
 		var texture := PlaceholderArt.load_texture(str(definition["mask"]))
@@ -140,112 +145,175 @@ func _build_stage() -> void:
 		return int(left.definition.get("hit_priority", 0)) > int(right.definition.get("hit_priority", 0))
 	)
 
-	_nameplate = Kit.create_folio_panel(Kit.PAPER, 14, 5, 2)
+	# Atmospheric hearth glow & floating sunlit dust motes over the room illustration.
+	_ambience_rect = ColorRect.new()
+	_ambience_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_ambience_mat = ShaderMaterial.new()
+	_ambience_mat.shader = CABIN_AMBIENCE
+	_ambience_mat.set_shader_parameter("night_factor", NIGHT_FACTORS[cur_slot])
+	_ambience_rect.material = _ambience_mat
+	add_child(_ambience_rect)
+	_ambience_rect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+
+	# Floating smoked-glass hover nameplate with brass star emblem.
+	_nameplate = Kit.create_smoked_hud_panel(16, 7, 8)
 	_nameplate.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_nameplate_text = Kit.create_label("", 22, Kit.INK, _title_font)
-	_nameplate.add_child(_nameplate_text)
+	var np_row := HBoxContainer.new()
+	np_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	np_row.add_theme_constant_override("separation", 7)
+	_nameplate.add_child(np_row)
+	var np_star := Kit.create_micro_icon("star", 14.0, Kit.BRASS)
+	np_star.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	np_row.add_child(np_star)
+	_nameplate_text = Kit.create_label("", 21, Kit.IVORY, _title_font)
+	np_row.add_child(_nameplate_text)
 	_stage.add_child(_nameplate)
 	_nameplate.hide()
 
 
 func _build_header() -> void:
-	var location := Kit.create_folio_panel(Kit.PAPER, 23, 14, 5)
-	location.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(location)
-	location.position = Vector2(SIDE_MARGIN, 36.0)
-	var location_text := VBoxContainer.new()
-	location_text.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	location_text.add_theme_constant_override("separation", 5)
-	location.add_child(location_text)
-	_add_text(location_text, "%s  ·  %s" % [_room.get("area", ""), _room.get("name", "")], 30, Kit.INK, _title_font)
-	var date_row := HBoxContainer.new()
-	date_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	date_row.add_theme_constant_override("separation", 9)
-	location_text.add_child(date_row)
-	_slot_icon = Kit.create_micro_icon("morning", 22.0, SLOT_TONES[0])
-	date_row.add_child(_slot_icon)
-	_date = _add_text(date_row, "", 21, Kit.MUTED)
+	# Unified Top-Left Smoked-Glass Character Medallion + Kalendarium Crest.
+	var crest := Kit.create_smoked_hud_panel(16, 12, 10)
+	crest.mouse_filter = Control.MOUSE_FILTER_PASS
+	add_child(crest)
+	crest.position = Vector2(SIDE_MARGIN, 28.0)
+	crest.custom_minimum_size.x = 640.0
 
-	var status := Kit.create_folio_panel(Kit.WASH, 20, 14, 5)
-	status.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(status)
-	status.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
-	status.grow_horizontal = Control.GROW_DIRECTION_BEGIN
-	status.offset_right = -SIDE_MARGIN
-	status.offset_left = -SIDE_MARGIN - 606.0
-	status.offset_top = 36.0
-	var status_text := VBoxContainer.new()
-	status_text.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	status_text.add_theme_constant_override("separation", 8)
-	status.add_child(status_text)
+	var root_row := HBoxContainer.new()
+	root_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	root_row.add_theme_constant_override("separation", 14)
+	crest.add_child(root_row)
 
-	var identity := HBoxContainer.new()
-	identity.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	identity.add_theme_constant_override("separation", 12)
-	status_text.add_child(identity)
-	_name_label = _add_text(identity, "", 25, Kit.PAPER, _title_font)
-	_name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var wil_badge := Kit.create_badge("", Kit.BLUE, _title_font, 19)
-	identity.add_child(wil_badge)
-	_wil_label = wil_badge.get_child(0) as Label
+	# Clickable circular portrait medallion -> opens Character Grimoire.
+	var medallion_btn := Button.new()
+	medallion_btn.flat = true
+	medallion_btn.custom_minimum_size = Vector2(74.0, 74.0)
+	medallion_btn.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	medallion_btn.tooltip_text = "翻开角色手账 (C)"
+	medallion_btn.pressed.connect(JournalUI.open_character)
+	AudioManager.bind_ui(medallion_btn)
+	Motion.attach_button_feel(medallion_btn, 1.05, 0.94, false)
+	root_row.add_child(medallion_btn)
+	_medallion = Kit.PortraitMedallion.new()
+	_medallion.setup(null, 74.0, Kit.BRASS)
+	medallion_btn.add_child(_medallion)
+	_medallion.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 
+	var col := VBoxContainer.new()
+	col.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	col.add_theme_constant_override("separation", 6)
+	root_row.add_child(col)
+
+	# Row 1: Character Name + Room Name + Will Check Badge.
+	var top_row := HBoxContainer.new()
+	top_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	top_row.add_theme_constant_override("separation", 12)
+	col.add_child(top_row)
+	_name_label = _add_text(top_row, "", 24, Kit.IVORY, _title_font)
+	var place_lbl := _add_text(top_row, "%s · %s" % [_room.get("area", ""), _room.get("name", "")], 18, Kit.BRASS, _title_font)
+	place_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	place_lbl.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	_wil_badge_holder = HBoxContainer.new()
+	_wil_badge_holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	top_row.add_child(_wil_badge_holder)
+
+	# Row 2: Compact HP & MP jewelled meters.
 	var meters := HBoxContainer.new()
 	meters.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	meters.add_theme_constant_override("separation", 18)
-	status_text.add_child(meters)
+	meters.add_theme_constant_override("separation", 16)
+	col.add_child(meters)
+
 	var hp_group := HBoxContainer.new()
 	hp_group.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	hp_group.add_theme_constant_override("separation", 8)
+	hp_group.add_theme_constant_override("separation", 7)
 	hp_group.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	meters.add_child(hp_group)
-	hp_group.add_child(Kit.create_micro_icon("hp", 19.0, Color("#e08a76")))
-	_hp_meter = Kit.create_meter(Kit.VERMILLION, Color("#5a4436"))
+	hp_group.add_child(Kit.create_micro_icon("hp", 17.0, Color("#e48774")))
+	_hp_meter = Kit.create_meter(Kit.VERMILLION, Color("#3f2e24"), 10.0)
 	_hp_meter.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_hp_meter.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	hp_group.add_child(_hp_meter)
-	_hp_text = _add_text(hp_group, "", 19, Kit.PAPER)
+	_hp_text = _add_text(hp_group, "", 16, Kit.IVORY)
+
 	var mp_group := HBoxContainer.new()
 	mp_group.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	mp_group.add_theme_constant_override("separation", 8)
+	mp_group.add_theme_constant_override("separation", 7)
 	mp_group.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	meters.add_child(mp_group)
-	mp_group.add_child(Kit.create_micro_icon("drop", 19.0, Color("#8fc0dc")))
-	_mp_meter = Kit.create_meter(Kit.BLUE, Color("#5a4436"))
+	mp_group.add_child(Kit.create_micro_icon("drop", 17.0, Color("#88c1e3")))
+	_mp_meter = Kit.create_meter(Kit.SAPPHIRE, Color("#3f2e24"), 10.0)
 	_mp_meter.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_mp_meter.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	mp_group.add_child(_mp_meter)
-	_mp_text = _add_text(mp_group, "", 19, Kit.PAPER)
+	_mp_text = _add_text(mp_group, "", 16, Kit.IVORY)
 
-	var tray := HBoxContainer.new()
-	tray.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	tray.add_theme_constant_override("separation", 10)
-	status_text.add_child(tray)
-	_buff_row = HBoxContainer.new()
-	_buff_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_buff_row.add_theme_constant_override("separation", 8)
-	_buff_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	tray.add_child(_buff_row)
+	# Row 3: Kalendarium time dial + Bag count + Frosted Status Pills.
+	var meta_row := HBoxContainer.new()
+	meta_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	meta_row.add_theme_constant_override("separation", 12)
+	col.add_child(meta_row)
+
+	var date_grp := HBoxContainer.new()
+	date_grp.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	date_grp.add_theme_constant_override("separation", 7)
+	meta_row.add_child(date_grp)
+	_slot_icon = Kit.create_micro_icon("morning", 18.0, SLOT_TONES[0])
+	_slot_icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	date_grp.add_child(_slot_icon)
+	_date = _add_text(date_grp, "", 16, Color("#decab0"))
+
 	_bag_group = HBoxContainer.new()
 	_bag_group.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_bag_group.add_theme_constant_override("separation", 7)
-	tray.add_child(_bag_group)
-	_bag_group.add_child(Kit.create_micro_icon("bag", 19.0, Color("#d9b36a")))
-	_bag_text = _add_text(_bag_group, "", 19, Color("#ead5b7"))
-	_story_status = _add_text(status_text, "", 19, Kit.PAPER)
-	_story_status.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_bag_group.add_theme_constant_override("separation", 5)
+	meta_row.add_child(_bag_group)
+	var bag_ic := Kit.create_micro_icon("bag", 16.0, Kit.BRASS)
+	bag_ic.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	_bag_group.add_child(bag_ic)
+	_bag_text = _add_text(_bag_group, "", 16, Kit.BRASS)
+
+	_buff_row = HBoxContainer.new()
+	_buff_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_buff_row.add_theme_constant_override("separation", 6)
+	_buff_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	meta_row.add_child(_buff_row)
+
+	# Sleek Top-Right Brass Icon Dock (Journal / Save / Title) + Story Whisper.
+	var dock_col := VBoxContainer.new()
+	dock_col.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	dock_col.add_theme_constant_override("separation", 8)
+	add_child(dock_col)
+	dock_col.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
+	dock_col.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	dock_col.offset_right = -SIDE_MARGIN
+	dock_col.offset_left = -SIDE_MARGIN - 420.0
+	dock_col.offset_top = 28.0
+
+	var menu := JournalUI.make_toolbar(_title_font)
+	menu.alignment = BoxContainer.ALIGNMENT_END
+	dock_col.add_child(menu)
+
+	_story_status_panel = Kit.create_smoked_hud_panel(14, 6, 4)
+	_story_status_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_story_status_panel.size_flags_horizontal = Control.SIZE_SHRINK_END
+	_story_status = Kit.create_label("", 16, Kit.BRASS, _body_font)
+	_story_status_panel.add_child(_story_status)
+	dock_col.add_child(_story_status_panel)
+	_story_status_panel.hide()
 
 
 func _build_drawer() -> void:
+	# Strictly bounded between top-right dock (y=116) and bottom-right controls (bottom=-114) -> ZERO overlap!
 	var slot := Control.new()
 	slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(slot)
 	slot.set_anchors_and_offsets_preset(Control.PRESET_RIGHT_WIDE)
 	slot.offset_left = -SIDE_MARGIN - DRAWER_WIDTH
 	slot.offset_right = -SIDE_MARGIN
-	slot.offset_top = 215.0
-	slot.offset_bottom = -140.0
+	slot.offset_top = 116.0
+	slot.offset_bottom = -114.0
 
-	_drawer = Kit.create_folio_panel(Kit.PAPER, 30, 22, 9)
+	_drawer = Kit.create_folio_panel(Kit.PAPER, 26, 20, 12)
 	slot.add_child(_drawer)
 	_drawer.mouse_filter = Control.MOUSE_FILTER_STOP
 	slot.resized.connect(_fit_drawer)
@@ -254,59 +322,58 @@ func _build_drawer() -> void:
 	var page := VBoxContainer.new()
 	_drawer_page = page
 	page.mouse_filter = Control.MOUSE_FILTER_PASS
-	page.add_theme_constant_override("separation", 17)
+	page.add_theme_constant_override("separation", 13)
 	_drawer.add_child(page)
 	var heading := HBoxContainer.new()
-	heading.add_theme_constant_override("separation", 12)
+	heading.add_theme_constant_override("separation", 10)
 	page.add_child(heading)
-	var ribbon := Kit.create_ribbon_header("诺缇雅的手账", _title_font, 24, Kit.AMBER)
+	var ribbon := Kit.create_ribbon_header("诺缇雅的手账", _title_font, 22, Kit.WAX_GOLD)
 	ribbon.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	ribbon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	heading.add_child(ribbon)
-	var close_button := Kit.create_tactile_button("合上", "subtle", _title_font, 22)
-	close_button.custom_minimum_size = Vector2(89, 53)
+	var close_button := Kit.create_icon_button("close", "合上", "dark_brass", _title_font, 17, Kit.BRASS)
+	close_button.custom_minimum_size = Vector2(96.0, 44.0)
 	close_button.pressed.connect(_close_drawer)
 	heading.add_child(close_button)
 
-	_add_rule(page)
-	_entry_label = _add_text(page, "", 19, Kit.BLUE)
-	_entry_name = _add_text(page, "", 42, Kit.INK, _title_font)
+	_entry_label = _add_text(page, "", 17, Kit.SAPPHIRE)
+	_entry_name = _add_text(page, "", 36, Kit.INK, _title_font)
 	_entry_name.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 
-	var portrait := PanelContainer.new()
-	portrait.add_theme_stylebox_override("panel", Kit.style(Kit.PAPER_DEEP, 5, 5, 0))
+	var portrait := Kit.create_folio_panel(Kit.PAPER_DEEP, 5, 5, 2)
 	portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	page.add_child(portrait)
 	_entry_image = TextureRect.new()
 	_entry_image.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_entry_image.custom_minimum_size = Vector2(0, 183)
+	_entry_image.custom_minimum_size = Vector2(0, 168)
 	_entry_image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_entry_image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	portrait.add_child(_entry_image)
 	var marks := Kit.CornerMarks.new()
-	marks.setup(Kit.AMBER)
+	marks.setup(Kit.WAX_GOLD, 6.0, 16.0)
 	portrait.add_child(marks)
+	marks.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 
-	_entry_description = _add_text(page, "", 25, Kit.INK, _title_font)
+	_entry_description = _add_text(page, "", 22, Kit.INK, _title_font)
 	_entry_description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_entry_description.add_theme_constant_override("line_spacing", 9)
+	_entry_description.add_theme_constant_override("line_spacing", 8)
 	var spacer := Control.new()
 	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	spacer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	page.add_child(spacer)
-	_add_rule(page)
-	_entry_effect = _add_text(page, "", 20, Kit.BLUE)
+	page.add_child(Kit.create_gold_divider(0.0, false, 8.0))
+	_entry_effect = _add_text(page, "", 18, Kit.SAPPHIRE)
 	_entry_effect.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_action = Kit.create_tactile_button("", "primary", _title_font, 25)
-	_action.custom_minimum_size.y = 68
+	_action = Kit.create_tactile_button("", "primary", _title_font, 22)
+	_action.custom_minimum_size.y = 58
 	_action.pressed.connect(_perform_action)
 	page.add_child(_action)
 	_combat_entries = VBoxContainer.new()
-	_combat_entries.add_theme_constant_override("separation", 10)
+	_combat_entries.add_theme_constant_override("separation", 8)
 	page.add_child(_combat_entries)
 	_combat_entries.hide()
-	_drawer_map_button = Kit.create_tactile_button("展开世界舆图", "primary", _title_font, 22)
-	_drawer_map_button.custom_minimum_size.y = 61
+	_drawer_map_button = Kit.create_icon_button("compass", "展开世界舆图", "primary", _title_font, 20, Kit.BRASS)
+	_drawer_map_button.custom_minimum_size.y = 54
 	_drawer_map_button.pressed.connect(_open_map)
 	page.add_child(_drawer_map_button)
 	_drawer_map_button.hide()
@@ -315,35 +382,36 @@ func _build_drawer() -> void:
 
 
 func _build_feedback() -> void:
-	var map_button := Kit.create_tactile_button("展开世界舆图", "primary", _title_font, 24)
-	map_button.custom_minimum_size = Vector2(260, 65)
-	add_child(map_button)
-	map_button.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
-	map_button.offset_left = -SIDE_MARGIN - 236.0 - 12.0 - 260.0
-	map_button.offset_right = -SIDE_MARGIN - 236.0 - 12.0
-	map_button.offset_top = -100.0
-	map_button.offset_bottom = -35.0
-	map_button.pressed.connect(_open_map)
-	_sense = Kit.create_tactile_button("感知高亮    Tab", "accent", _title_font, 24)
-	_sense.toggle_mode = true
-	_sense.custom_minimum_size = Vector2(236, 65)
-	add_child(_sense)
-	_sense.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
-	_sense.offset_left = -SIDE_MARGIN - 236.0
-	_sense.offset_right = -SIDE_MARGIN
-	_sense.offset_top = -100.0
-	_sense.offset_bottom = -35.0
-	_sense.toggled.connect(_set_sense)
+	var bottom_bar := HBoxContainer.new()
+	bottom_bar.alignment = BoxContainer.ALIGNMENT_END
+	bottom_bar.add_theme_constant_override("separation", 12)
+	add_child(bottom_bar)
+	bottom_bar.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
+	bottom_bar.offset_left = -SIDE_MARGIN - 540.0
+	bottom_bar.offset_right = -SIDE_MARGIN
+	bottom_bar.offset_top = -88.0
+	bottom_bar.offset_bottom = -28.0
 
-	_toast_panel = Kit.create_folio_panel(Kit.WASH, 24, 13, 5)
+	var map_button := Kit.create_icon_button("compass", "展开世界舆图", "primary", _title_font, 21, Kit.BRASS)
+	map_button.custom_minimum_size = Vector2(220.0, 56.0)
+	map_button.pressed.connect(_open_map)
+	bottom_bar.add_child(map_button)
+
+	_sense = Kit.create_icon_button("eye", "感知高亮  Tab", "dark_brass", _title_font, 20, Kit.BRASS)
+	_sense.toggle_mode = true
+	_sense.custom_minimum_size = Vector2(210.0, 56.0)
+	_sense.toggled.connect(_set_sense)
+	bottom_bar.add_child(_sense)
+
+	_toast_panel = Kit.create_smoked_hud_panel(22, 12, 8)
 	_toast_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_toast_panel)
 	_toast_panel.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT)
 	_toast_panel.offset_left = SIDE_MARGIN
-	_toast_panel.offset_top = -110.0
-	_toast_panel.offset_right = 1050.0
-	_toast_panel.offset_bottom = -35.0
-	_toast_text = Kit.create_label("", 23, Kit.PAPER, _title_font)
+	_toast_panel.offset_top = -94.0
+	_toast_panel.offset_right = 920.0
+	_toast_panel.offset_bottom = -28.0
+	_toast_text = Kit.create_label("", 20, Kit.IVORY, _title_font)
 	_toast_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_toast_panel.add_child(_toast_text)
 	_toast_panel.hide()
@@ -389,50 +457,53 @@ func _input(event: InputEvent) -> void:
 			_set_hovered(null)
 			_motion_target = Vector2.ZERO
 			return
-		if _over_controls(event.position):
+		var relative: Vector2 = (event.position / size - Vector2(0.5, 0.5)) * 2.0
+		_motion_target = Vector2(-relative.x * 8.0, -relative.y * 5.0)
+		if _over_drawer(event.position):
 			_set_hovered(null)
 		else:
-			_set_hovered(_prop_at(event.position))
-		_motion_target = (event.position / size - Vector2(0.5, 0.5)) * 9.0
+			_set_hovered(_pick_prop(event.position))
 
 
 func _unhandled_input(event: InputEvent) -> void:
 	if JournalUI.is_open() or SceneTransition.is_busy():
 		return
+	var pressed := false
+	var point := Vector2.ZERO
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		_activate_at(event.position)
-
-
-func _over_controls(point: Vector2) -> bool:
-	return _sense.get_global_rect().has_point(point) or (
-		_drawer.visible and _drawer.get_global_rect().has_point(point)
-	)
-
-
-func _prop_at(viewport_point: Vector2) -> Prop:
-	var stage_point: Vector2 = _stage.get_global_transform_with_canvas().affine_inverse() * viewport_point
-	for prop: Prop in _props:
-		if prop.contains(stage_point):
-			return prop
-	return null
-
-
-func _activate_at(point: Vector2) -> void:
-	if _over_controls(point):
+		pressed = true
+		point = event.position
+	elif event is InputEventScreenTouch and event.pressed:
+		pressed = true
+		point = event.position
+	if not pressed or _over_drawer(point):
 		return
-	var picked := _prop_at(point)
+	var picked := _pick_prop(point)
 	if picked != null:
 		_open_drawer(picked)
 		get_viewport().set_input_as_handled()
 	elif _selected != null:
 		_close_drawer()
+		get_viewport().set_input_as_handled()
+
+
+func _over_drawer(point: Vector2) -> bool:
+	return _drawer.visible and _drawer.get_global_rect().has_point(point)
+
+
+func _pick_prop(point: Vector2) -> Prop:
+	var local := point - _stage.position
+	for prop: Prop in _props:
+		if prop.contains(local):
+			return prop
+	return null
 
 
 func _set_hovered(prop: Prop) -> void:
 	if _hovered == prop:
 		return
 	_hovered = prop
-	if prop != null:
+	if _hovered != null:
 		AudioManager.play_sfx("ui_hover")
 	_refresh_highlights()
 
@@ -444,9 +515,13 @@ func _set_sense(enabled: bool) -> void:
 
 func _refresh_highlights() -> void:
 	for prop: Prop in _props:
-		var state := 1 if _sense_enabled else 0
-		if prop == _selected or prop == _hovered:
+		var state := 0
+		if prop == _selected:
+			state = 3
+		elif prop == _hovered:
 			state = 2
+		elif _sense_enabled:
+			state = 1
 		prop.set_highlight(state)
 	_place_nameplate()
 
@@ -483,7 +558,7 @@ func _open_drawer(prop: Prop) -> void:
 	var art_size := _background.texture.get_size()
 	var bounds := prop.source_bounds
 	var region := Rect2(bounds.position * art_size, bounds.size * art_size).grow(18.0)
-	var preview_aspect := (DRAWER_WIDTH - 70.0) / _entry_image.custom_minimum_size.y
+	var preview_aspect := (DRAWER_WIDTH - 64.0) / _entry_image.custom_minimum_size.y
 	var crop_size := Vector2(
 		maxf(region.size.x, region.size.y * preview_aspect),
 		maxf(region.size.y, region.size.x / preview_aspect)
@@ -510,11 +585,11 @@ func _build_combat_entries(entries: Array) -> void:
 		_combat_entries.remove_child(child)
 		child.queue_free()
 	_combat_entries.visible = not entries.is_empty()
-	_entry_image.custom_minimum_size.y = 127 if _combat_entries.visible else 183
-	_drawer_page.add_theme_constant_override("separation", 10 if _combat_entries.visible else 17)
+	_entry_image.custom_minimum_size.y = 122 if _combat_entries.visible else 168
+	_drawer_page.add_theme_constant_override("separation", 8 if _combat_entries.visible else 13)
 	for entry: Dictionary in entries:
-		var button := Kit.create_tactile_button(str(entry["label"]), "secondary", _title_font, 22)
-		button.custom_minimum_size.y = 61
+		var button := Kit.create_tactile_button(str(entry["label"]), "secondary", _title_font, 20)
+		button.custom_minimum_size.y = 56
 		button.pressed.connect(_enter_combat.bind(str(entry["preset"])))
 		_combat_entries.add_child(button)
 
@@ -584,44 +659,50 @@ func _perform_action() -> void:
 
 
 func _refresh_header() -> void:
-	_date.text = WorldBlackboard.date_text()
+	_date.text = WorldBlackboard.date_text().replace("   ", " ")
 	var slot := int(WorldBlackboard.get_world_time()["slot"])
-	_slot_icon.setup(SLOT_ICONS[slot], 22.0, SLOT_TONES[slot])
-	_slot_icon.queue_redraw()
+	_slot_icon.setup(SLOT_ICONS[slot], 18.0, SLOT_TONES[slot])
+	var p_path := str(WorldBlackboard.profile.get("portrait", ""))
+	if p_path != _portrait_path:
+		_portrait_path = p_path
+		_medallion.set_portrait(PlaceholderArt.load_texture(p_path) if not p_path.is_empty() else null)
 	var protagonist := WorldBlackboard.get_protagonist()
 	var hp: Dictionary = protagonist.get("hp", {})
 	var mp: Dictionary = protagonist.get("mp", {})
 	var will := WorldBlackboard.get_check_breakdown("WIL")
 	_name_label.text = str(protagonist.get("name", ""))
-	_wil_label.text = "意志 %d · 检定 %+d" % [int(will["effective_stat"]), int(will["total_mod"])]
+	for child: Node in _wil_badge_holder.get_children():
+		_wil_badge_holder.remove_child(child)
+		child.queue_free()
+	var wil_mod := int(will["total_mod"])
+	_wil_badge_holder.add_child(Kit.create_status_badge("意志 %d (%+d)" % [int(will["effective_stat"]), wil_mod], wil_mod >= 0, _title_font, 15))
 	_hp_meter.max_value = maxi(1, int(hp.get("max", 1)))
 	_hp_meter.value = int(hp.get("current", 0))
 	_mp_meter.max_value = maxi(1, int(mp.get("max", 1)))
 	_mp_meter.value = int(mp.get("current", 0))
 	_hp_text.text = "%d/%d" % [int(hp.get("current", 0)), int(hp.get("max", 0))]
 	_mp_text.text = "%d/%d" % [int(mp.get("current", 0)), int(mp.get("max", 0))]
-	var buffs := WorldBlackboard.get_buff_names()
-	for bonus: Dictionary in will["bonus_list"]:
-		var index := buffs.find(str(bonus["name"]))
-		if index >= 0:
-			buffs[index] = "%+d %s" % [int(bonus["value"]), str(bonus["name"])]
-	if buffs != _last_buffs:
-		_last_buffs = buffs.duplicate()
+
+	var statuses := WorldBlackboard.active_statuses()
+	var names := PackedStringArray()
+	for s: Dictionary in statuses:
+		names.append(str(s.get("name", "")))
+	if names != _last_buffs:
+		_last_buffs = names.duplicate()
 		for child: Node in _buff_row.get_children():
 			_buff_row.remove_child(child)
 			child.queue_free()
-		for buff_name: String in buffs:
-			var tone := Kit.AMBER if buff_name.begins_with("+") or buff_name.begins_with("-") else Kit.GREEN
-			if buff_name == WorldBlackboard.TRAVEL_FATIGUE_NAME:
-				tone = Kit.VERMILLION
-			var badge := Kit.create_badge(buff_name, tone, _title_font, 18)
+		for s: Dictionary in statuses:
+			var pol := WorldBlackboard.status_polarity(s)
+			var badge := Kit.create_status_badge(str(s.get("name", s.get("id", ""))), pol >= 0, _body_font, 14)
 			_buff_row.add_child(badge)
-			Motion.pop_badge(badge, 0.44)
+			Motion.pop_badge(badge, 0.40)
+
 	var count := WorldBlackboard.get_inventory_count()
 	_bag_text.text = "行囊 %d" % count
 	if count != _bag_count:
 		_bag_count = count
-		Motion.pop_badge(_bag_group, 0.4)
+		Motion.pop_badge(_bag_group, 0.38)
 	var updates := PackedStringArray()
 	for definition: Dictionary in _room.get("hotspots", []):
 		var progress := _active_progress(definition)
@@ -633,8 +714,8 @@ func _refresh_header() -> void:
 		var outcome := str(WorldBlackboard.get_flag(str(combat["flag"]), ""))
 		if combat["labels"].has(outcome):
 			updates.append(str(combat["labels"][outcome]))
-	_story_status.text = "    /    ".join(updates)
-	_story_status.visible = not updates.is_empty()
+	_story_status.text = "  ·  ".join(updates)
+	_story_status_panel.visible = not updates.is_empty()
 
 
 func _refresh_flags() -> void:
@@ -651,12 +732,17 @@ func _active_progress(definition: Dictionary) -> Dictionary:
 
 func _on_time_changed() -> void:
 	_refresh_header()
-	var ambient: Color = LIGHT[int(WorldBlackboard.get_world_time()["slot"])]
+	var slot := int(WorldBlackboard.get_world_time()["slot"])
+	var ambient: Color = LIGHT[slot]
 	if _light_tween != null:
 		_light_tween.kill()
 	_light_tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_SINE)
 	_light_tween.tween_property(_background, "modulate", ambient, 0.68)
 	_light_tween.tween_property(_entry_image, "modulate", ambient, 0.68)
+	if _ambience_mat != null:
+		_light_tween.tween_method(func(v: float) -> void:
+			_ambience_mat.set_shader_parameter("night_factor", v),
+			float(_ambience_mat.get_shader_parameter("night_factor")), NIGHT_FACTORS[slot], 0.68)
 
 
 func _label(text: String, type_size: int, color: Color, font: Font = null) -> Label:
@@ -667,13 +753,3 @@ func _add_text(parent: Control, text: String, type_size: int, color: Color, font
 	var label := _label(text, type_size, color, font)
 	parent.add_child(label)
 	return label
-
-
-func _add_rule(parent: Control) -> void:
-	var rule := ColorRect.new()
-	rule.color = Color("#b59c7c")
-	rule.custom_minimum_size.y = 1.0
-	rule.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	parent.add_child(rule)
-
-

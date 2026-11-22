@@ -1,0 +1,381 @@
+{
+	"schema_version": 1,
+	"base_unit_note": "1 基准点 ≈ 1 日元 = 1 魔大陆铁矿钱（全系统精确整数锚点）",
+	"legacy_copper_to_base": 100,
+	"default_currency_order": [
+		"demon_ore",
+		"minor_central",
+		"magic_nations",
+		"millis",
+		"king_dragon",
+		"asura"
+	],
+	"currencies": {
+		"demon_ore": {
+			"id": "demon_ore",
+			"name": "魔大陆矿石钱",
+			"short_name": "矿石钱",
+			"region_label": "魔大陆全域",
+			"multiplier": 0.10,
+			"unit_base_value": 1,
+			"accent_hex": "#8c6548",
+			"description": "魔大陆各地通用的精炼魔矿铸币，按魔矿纯度分六阶，跨洲兑换比率约为阿斯拉货币的十分之一。",
+			"denominations": [
+				{
+					"id": "gold",
+					"name": "金矿钱",
+					"short_name": "金矿",
+					"base_value": 100000,
+					"min_units": 100000
+				},
+				{
+					"id": "large_silver",
+					"name": "大银矿钱",
+					"short_name": "大银矿",
+					"base_value": 10000,
+					"min_units": 10000
+				},
+				{
+					"id": "silver",
+					"name": "银矿钱",
+					"short_name": "银矿",
+					"base_value": 1000,
+					"min_units": 1000
+				},
+				{
+					"id": "large_green",
+					"name": "大绿矿钱",
+					"short_name": "大绿",
+					"base_value": 100,
+					"min_units": 100
+				},
+				{
+					"id": "green",
+					"name": "绿矿钱",
+					"short_name": "绿矿",
+					"base_value": 10,
+					"min_units": 10
+				},
+				{
+					"id": "iron",
+					"name": "铁矿钱",
+					"short_name": "铁矿",
+					"base_value": 1,
+					"min_units": 1
+				}
+			]
+		},
+		"minor_central": {
+			"id": "minor_central",
+			"name": "中央小国货币",
+			"short_name": "小国币",
+			"region_label": "西隆 · 纷争地带 · 比黑利尔",
+			"multiplier": 0.20,
+			"unit_base_value": 2,
+			"accent_hex": "#7f6b56",
+			"description": "流通于西隆王国、纷争地带诸侯与比黑利尔王国的通用铸币，约为阿斯拉币的五分之一。",
+			"denominations": [
+				{
+					"id": "gold",
+					"name": "小国金钱",
+					"short_name": "金",
+					"base_value": 200000,
+					"min_units": 100000
+				},
+				{
+					"id": "large_silver",
+					"name": "小国大银钱",
+					"short_name": "大银",
+					"base_value": 20000,
+					"min_units": 10000
+				},
+				{
+					"id": "silver",
+					"name": "小国银钱",
+					"short_name": "银",
+					"base_value": 2000,
+					"min_units": 1000
+				},
+				{
+					"id": "large_copper",
+					"name": "小国大铜钱",
+					"short_name": "大铜",
+					"base_value": 200,
+					"min_units": 100
+				},
+				{
+					"id": "copper",
+					"name": "小国铜钱",
+					"short_name": "铜",
+					"base_value": 20,
+					"min_units": 10
+				},
+				{
+					"id": "iron",
+					"name": "小国铁钱",
+					"short_name": "铁",
+					"base_value": 2,
+					"min_units": 1
+				}
+			]
+		},
+		"magic_nations": {
+			"id": "magic_nations",
+			"name": "魔法三大国货币",
+			"short_name": "拉诺亚币",
+			"region_label": "拉诺亚 · 魔法都市夏利亚 · 北方大地",
+			"multiplier": 0.40,
+			"unit_base_value": 4,
+			"accent_hex": "#4a7fa7",
+			"description": "由拉诺亚、巴谢兰特、奈里斯三大魔法国联合背书的通货，在魔法大学与剑之圣地亦广泛流通。",
+			"denominations": [
+				{
+					"id": "gold",
+					"name": "魔国金钱",
+					"short_name": "金",
+					"base_value": 400000,
+					"min_units": 100000
+				},
+				{
+					"id": "large_silver",
+					"name": "魔国大银钱",
+					"short_name": "大银",
+					"base_value": 40000,
+					"min_units": 10000
+				},
+				{
+					"id": "silver",
+					"name": "魔国银钱",
+					"short_name": "银",
+					"base_value": 4000,
+					"min_units": 1000
+				},
+				{
+					"id": "large_copper",
+					"name": "魔国大铜钱",
+					"short_name": "大铜",
+					"base_value": 400,
+					"min_units": 100
+				},
+				{
+					"id": "copper",
+					"name": "魔国铜钱",
+					"short_name": "铜",
+					"base_value": 40,
+					"min_units": 10
+				},
+				{
+					"id": "iron",
+					"name": "魔国铁钱",
+					"short_name": "铁",
+					"base_value": 4,
+					"min_units": 1
+				}
+			]
+		},
+		"millis": {
+			"id": "millis",
+			"name": "米里斯神圣国货币",
+			"short_name": "米里斯币",
+			"region_label": "米里斯大陆全域",
+			"multiplier": 0.50,
+			"unit_base_value": 5,
+			"accent_hex": "#5f8c6c",
+			"description": "刻有圣剑与教会徽记的米里斯神圣国法定铸币，购买力恰好为阿斯拉币的一半、魔大陆矿石钱的五倍。",
+			"denominations": [
+				{
+					"id": "gold",
+					"name": "米里斯金钱",
+					"short_name": "金",
+					"base_value": 500000,
+					"min_units": 100000
+				},
+				{
+					"id": "large_silver",
+					"name": "米里斯大银钱",
+					"short_name": "大银",
+					"base_value": 50000,
+					"min_units": 10000
+				},
+				{
+					"id": "silver",
+					"name": "米里斯银钱",
+					"short_name": "银",
+					"base_value": 5000,
+					"min_units": 1000
+				},
+				{
+					"id": "large_copper",
+					"name": "米里斯大铜钱",
+					"short_name": "大铜",
+					"base_value": 500,
+					"min_units": 100
+				},
+				{
+					"id": "copper",
+					"name": "米里斯铜钱",
+					"short_name": "铜",
+					"base_value": 50,
+					"min_units": 10
+				},
+				{
+					"id": "iron",
+					"name": "米里斯铁钱",
+					"short_name": "铁",
+					"base_value": 5,
+					"min_units": 1
+				}
+			]
+		},
+		"king_dragon": {
+			"id": "king_dragon",
+			"name": "王龙王国货币",
+			"short_name": "王龙币",
+			"region_label": "王龙王国 · 东港",
+			"multiplier": 0.80,
+			"unit_base_value": 8,
+			"accent_hex": "#b07638",
+			"description": "中央大陆南方大国王龙王国的重铸币，含金量仅次于阿斯拉王国，在跨海商贸中极受信任。",
+			"denominations": [
+				{
+					"id": "gold",
+					"name": "王龙金钱",
+					"short_name": "金",
+					"base_value": 800000,
+					"min_units": 100000
+				},
+				{
+					"id": "large_silver",
+					"name": "王龙大银钱",
+					"short_name": "大银",
+					"base_value": 80000,
+					"min_units": 10000
+				},
+				{
+					"id": "silver",
+					"name": "王龙银钱",
+					"short_name": "银",
+					"base_value": 8000,
+					"min_units": 1000
+				},
+				{
+					"id": "large_copper",
+					"name": "王龙大铜钱",
+					"short_name": "大铜",
+					"base_value": 800,
+					"min_units": 100
+				},
+				{
+					"id": "copper",
+					"name": "王龙铜钱",
+					"short_name": "铜",
+					"base_value": 80,
+					"min_units": 10
+				},
+				{
+					"id": "iron",
+					"name": "王龙铁钱",
+					"short_name": "铁",
+					"base_value": 8,
+					"min_units": 1
+				}
+			]
+		},
+		"asura": {
+			"id": "asura",
+			"name": "阿斯拉王国货币",
+			"short_name": "阿斯拉币",
+			"region_label": "阿斯拉王国 · 菲托亚领 · 世界基准",
+			"multiplier": 1.00,
+			"unit_base_value": 10,
+			"accent_hex": "#c88a3b",
+			"description": "人族第一强国阿斯拉王国的标准本位币，也是各大冒险者协会核算跨洲汇率的最高信用基准。",
+			"denominations": [
+				{
+					"id": "gold",
+					"name": "阿斯拉金钱",
+					"short_name": "金",
+					"base_value": 1000000,
+					"min_units": 100000
+				},
+				{
+					"id": "large_silver",
+					"name": "阿斯拉大银钱",
+					"short_name": "大银",
+					"base_value": 100000,
+					"min_units": 10000
+				},
+				{
+					"id": "silver",
+					"name": "阿斯拉银钱",
+					"short_name": "银",
+					"base_value": 10000,
+					"min_units": 1000
+				},
+				{
+					"id": "large_copper",
+					"name": "阿斯拉大铜钱",
+					"short_name": "大铜",
+					"base_value": 1000,
+					"min_units": 100
+				},
+				{
+					"id": "copper",
+					"name": "阿斯拉铜钱",
+					"short_name": "铜",
+					"base_value": 100,
+					"min_units": 10
+				},
+				{
+					"id": "iron",
+					"name": "阿斯拉铁钱",
+					"short_name": "铁",
+					"base_value": 10,
+					"min_units": 1
+				}
+			]
+		}
+	},
+	"exchange_venues": {
+		"adventurer_guild": {
+			"id": "adventurer_guild",
+			"name": "冒险者协会",
+			"service_key": "adventurer_guild",
+			"fee_rate": 0.0,
+			"fee_numerator": 0,
+			"fee_denominator": 100,
+			"tagline": "官方公定汇率 · 免手续费（0%）",
+			"description": "由世界冒险者协会统筹清算，凭据兑换免收手续费，按精确牌价无损结清。"
+		},
+		"traveling_merchant": {
+			"id": "traveling_merchant",
+			"name": "旅商换汇",
+			"service_key": "merchant",
+			"fee_rate": 0.05,
+			"fee_numerator": 5,
+			"fee_denominator": 100,
+			"tagline": "商队代兑 · 手续费 5%（向上取整）",
+			"description": "行脚商队随身携带多国硬通货，收取 5% 汇兑佣金，亦支持外币折算直付购货。"
+		},
+		"inn": {
+			"id": "inn",
+			"name": "旅馆柜台代兑",
+			"service_key": "inn",
+			"fee_rate": 0.05,
+			"fee_numerator": 5,
+			"fee_denominator": 100,
+			"tagline": "柜台代兑 · 手续费 5%（向上取整）",
+			"description": "旅馆掌柜为投宿旅人提供应急换汇，加收 5% 佣金，可直接抵扣房费。"
+		},
+		"restaurant": {
+			"id": "restaurant",
+			"name": "酒馆餐馆代兑",
+			"service_key": "restaurant",
+			"fee_rate": 0.05,
+			"fee_numerator": 5,
+			"fee_denominator": 100,
+			"tagline": "酒馆代兑 · 手续费 5%（向上取整）",
+			"description": "餐馆账房接受外币折算结账或零钱代兑，按公定牌价加收 5% 折算费。"
+		}
+	}
+}

@@ -1,0 +1,237 @@
+{
+  "schema_version": 1,
+  "posture_multipliers": {
+    "steady": 1.0,
+    "forced_march": 1.32,
+    "stealth": 0.52
+  },
+  "pools": [
+    {
+      "id": "pool_milis_checkpoint",
+      "match_checkpoint": true,
+      "match_zones": ["milis_checkpoint"],
+      "match_danger_tags": ["border_check"],
+      "base_chance": 0.68,
+      "min_km": 40,
+      "trigger_progress": 0.86,
+      "events": [
+        {
+          "id": "milis_gate_inspection",
+          "title": "城门检查与身份盘问",
+          "category": "border_check",
+          "category_label": "城门盘查",
+          "inspect_tags": ["appearance", "hood_check"],
+          "summary": "白石关隘前排起旅人长队，执戟卫兵正逐一核验面容与发色。风吹起衣领，你的旅行兜帽在阳光下格外显眼。",
+          "options": [
+            {
+              "id": "pull_hood",
+              "label": "压低兜帽，从容递交通行登记",
+              "check": {
+                "stat": "CHA",
+                "dc": 11,
+                "label": "镇定应答",
+                "hood_bonus_item": "travel_hood",
+                "hood_bonus_value": 2
+              },
+              "success_text": "卫兵只扫了一眼登记薄便抬手放行，未曾多问你的发色与出身。",
+              "fail_text": "卫兵多盘问了片刻，核验行囊后虽略显狐疑，仍准许你入关继续前行。",
+              "fail_effects": [{"type": "advance_time", "slots": 1}]
+            },
+            {
+              "id": "honest_apprentice",
+              "label": "表明见习魔术师身份，坦然受检",
+              "check": {"stat": "WIL", "dc": 12, "label": "坦然对视"},
+              "success_text": "你举止沉稳得体，盘查官点头记录后便让开通道。",
+              "fail_text": "盘查官要求补交一笔入城手续杂费，耽搁了些许工夫。",
+              "fail_effects": [{"type": "spend_copper", "amount": 10}, {"type": "advance_time", "slots": 1}]
+            },
+            {
+              "id": "express_toll",
+              "label": "随商旅队伍缴纳 10 铜快速通行税",
+              "effects": [{"type": "spend_copper", "amount": 10}],
+              "fallback_text": "囊中铜币不足，只得改排普通长队缓慢放行。",
+              "fallback_effects": [{"type": "advance_time", "slots": 1}],
+              "outcome_text": "缴纳通行税后，随商旅队伍顺利通过了城门关卡。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pool_demon_wilds",
+      "match_zones": ["demon_wilds"],
+      "match_danger_tags": ["demon_wilds"],
+      "base_chance": 0.44,
+      "min_km": 120,
+      "trigger_progress": 0.48,
+      "events": [
+        {
+          "id": "demon_prowl",
+          "title": "荒野魔物巡游",
+          "category": "demon_wilds",
+          "category_label": "魔物威胁",
+          "summary": "前方赭岩谷口传来低沉嘶鸣，几只群居荒原魔物正沿着风口缓步巡游，挡住了短途小径。",
+          "options": [
+            {
+              "id": "sneak_around",
+              "label": "贴着岩脊阴影绕道潜行",
+              "check": {"stat": "DEX", "dc": 11, "label": "隐匿绕行"},
+              "success_text": "你借着赭岩与灌木的阴影悄然掠过，魔物群毫无察觉。",
+              "fail_text": "碎石滑落惊动了领头魔物，你急忙折返改走远坡，耗费了额外体力与干粮。",
+              "fail_effects": [{"type": "consume_rations", "amount": 1}]
+            },
+            {
+              "id": "bait_ration",
+              "label": "抛出一份干粮引开其注意",
+              "effects": [{"type": "consume_rations", "amount": 1}],
+              "fallback_text": "干粮已见底，你只能屏息远绕岩壁，好在平安脱身。",
+              "fallback_effects": [{"type": "advance_time", "slots": 1}],
+              "outcome_text": "干粮滚落谷底吸引了魔物群的目光，你趁机安稳穿过隘口。"
+            },
+            {
+              "id": "observe_wind",
+              "label": "静候风向转折再寻隙通过",
+              "check": {"stat": "INT", "dc": 11, "label": "洞察动线"},
+              "success_text": "你摸清了魔物换班巡逻的间隙，不但安然通过，还顺手拾得前人遗落的 2 份干粮。",
+              "success_effects": [{"type": "add_item", "id": "trail_rations", "name": "旅途干粮", "count": 2, "tag": "ration"}],
+              "fail_text": "魔物盘桓良久，你耐心等到天色转暗才绕过谷口。",
+              "fail_effects": [{"type": "advance_time", "slots": 1}]
+            }
+          ]
+        },
+        {
+          "id": "demon_mist_howl",
+          "title": "赭原迷雾异响",
+          "category": "demon_wilds",
+          "category_label": "魔物威胁",
+          "summary": "傍晚薄雾漫过石滩，枯草丛里闪过幽绿兽瞳。远处似乎隐约有旧车辙的木轮残影。",
+          "options": [
+            {
+              "id": "steady_nerve",
+              "label": "稳住呼吸，沿路标沉着前行",
+              "check": {"stat": "WIL", "dc": 11, "label": "稳守心神"},
+              "success_text": "你步履不乱，雾中游荡的荒野魔物忌惮你的魔力波动，自行退去。",
+              "fail_text": "心神紧绷让你绕了半圈荒坡，虽无大碍，脚步却沉重了几分。",
+              "fail_effects": [{"type": "advance_time", "slots": 1}]
+            },
+            {
+              "id": "quick_detour",
+              "label": "远离雾带，沿着高地石岭绕行",
+              "effects": [{"type": "advance_time", "slots": 1}],
+              "outcome_text": "绕走高地虽多花了半个时段，却避开了雾中的未知威胁。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pool_strife_bandits",
+      "match_zones": ["strife_zone"],
+      "match_danger_tags": ["bandit_road"],
+      "base_chance": 0.36,
+      "min_km": 150,
+      "trigger_progress": 0.52,
+      "events": [
+        {
+          "id": "strife_bandits",
+          "title": "纷争林道强盗拦路",
+          "category": "bandit_road",
+          "category_label": "强盗出没",
+          "summary": "树影间横着一根砍倒的原木，三名手持锈刃的流民劫匪探出头来，盯着过路旅人的行囊。",
+          "options": [
+            {
+              "id": "slip_away",
+              "label": "趁其尚未合围，沿林坡轻步绕开",
+              "check": {"stat": "DEX", "dc": 12, "label": "脱身绕行"},
+              "success_text": "你提早察觉埋伏，顺着溪沟小径悄无声息地甩开了劫匪。",
+              "fail_text": "枝叶声暴露了行踪，慌忙奔逃间遗落了 1 份干粮，所幸人未受伤。",
+              "fail_effects": [{"type": "consume_rations", "amount": 1}]
+            },
+            {
+              "id": "bluff_passage",
+              "label": "神色自若，借口后方商队将至震慑对方",
+              "check": {"stat": "CHA", "dc": 12, "label": "沉着周旋"},
+              "success_text": "劫匪见你神情笃定，担心撞上重装护卫，骂骂咧咧地退回密林。",
+              "fail_text": "对方并未轻信，你丢下 20 铜脱身离去。",
+              "fail_effects": [{"type": "spend_copper", "amount": 20}]
+            },
+            {
+              "id": "pay_off",
+              "label": "留下 25 铜破财消灾，换取平安通行",
+              "effects": [{"type": "spend_copper", "amount": 25}],
+              "fallback_text": "你摊开空空如也的钱袋，劫匪翻走 1 份干粮后便放你离去。",
+              "fallback_effects": [{"type": "consume_rations", "amount": 1}],
+              "outcome_text": "破财消灾之后，你未再受阻，继续踏上行程。"
+            }
+          ]
+        },
+        {
+          "id": "strife_deserters",
+          "title": "溃兵临时哨卡",
+          "category": "bandit_road",
+          "category_label": "边界盘查",
+          "summary": "谷口竖起破旧木栅，几名穿着杂色铠甲的溃兵正借口征税向过往行人勒索。",
+          "options": [
+            {
+              "id": "talk_down",
+              "label": "冷静交涉，避开正面冲突",
+              "check": {"stat": "CHA", "dc": 11, "label": "斡旋脱身"},
+              "success_text": "几句不卑不亢的寒暄让哨卡头目松了口，挥手放行。",
+              "fail_text": "对方拖延盘问了许久，你交出 15 铜才得以脱身。",
+              "fail_effects": [{"type": "spend_copper", "amount": 15}]
+            },
+            {
+              "id": "bypass_ravine",
+              "label": "绕行谷底乱石小道避开木栅",
+              "effects": [{"type": "advance_time", "slots": 1}],
+              "outcome_text": "虽多绕了一段险路，但完整保住了行囊与盘缠。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pool_safe_road",
+      "match_zones": ["central_road", "milis_forest", "northern_snow", "mountain_pass"],
+      "match_danger_tags": ["safe_road", "mountain_pass"],
+      "base_chance": 0.18,
+      "min_km": 220,
+      "trigger_progress": 0.50,
+      "events": [
+        {
+          "id": "road_peddler",
+          "title": "官道行商偶遇",
+          "category": "safe_road",
+          "category_label": "旅途小插曲",
+          "summary": "一辆挂着铜铃的轻便货车停在路旁歇脚，和善的行商正整理着成捆的熏肉干粮与地图。",
+          "options": [
+            {
+              "id": "buy_snack",
+              "label": "花 10 铜换取 3 份新鲜干粮",
+              "effects": [
+                {"type": "spend_copper", "amount": 10},
+                {"type": "add_item", "id": "trail_rations", "name": "行商干粮", "count": 3, "tag": "ration"}
+              ],
+              "fallback_text": "手头铜币不够，行商笑着送了你一杯温水，祝你一路平安。",
+              "fallback_effects": [{"type": "restore_mp", "amount": 4}],
+              "outcome_text": "收好新鲜干粮，行商还顺道指点了前方较平坦的岔路。"
+            },
+            {
+              "id": "chat_route",
+              "label": "与行商攀谈，打听前方风候与路况",
+              "check": {"stat": "INT", "dc": 10, "label": "记取路讯"},
+              "success_text": "行商的经验让你省去了不少弯路，顺手休整恢复了些许魔力。",
+              "success_effects": [{"type": "restore_mp", "amount": 6}],
+              "fail_text": "聊了些沿途轶闻后，你向行商道别，继续踏上官道。"
+            },
+            {
+              "id": "nod_and_go",
+              "label": "颔首致意，不停留继续赶路",
+              "outcome_text": "伴着渐远的铜铃声，你沿平整官道稳步前行。"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

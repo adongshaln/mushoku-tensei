@@ -1,0 +1,463 @@
+{
+  "schema_version": 1,
+  "world_bounds": {
+    "min_x": -8.36,
+    "max_x": 8.36,
+    "min_z": -4.705,
+    "max_z": 4.705,
+    "width": 16.72,
+    "depth": 9.41
+  },
+  "height_range": {
+    "min_height": -0.295,
+    "max_height": 1.284113,
+    "sea_level": 0.0
+  },
+  "control_maps": {
+    "size": [
+      2048,
+      1024
+    ],
+    "heightmap": "res://assets/textures/world_v2/world_heightmap.png",
+    "biome_splat_a": "res://assets/textures/world_v2/world_biome_splat_a.png",
+    "biome_splat_b": "res://assets/textures/world_v2/world_biome_splat_b.png",
+    "region_id_map": "res://assets/textures/world_v2/world_region_id_map.png"
+  },
+  "continents": {
+    "demon": 1,
+    "milis": 2,
+    "central": 3
+  },
+  "regions": [
+    {
+      "index": 1,
+      "id": "demon_biegoya",
+      "name": "比耶戈亚地方",
+      "continent_id": "demon",
+      "continent_index": 1
+    },
+    {
+      "index": 2,
+      "id": "demon_kurasuma",
+      "name": "克拉斯玛沿岸",
+      "continent_id": "demon",
+      "continent_index": 1
+    },
+    {
+      "index": 3,
+      "id": "demon_wastes",
+      "name": "中部荒原与伽斯洛",
+      "continent_id": "demon",
+      "continent_index": 1
+    },
+    {
+      "index": 4,
+      "id": "demon_south",
+      "name": "南部丘陵港区",
+      "continent_id": "demon",
+      "continent_index": 1
+    },
+    {
+      "index": 5,
+      "id": "milis_zanto",
+      "name": "赞特港与北道",
+      "continent_id": "milis",
+      "continent_index": 2
+    },
+    {
+      "index": 6,
+      "id": "milis_forest",
+      "name": "大森林领地",
+      "continent_id": "milis",
+      "continent_index": 2
+    },
+    {
+      "index": 7,
+      "id": "milis_holy",
+      "name": "米里斯神圣国",
+      "continent_id": "milis",
+      "continent_index": 2
+    },
+    {
+      "index": 8,
+      "id": "milis_west",
+      "name": "西港门户",
+      "continent_id": "milis",
+      "continent_index": 2
+    },
+    {
+      "index": 9,
+      "id": "central_magic",
+      "name": "北方魔法三国",
+      "continent_id": "central",
+      "continent_index": 3
+    },
+    {
+      "index": 10,
+      "id": "central_sword",
+      "name": "剑之圣地",
+      "continent_id": "central",
+      "continent_index": 3
+    },
+    {
+      "index": 11,
+      "id": "central_asura",
+      "name": "阿斯拉王国与菲托亚领",
+      "continent_id": "central",
+      "continent_index": 3
+    },
+    {
+      "index": 12,
+      "id": "central_biheiriru",
+      "name": "比黑利尔王国与鬼岛",
+      "continent_id": "central",
+      "continent_index": 3
+    },
+    {
+      "index": 13,
+      "id": "central_strife",
+      "name": "纷争地带与赤龙山脉",
+      "continent_id": "central",
+      "continent_index": 3
+    },
+    {
+      "index": 14,
+      "id": "central_shiron",
+      "name": "西隆与邻国群",
+      "continent_id": "central",
+      "continent_index": 3
+    },
+    {
+      "index": 15,
+      "id": "central_dragon_king",
+      "name": "王龙王国与东港",
+      "continent_id": "central",
+      "continent_index": 3
+    }
+  ],
+  "cities": {
+    "city_rikarisu": {
+      "id": "rikarisu",
+      "node": "city_rikarisu",
+      "name": "利卡里斯镇",
+      "continent_id": "demon",
+      "region_id": "demon_biegoya",
+      "arch": "arch_crater_city",
+      "pixel": [
+        1438.0,
+        141.0
+      ],
+      "position": [
+        6.02,
+        0.35999,
+        -3.295
+      ]
+    },
+    "city_migurd": {
+      "id": "migurd",
+      "node": "city_migurd",
+      "name": "米格路德村",
+      "continent_id": "demon",
+      "region_id": "demon_biegoya",
+      "arch": "arch_village",
+      "pixel": [
+        1507.0,
+        91.0
+      ],
+      "position": [
+        6.71,
+        0.22752,
+        -3.795
+      ]
+    },
+    "city_kurasuma": {
+      "id": "kurasuma",
+      "node": "city_kurasuma",
+      "name": "克拉斯玛镇",
+      "continent_id": "demon",
+      "region_id": "demon_kurasuma",
+      "arch": "arch_port",
+      "pixel": [
+        1172.0,
+        127.0
+      ],
+      "position": [
+        3.36,
+        0.26303,
+        -3.435
+      ]
+    },
+    "city_wind_port": {
+      "id": "wind_port",
+      "node": "city_wind_port",
+      "name": "温恩港",
+      "continent_id": "demon",
+      "region_id": "demon_south",
+      "arch": "arch_port",
+      "pixel": [
+        1416.0,
+        449.0
+      ],
+      "position": [
+        5.8,
+        0.12622,
+        -0.215
+      ]
+    },
+    "city_zanto_port": {
+      "id": "zanto_port",
+      "node": "city_zanto_port",
+      "name": "赞特港",
+      "continent_id": "milis",
+      "region_id": "milis_zanto",
+      "arch": "arch_port",
+      "pixel": [
+        1413.0,
+        534.0
+      ],
+      "position": [
+        5.77,
+        0.26438,
+        0.635
+      ]
+    },
+    "city_great_forest": {
+      "id": "great_forest",
+      "node": "city_great_forest",
+      "name": "大森林聚落",
+      "continent_id": "milis",
+      "region_id": "milis_forest",
+      "arch": "arch_village",
+      "pixel": [
+        1395.0,
+        635.0
+      ],
+      "position": [
+        5.59,
+        0.35999,
+        1.645
+      ]
+    },
+    "city_milishion": {
+      "id": "milishion",
+      "node": "city_milishion",
+      "name": "王都米里希翁",
+      "continent_id": "milis",
+      "region_id": "milis_holy",
+      "arch": "arch_capital",
+      "pixel": [
+        1352.0,
+        749.0
+      ],
+      "position": [
+        5.16,
+        0.16142,
+        2.785
+      ]
+    },
+    "city_dwarf_hold": {
+      "id": "dwarf_hold",
+      "node": "city_dwarf_hold",
+      "name": "矮人领地与青龙山脉",
+      "continent_id": "milis",
+      "region_id": "milis_holy",
+      "arch": "arch_fortress",
+      "pixel": [
+        1256.0,
+        697.0
+      ],
+      "position": [
+        4.2,
+        0.35999,
+        2.265
+      ]
+    },
+    "city_west_port": {
+      "id": "west_port",
+      "node": "city_west_port",
+      "name": "西港",
+      "continent_id": "milis",
+      "region_id": "milis_west",
+      "arch": "arch_port",
+      "pixel": [
+        992.0,
+        825.0
+      ],
+      "position": [
+        1.56,
+        0.12827,
+        3.545
+      ]
+    },
+    "city_sharia": {
+      "id": "sharia",
+      "node": "city_sharia",
+      "name": "魔法大学／拉诺亚",
+      "continent_id": "central",
+      "region_id": "central_magic",
+      "arch": "arch_academy",
+      "pixel": [
+        509.0,
+        86.0
+      ],
+      "position": [
+        -3.27,
+        0.3479,
+        -3.845
+      ]
+    },
+    "city_sword_sanctum": {
+      "id": "sword_sanctum",
+      "node": "city_sword_sanctum",
+      "name": "剑之圣地",
+      "continent_id": "central",
+      "region_id": "central_sword",
+      "arch": "arch_fortress",
+      "pixel": [
+        176.0,
+        210.0
+      ],
+      "position": [
+        -6.6,
+        0.18689,
+        -2.605
+      ]
+    },
+    "city_arusu": {
+      "id": "arusu",
+      "node": "city_arusu",
+      "name": "王都阿尔斯",
+      "continent_id": "central",
+      "region_id": "central_asura",
+      "arch": "arch_capital",
+      "pixel": [
+        248.0,
+        271.0
+      ],
+      "position": [
+        -5.88,
+        0.23626,
+        -1.995
+      ]
+    },
+    "city_fittoa": {
+      "id": "fittoa",
+      "node": "city_fittoa",
+      "name": "菲托亚领",
+      "continent_id": "central",
+      "region_id": "central_asura",
+      "arch": "arch_village",
+      "pixel": [
+        324.0,
+        245.0
+      ],
+      "position": [
+        -5.12,
+        0.23742,
+        -2.255
+      ]
+    },
+    "city_biheiriru": {
+      "id": "biheiriru",
+      "node": "city_biheiriru",
+      "name": "比黑利尔王国",
+      "continent_id": "central",
+      "region_id": "central_biheiriru",
+      "arch": "arch_fortress",
+      "pixel": [
+        711.0,
+        137.0
+      ],
+      "position": [
+        -1.25,
+        0.35999,
+        -3.335
+      ]
+    },
+    "city_strife_keep": {
+      "id": "strife_keep",
+      "node": "city_strife_keep",
+      "name": "纷争地带要塞",
+      "continent_id": "central",
+      "region_id": "central_strife",
+      "arch": "arch_fortress",
+      "pixel": [
+        547.0,
+        218.0
+      ],
+      "position": [
+        -2.89,
+        0.3273,
+        -2.525
+      ]
+    },
+    "city_red_dragon_jaw": {
+      "id": "red_dragon_jaw",
+      "node": "city_red_dragon_jaw",
+      "name": "赤龙山脉关隘",
+      "continent_id": "central",
+      "region_id": "central_strife",
+      "arch": "arch_fortress",
+      "pixel": [
+        548.0,
+        517.0
+      ],
+      "position": [
+        -2.88,
+        0.31999,
+        0.465
+      ]
+    },
+    "city_shiron": {
+      "id": "shiron",
+      "node": "city_shiron",
+      "name": "西隆王国",
+      "continent_id": "central",
+      "region_id": "central_shiron",
+      "arch": "arch_capital",
+      "pixel": [
+        644.0,
+        530.0
+      ],
+      "position": [
+        -1.92,
+        0.24111,
+        0.595
+      ]
+    },
+    "city_dragon_king": {
+      "id": "dragon_king",
+      "node": "city_dragon_king",
+      "name": "王龙王国",
+      "continent_id": "central",
+      "region_id": "central_dragon_king",
+      "arch": "arch_capital",
+      "pixel": [
+        715.0,
+        751.0
+      ],
+      "position": [
+        -1.21,
+        0.15246,
+        2.805
+      ]
+    },
+    "city_east_port": {
+      "id": "east_port",
+      "node": "city_east_port",
+      "name": "东港",
+      "continent_id": "central",
+      "region_id": "central_dragon_king",
+      "arch": "arch_port",
+      "pixel": [
+        803.0,
+        805.0
+      ],
+      "position": [
+        -0.33,
+        0.16193,
+        3.345
+      ]
+    }
+  }
+}

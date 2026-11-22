@@ -69,7 +69,37 @@
                 "魔大陆",
                 "比耶戈亚地方",
                 "环形石城"
-              ]
+              ],
+              "continent_name": "魔大陆",
+              "country_name": "",
+              "region_name": "比耶戈亚地方",
+              "location_name": "利卡里斯镇",
+              "poetic_subtitle": "赭石高墙环抱岩坑，荒原冒险者汇聚之城",
+              "encounter_zone": "demon_wilds",
+              "checkpoint": false,
+              "hub_services": {
+                "foot": {
+                  "enabled": true,
+                  "label": "徒步出行",
+                  "note": "轻装踏上旅途，无需额外车马费用，可随时调整步伐。"
+                },
+                "caravan": {
+                  "enabled": true,
+                  "label": "雇佣商队马车",
+                  "note": "随城间商队前行，行程更快且干粮消耗更省（按陆路里程结算车资）。"
+                },
+                "ship": {
+                  "enabled": false,
+                  "label": "码头办理乘船",
+                  "note": "内陆据点无海港码头，需先抵达港口城池办理乘船。"
+                },
+                "teleport": {
+                  "enabled": false,
+                  "unlocked": false,
+                  "label": "古代转移魔法阵",
+                  "note": "古老的转移术式尚未唤醒，预留接口待后续剧情开启。"
+                }
+              }
             },
             {
               "id": "migurd",
@@ -87,9 +117,45 @@
                 "起始村落",
                 "米格路德族",
                 "魔神语"
-              ]
+              ],
+              "continent_name": "魔大陆",
+              "country_name": "",
+              "region_name": "比耶戈亚地方",
+              "location_name": "米格路德村",
+              "poetic_subtitle": "薄雾轻笼坡地木屋，静谧的蓝发村落",
+              "encounter_zone": "demon_wilds",
+              "checkpoint": false,
+              "hub_services": {
+                "foot": {
+                  "enabled": true,
+                  "label": "徒步出行",
+                  "note": "轻装踏上旅途，无需额外车马费用，可随时调整步伐。"
+                },
+                "caravan": {
+                  "enabled": false,
+                  "label": "雇佣商队马车",
+                  "note": "此地偏远，暂无常驻商队车马可供雇佣。"
+                },
+                "ship": {
+                  "enabled": false,
+                  "label": "码头办理乘船",
+                  "note": "内陆据点无海港码头，需先抵达港口城池办理乘船。"
+                },
+                "teleport": {
+                  "enabled": false,
+                  "unlocked": false,
+                  "label": "古代转移魔法阵",
+                  "note": "古老的转移术式尚未唤醒，预留接口待后续剧情开启。"
+                }
+              }
             }
-          ]
+          ],
+          "continent_name": "魔大陆",
+          "country_name": "",
+          "region_name": "比耶戈亚地方",
+          "location_name": "比耶戈亚地方",
+          "poetic_subtitle": "赭岩与薄雾绵延的荒原北境",
+          "encounter_zone": "demon_wilds"
         },
         {
           "id": "demon_kurasuma",
@@ -118,9 +184,45 @@
               "tags": [
                 "克拉斯玛沿岸",
                 "海岸山地"
-              ]
+              ],
+              "continent_name": "魔大陆",
+              "country_name": "",
+              "region_name": "克拉斯玛沿岸",
+              "location_name": "克拉斯玛镇",
+              "poetic_subtitle": "依偎林古斯海峭壁的西北滨海驿镇",
+              "encounter_zone": "demon_wilds",
+              "checkpoint": false,
+              "hub_services": {
+                "foot": {
+                  "enabled": true,
+                  "label": "徒步出行",
+                  "note": "轻装踏上旅途，无需额外车马费用，可随时调整步伐。"
+                },
+                "caravan": {
+                  "enabled": true,
+                  "label": "雇佣商队马车",
+                  "note": "随城间商队前行，行程更快且干粮消耗更省（按陆路里程结算车资）。"
+                },
+                "ship": {
+                  "enabled": false,
+                  "label": "码头办理乘船",
+                  "note": "内陆据点无海港码头，需先抵达港口城池办理乘船。"
+                },
+                "teleport": {
+                  "enabled": false,
+                  "unlocked": false,
+                  "label": "古代转移魔法阵",
+                  "note": "古老的转移术式尚未唤醒，预留接口待后续剧情开启。"
+                }
+              }
             }
-          ]
+          ],
+          "continent_name": "魔大陆",
+          "country_name": "",
+          "region_name": "克拉斯玛沿岸",
+          "location_name": "克拉斯玛沿岸",
+          "poetic_subtitle": "咸风拍岸的西北岩岭海岸",
+          "encounter_zone": "demon_wilds"
         },
         {
           "id": "demon_wastes",
@@ -134,7 +236,13 @@
             "魔大陆中部",
             "内陆荒原"
           ],
-          "cities": []
+          "cities": [],
+          "continent_name": "魔大陆",
+          "country_name": "",
+          "region_name": "中部荒原与伽斯洛",
+          "location_name": "中部荒原与伽斯洛",
+          "poetic_subtitle": "赤土与乱石交错的无国荒野",
+          "encounter_zone": "demon_wilds"
         },
         {
           "id": "demon_south",
@@ -165,9 +273,45 @@
                 "魔大陆南端",
                 "港口",
                 "海峡"
-              ]
+              ],
+              "continent_name": "魔大陆",
+              "country_name": "",
+              "region_name": "南部丘陵港区",
+              "location_name": "温恩港",
+              "poetic_subtitle": "魔大陆南端渡口，长风鼓满南渡客帆",
+              "encounter_zone": "demon_wilds",
+              "checkpoint": false,
+              "hub_services": {
+                "foot": {
+                  "enabled": true,
+                  "label": "徒步出行",
+                  "note": "轻装踏上旅途，无需额外车马费用，可随时调整步伐。"
+                },
+                "caravan": {
+                  "enabled": true,
+                  "label": "雇佣商队马车",
+                  "note": "随城间商队前行，行程更快且干粮消耗更省（按陆路里程结算车资）。"
+                },
+                "ship": {
+                  "enabled": true,
+                  "label": "码头办理乘船",
+                  "note": "前往港区码头办理登船与船票手续，扬帆横渡海峡驶往对岸。"
+                },
+                "teleport": {
+                  "enabled": false,
+                  "unlocked": false,
+                  "label": "古代转移魔法阵",
+                  "note": "古老的转移术式尚未唤醒，预留接口待后续剧情开启。"
+                }
+              }
             }
-          ]
+          ],
+          "continent_name": "魔大陆",
+          "country_name": "",
+          "region_name": "南部丘陵港区",
+          "location_name": "南部丘陵港区",
+          "poetic_subtitle": "丘陵渐平，海雾连向海峡南岸",
+          "encounter_zone": "demon_wilds"
         }
       ]
     },
@@ -224,9 +368,45 @@
                 "北道",
                 "港口",
                 "海峡"
-              ]
+              ],
+              "continent_name": "米里斯大陆",
+              "country_name": "米里斯神圣国",
+              "region_name": "赞特港与北道",
+              "location_name": "赞特港",
+              "poetic_subtitle": "海峡南岸门户，白石城关守望北来船帆",
+              "encounter_zone": "milis_checkpoint",
+              "checkpoint": true,
+              "hub_services": {
+                "foot": {
+                  "enabled": true,
+                  "label": "徒步出行",
+                  "note": "轻装踏上旅途，无需额外车马费用，可随时调整步伐。"
+                },
+                "caravan": {
+                  "enabled": true,
+                  "label": "雇佣商队马车",
+                  "note": "随城间商队前行，行程更快且干粮消耗更省（按陆路里程结算车资）。"
+                },
+                "ship": {
+                  "enabled": true,
+                  "label": "码头办理乘船",
+                  "note": "前往港区码头办理登船与船票手续，扬帆横渡海峡驶往对岸。"
+                },
+                "teleport": {
+                  "enabled": false,
+                  "unlocked": false,
+                  "label": "古代转移魔法阵",
+                  "note": "古老的转移术式尚未唤醒，预留接口待后续剧情开启。"
+                }
+              }
             }
-          ]
+          ],
+          "continent_name": "米里斯大陆",
+          "country_name": "米里斯神圣国",
+          "region_name": "赞特港与北道",
+          "location_name": "赞特港与北道",
+          "poetic_subtitle": "圣剑大道北端，海风与圣徽交汇",
+          "encounter_zone": "milis_checkpoint"
         },
         {
           "id": "milis_forest",
@@ -258,9 +438,45 @@
                 "大森林",
                 "林间聚落",
                 "兽族领地"
-              ]
+              ],
+              "continent_name": "米里斯大陆",
+              "country_name": "",
+              "region_name": "大森林领地",
+              "location_name": "大森林聚落",
+              "poetic_subtitle": "巨树垂荫、树屋错落的兽族与精灵之乡",
+              "encounter_zone": "milis_forest",
+              "checkpoint": false,
+              "hub_services": {
+                "foot": {
+                  "enabled": true,
+                  "label": "徒步出行",
+                  "note": "轻装踏上旅途，无需额外车马费用，可随时调整步伐。"
+                },
+                "caravan": {
+                  "enabled": false,
+                  "label": "雇佣商队马车",
+                  "note": "此地偏远，暂无常驻商队车马可供雇佣。"
+                },
+                "ship": {
+                  "enabled": false,
+                  "label": "码头办理乘船",
+                  "note": "内陆据点无海港码头，需先抵达港口城池办理乘船。"
+                },
+                "teleport": {
+                  "enabled": false,
+                  "unlocked": false,
+                  "label": "古代转移魔法阵",
+                  "note": "古老的转移术式尚未唤醒，预留接口待后续剧情开启。"
+                }
+              }
             }
-          ]
+          ],
+          "continent_name": "米里斯大陆",
+          "country_name": "",
+          "region_name": "大森林领地",
+          "location_name": "大森林领地",
+          "poetic_subtitle": "巨木遮天、雨雾低回的诸族林海",
+          "encounter_zone": "milis_forest"
         },
         {
           "id": "milis_holy",
@@ -292,7 +508,37 @@
                 "王都",
                 "米里斯神圣国",
                 "圣剑大道"
-              ]
+              ],
+              "continent_name": "米里斯大陆",
+              "country_name": "米里斯神圣国",
+              "region_name": "米里斯神圣国腹地",
+              "location_name": "王都米里希翁",
+              "poetic_subtitle": "纯白神殿与圣骑士巡行的神圣王都",
+              "encounter_zone": "milis_checkpoint",
+              "checkpoint": true,
+              "hub_services": {
+                "foot": {
+                  "enabled": true,
+                  "label": "徒步出行",
+                  "note": "轻装踏上旅途，无需额外车马费用，可随时调整步伐。"
+                },
+                "caravan": {
+                  "enabled": true,
+                  "label": "雇佣商队马车",
+                  "note": "随城间商队前行，行程更快且干粮消耗更省（按陆路里程结算车资）。"
+                },
+                "ship": {
+                  "enabled": false,
+                  "label": "码头办理乘船",
+                  "note": "内陆据点无海港码头，需先抵达港口城池办理乘船。"
+                },
+                "teleport": {
+                  "enabled": false,
+                  "unlocked": false,
+                  "label": "古代转移魔法阵",
+                  "note": "古老的转移术式尚未唤醒，预留接口待后续剧情开启。"
+                }
+              }
             },
             {
               "id": "dwarf_hold",
@@ -310,9 +556,45 @@
                 "青龙山脉",
                 "矮人领地",
                 "山口"
-              ]
+              ],
+              "continent_name": "米里斯大陆",
+              "country_name": "米里斯神圣国",
+              "region_name": "青龙山脉",
+              "location_name": "矮人领地与青龙山脉",
+              "poetic_subtitle": "炉火与凿声回荡在青龙群峰的岩窟之间",
+              "encounter_zone": "mountain_pass",
+              "checkpoint": false,
+              "hub_services": {
+                "foot": {
+                  "enabled": true,
+                  "label": "徒步出行",
+                  "note": "轻装踏上旅途，无需额外车马费用，可随时调整步伐。"
+                },
+                "caravan": {
+                  "enabled": true,
+                  "label": "雇佣商队马车",
+                  "note": "随城间商队前行，行程更快且干粮消耗更省（按陆路里程结算车资）。"
+                },
+                "ship": {
+                  "enabled": false,
+                  "label": "码头办理乘船",
+                  "note": "内陆据点无海港码头，需先抵达港口城池办理乘船。"
+                },
+                "teleport": {
+                  "enabled": false,
+                  "unlocked": false,
+                  "label": "古代转移魔法阵",
+                  "note": "古老的转移术式尚未唤醒，预留接口待后续剧情开启。"
+                }
+              }
             }
-          ]
+          ],
+          "continent_name": "米里斯大陆",
+          "country_name": "米里斯神圣国",
+          "region_name": "米里斯神圣国腹地",
+          "location_name": "米里斯神圣国",
+          "poetic_subtitle": "白石圣城与青龙群峰遥相守望",
+          "encounter_zone": "milis_checkpoint"
         },
         {
           "id": "milis_west",
@@ -343,9 +625,45 @@
                 "米里斯西端",
                 "西港",
                 "岬角"
-              ]
+              ],
+              "continent_name": "米里斯大陆",
+              "country_name": "米里斯神圣国",
+              "region_name": "西港门户",
+              "location_name": "西港",
+              "poetic_subtitle": "岬角灯塔映照南洋航路，通往中央大陆的港城",
+              "encounter_zone": "milis_checkpoint",
+              "checkpoint": true,
+              "hub_services": {
+                "foot": {
+                  "enabled": true,
+                  "label": "徒步出行",
+                  "note": "轻装踏上旅途，无需额外车马费用，可随时调整步伐。"
+                },
+                "caravan": {
+                  "enabled": true,
+                  "label": "雇佣商队马车",
+                  "note": "随城间商队前行，行程更快且干粮消耗更省（按陆路里程结算车资）。"
+                },
+                "ship": {
+                  "enabled": true,
+                  "label": "码头办理乘船",
+                  "note": "前往港区码头办理登船与船票手续，扬帆横渡海峡驶往对岸。"
+                },
+                "teleport": {
+                  "enabled": false,
+                  "unlocked": false,
+                  "label": "古代转移魔法阵",
+                  "note": "古老的转移术式尚未唤醒，预留接口待后续剧情开启。"
+                }
+              }
             }
-          ]
+          ],
+          "continent_name": "米里斯大陆",
+          "country_name": "米里斯神圣国",
+          "region_name": "西港门户",
+          "location_name": "西港门户",
+          "poetic_subtitle": "狭长岬角探入南洋，帆影往来不绝",
+          "encounter_zone": "milis_checkpoint"
         }
       ]
     },
@@ -404,9 +722,45 @@
                 "魔法大学",
                 "拉诺亚王国",
                 "北方三国"
-              ]
+              ],
+              "continent_name": "中央大陆",
+              "country_name": "拉诺亚王国",
+              "region_name": "拉诺亚领",
+              "location_name": "魔法大学／拉诺亚",
+              "poetic_subtitle": "雪落尖顶钟楼，汇集天下英才的魔导学府",
+              "encounter_zone": "northern_snow",
+              "checkpoint": false,
+              "hub_services": {
+                "foot": {
+                  "enabled": true,
+                  "label": "徒步出行",
+                  "note": "轻装踏上旅途，无需额外车马费用，可随时调整步伐。"
+                },
+                "caravan": {
+                  "enabled": true,
+                  "label": "雇佣商队马车",
+                  "note": "随城间商队前行，行程更快且干粮消耗更省（按陆路里程结算车资）。"
+                },
+                "ship": {
+                  "enabled": false,
+                  "label": "码头办理乘船",
+                  "note": "内陆据点无海港码头，需先抵达港口城池办理乘船。"
+                },
+                "teleport": {
+                  "enabled": false,
+                  "unlocked": false,
+                  "label": "古代转移魔法阵",
+                  "note": "古老的转移术式尚未唤醒，预留接口待后续剧情开启。"
+                }
+              }
             }
-          ]
+          ],
+          "continent_name": "中央大陆",
+          "country_name": "拉诺亚王国",
+          "region_name": "北方魔法三国",
+          "location_name": "北方魔法三国",
+          "poetic_subtitle": "瑞雪轻覆学城，魔导灯火长明",
+          "encounter_zone": "northern_snow"
         },
         {
           "id": "central_sword",
@@ -436,9 +790,45 @@
                 "西部山地",
                 "道场",
                 "剑术"
-              ]
+              ],
+              "continent_name": "中央大陆",
+              "country_name": "",
+              "region_name": "剑之圣地",
+              "location_name": "剑之圣地",
+              "poetic_subtitle": "极西雪岭山门之内，百刃齐鸣的修剑圣域",
+              "encounter_zone": "mountain_pass",
+              "checkpoint": false,
+              "hub_services": {
+                "foot": {
+                  "enabled": true,
+                  "label": "徒步出行",
+                  "note": "轻装踏上旅途，无需额外车马费用，可随时调整步伐。"
+                },
+                "caravan": {
+                  "enabled": false,
+                  "label": "雇佣商队马车",
+                  "note": "此地偏远，暂无常驻商队车马可供雇佣。"
+                },
+                "ship": {
+                  "enabled": false,
+                  "label": "码头办理乘船",
+                  "note": "内陆据点无海港码头，需先抵达港口城池办理乘船。"
+                },
+                "teleport": {
+                  "enabled": false,
+                  "unlocked": false,
+                  "label": "古代转移魔法阵",
+                  "note": "古老的转移术式尚未唤醒，预留接口待后续剧情开启。"
+                }
+              }
             }
-          ]
+          ],
+          "continent_name": "中央大陆",
+          "country_name": "",
+          "region_name": "剑之圣地",
+          "location_name": "剑之圣地",
+          "poetic_subtitle": "罡风掠过极西山巅，剑气凌霜",
+          "encounter_zone": "mountain_pass"
         },
         {
           "id": "central_asura",
@@ -471,7 +861,37 @@
                 "阿斯拉王国",
                 "王都",
                 "中央大陆"
-              ]
+              ],
+              "continent_name": "中央大陆",
+              "country_name": "阿斯拉王国",
+              "region_name": "王都直辖领",
+              "location_name": "王都阿尔斯",
+              "poetic_subtitle": "银白宫阙矗立沃野中央，人类第一大王都",
+              "encounter_zone": "central_road",
+              "checkpoint": false,
+              "hub_services": {
+                "foot": {
+                  "enabled": true,
+                  "label": "徒步出行",
+                  "note": "轻装踏上旅途，无需额外车马费用，可随时调整步伐。"
+                },
+                "caravan": {
+                  "enabled": true,
+                  "label": "雇佣商队马车",
+                  "note": "随城间商队前行，行程更快且干粮消耗更省（按陆路里程结算车资）。"
+                },
+                "ship": {
+                  "enabled": false,
+                  "label": "码头办理乘船",
+                  "note": "内陆据点无海港码头，需先抵达港口城池办理乘船。"
+                },
+                "teleport": {
+                  "enabled": false,
+                  "unlocked": false,
+                  "label": "古代转移魔法阵",
+                  "note": "古老的转移术式尚未唤醒，预留接口待后续剧情开启。"
+                }
+              }
             },
             {
               "id": "fittoa",
@@ -489,9 +909,45 @@
                 "菲托亚领",
                 "圆形转移遗址",
                 "阿斯拉王国"
-              ]
+              ],
+              "continent_name": "中央大陆",
+              "country_name": "阿斯拉王国",
+              "region_name": "菲托亚领",
+              "location_name": "菲托亚领",
+              "poetic_subtitle": "青翠田野与乡间石道间，静卧着古老圆环遗址",
+              "encounter_zone": "central_road",
+              "checkpoint": false,
+              "hub_services": {
+                "foot": {
+                  "enabled": true,
+                  "label": "徒步出行",
+                  "note": "轻装踏上旅途，无需额外车马费用，可随时调整步伐。"
+                },
+                "caravan": {
+                  "enabled": true,
+                  "label": "雇佣商队马车",
+                  "note": "随城间商队前行，行程更快且干粮消耗更省（按陆路里程结算车资）。"
+                },
+                "ship": {
+                  "enabled": false,
+                  "label": "码头办理乘船",
+                  "note": "内陆据点无海港码头，需先抵达港口城池办理乘船。"
+                },
+                "teleport": {
+                  "enabled": false,
+                  "unlocked": false,
+                  "label": "古代转移魔法阵",
+                  "note": "古老的转移术式尚未唤醒，预留接口待后续剧情开启。"
+                }
+              }
             }
-          ]
+          ],
+          "continent_name": "中央大陆",
+          "country_name": "阿斯拉王国",
+          "region_name": "菲托亚领",
+          "location_name": "阿斯拉王国与菲托亚领",
+          "poetic_subtitle": "沃野千里，风吹麦浪与旧日微光",
+          "encounter_zone": "central_road"
         },
         {
           "id": "central_biheiriru",
@@ -522,9 +978,45 @@
                 "鬼岛",
                 "龙神之穴",
                 "极北"
-              ]
+              ],
+              "continent_name": "中央大陆",
+              "country_name": "比黑利尔王国",
+              "region_name": "比黑利尔北境",
+              "location_name": "比黑利尔王国",
+              "poetic_subtitle": "极北寒海之滨，孤峻山城遥望鬼岛浪影",
+              "encounter_zone": "northern_snow",
+              "checkpoint": false,
+              "hub_services": {
+                "foot": {
+                  "enabled": true,
+                  "label": "徒步出行",
+                  "note": "轻装踏上旅途，无需额外车马费用，可随时调整步伐。"
+                },
+                "caravan": {
+                  "enabled": true,
+                  "label": "雇佣商队马车",
+                  "note": "随城间商队前行，行程更快且干粮消耗更省（按陆路里程结算车资）。"
+                },
+                "ship": {
+                  "enabled": false,
+                  "label": "码头办理乘船",
+                  "note": "内陆据点无海港码头，需先抵达港口城池办理乘船。"
+                },
+                "teleport": {
+                  "enabled": false,
+                  "unlocked": false,
+                  "label": "古代转移魔法阵",
+                  "note": "古老的转移术式尚未唤醒，预留接口待后续剧情开启。"
+                }
+              }
             }
-          ]
+          ],
+          "continent_name": "中央大陆",
+          "country_name": "比黑利尔王国",
+          "region_name": "比黑利尔北境",
+          "location_name": "比黑利尔王国与鬼岛",
+          "poetic_subtitle": "寒涛拍击黑岩山岸，远眺鬼岛云雾",
+          "encounter_zone": "northern_snow"
         },
         {
           "id": "central_strife",
@@ -556,7 +1048,37 @@
                 "纷争地带",
                 "中部谷地",
                 "要塞"
-              ]
+              ],
+              "continent_name": "中央大陆",
+              "country_name": "",
+              "region_name": "纷争地带",
+              "location_name": "纷争地带要塞",
+              "poetic_subtitle": "扼守谷地咽喉的灰石孤堡，战火余温未散",
+              "encounter_zone": "strife_zone",
+              "checkpoint": true,
+              "hub_services": {
+                "foot": {
+                  "enabled": true,
+                  "label": "徒步出行",
+                  "note": "轻装踏上旅途，无需额外车马费用，可随时调整步伐。"
+                },
+                "caravan": {
+                  "enabled": true,
+                  "label": "雇佣商队马车",
+                  "note": "随城间商队前行，行程更快且干粮消耗更省（按陆路里程结算车资）。"
+                },
+                "ship": {
+                  "enabled": false,
+                  "label": "码头办理乘船",
+                  "note": "内陆据点无海港码头，需先抵达港口城池办理乘船。"
+                },
+                "teleport": {
+                  "enabled": false,
+                  "unlocked": false,
+                  "label": "古代转移魔法阵",
+                  "note": "古老的转移术式尚未唤醒，预留接口待后续剧情开启。"
+                }
+              }
             },
             {
               "id": "red_dragon_jaw",
@@ -574,9 +1096,45 @@
                 "赤龙山脉",
                 "赤龙下颚",
                 "山口"
-              ]
+              ],
+              "continent_name": "中央大陆",
+              "country_name": "",
+              "region_name": "赤龙山脉",
+              "location_name": "赤龙山脉关隘",
+              "poetic_subtitle": "峭壁夹道如赤龙衔咽，横越大陆的险峻关口",
+              "encounter_zone": "mountain_pass",
+              "checkpoint": true,
+              "hub_services": {
+                "foot": {
+                  "enabled": true,
+                  "label": "徒步出行",
+                  "note": "轻装踏上旅途，无需额外车马费用，可随时调整步伐。"
+                },
+                "caravan": {
+                  "enabled": true,
+                  "label": "雇佣商队马车",
+                  "note": "随城间商队前行，行程更快且干粮消耗更省（按陆路里程结算车资）。"
+                },
+                "ship": {
+                  "enabled": false,
+                  "label": "码头办理乘船",
+                  "note": "内陆据点无海港码头，需先抵达港口城池办理乘船。"
+                },
+                "teleport": {
+                  "enabled": false,
+                  "unlocked": false,
+                  "label": "古代转移魔法阵",
+                  "note": "古老的转移术式尚未唤醒，预留接口待后续剧情开启。"
+                }
+              }
             }
-          ]
+          ],
+          "continent_name": "中央大陆",
+          "country_name": "",
+          "region_name": "纷争地带与赤龙山脉",
+          "location_name": "纷争地带与赤龙山脉",
+          "poetic_subtitle": "关隘林立、狼烟未歇的群山谷地",
+          "encounter_zone": "strife_zone"
         },
         {
           "id": "central_shiron",
@@ -608,9 +1166,45 @@
                 "西隆王国",
                 "基卡王国",
                 "萨纳基亚王国"
-              ]
+              ],
+              "continent_name": "中央大陆",
+              "country_name": "西隆王国",
+              "region_name": "西隆河谷",
+              "location_name": "西隆王国",
+              "poetic_subtitle": "河谷城垛与兵营林立，中东诸国交冲之城",
+              "encounter_zone": "central_road",
+              "checkpoint": false,
+              "hub_services": {
+                "foot": {
+                  "enabled": true,
+                  "label": "徒步出行",
+                  "note": "轻装踏上旅途，无需额外车马费用，可随时调整步伐。"
+                },
+                "caravan": {
+                  "enabled": true,
+                  "label": "雇佣商队马车",
+                  "note": "随城间商队前行，行程更快且干粮消耗更省（按陆路里程结算车资）。"
+                },
+                "ship": {
+                  "enabled": false,
+                  "label": "码头办理乘船",
+                  "note": "内陆据点无海港码头，需先抵达港口城池办理乘船。"
+                },
+                "teleport": {
+                  "enabled": false,
+                  "unlocked": false,
+                  "label": "古代转移魔法阵",
+                  "note": "古老的转移术式尚未唤醒，预留接口待后续剧情开启。"
+                }
+              }
             }
-          ]
+          ],
+          "continent_name": "中央大陆",
+          "country_name": "西隆王国",
+          "region_name": "西隆河谷",
+          "location_name": "西隆与邻国群",
+          "poetic_subtitle": "河道纵横，兵马与商旅交织于此",
+          "encounter_zone": "central_road"
         },
         {
           "id": "central_dragon_king",
@@ -659,11 +1253,77 @@
                     "王龙王国",
                     "东港",
                     "南部海岸"
-                  ]
+                  ],
+                  "continent_name": "中央大陆",
+                  "country_name": "王龙王国",
+                  "region_name": "王龙半岛",
+                  "location_name": "东港",
+                  "poetic_subtitle": "半岛东岸良港，商船与渡轮昼夜穿梭南洋",
+                  "encounter_zone": "central_road",
+                  "checkpoint": false,
+                  "hub_services": {
+                    "foot": {
+                      "enabled": true,
+                      "label": "徒步出行",
+                      "note": "轻装踏上旅途，无需额外车马费用，可随时调整步伐。"
+                    },
+                    "caravan": {
+                      "enabled": true,
+                      "label": "雇佣商队马车",
+                      "note": "随城间商队前行，行程更快且干粮消耗更省（按陆路里程结算车资）。"
+                    },
+                    "ship": {
+                      "enabled": true,
+                      "label": "码头办理乘船",
+                      "note": "前往港区码头办理登船与船票手续，扬帆横渡海峡驶往对岸。"
+                    },
+                    "teleport": {
+                      "enabled": false,
+                      "unlocked": false,
+                      "label": "古代转移魔法阵",
+                      "note": "古老的转移术式尚未唤醒，预留接口待后续剧情开启。"
+                    }
+                  }
                 }
-              ]
+              ],
+              "continent_name": "中央大陆",
+              "country_name": "王龙王国",
+              "region_name": "王龙半岛",
+              "location_name": "王龙王国",
+              "poetic_subtitle": "背倚王龙群山、面朝暖海的南方大王国王都",
+              "encounter_zone": "central_road",
+              "checkpoint": false,
+              "hub_services": {
+                "foot": {
+                  "enabled": true,
+                  "label": "徒步出行",
+                  "note": "轻装踏上旅途，无需额外车马费用，可随时调整步伐。"
+                },
+                "caravan": {
+                  "enabled": true,
+                  "label": "雇佣商队马车",
+                  "note": "随城间商队前行，行程更快且干粮消耗更省（按陆路里程结算车资）。"
+                },
+                "ship": {
+                  "enabled": false,
+                  "label": "码头办理乘船",
+                  "note": "内陆据点无海港码头，需先抵达港口城池办理乘船。"
+                },
+                "teleport": {
+                  "enabled": false,
+                  "unlocked": false,
+                  "label": "古代转移魔法阵",
+                  "note": "古老的转移术式尚未唤醒，预留接口待后续剧情开启。"
+                }
+              }
             }
-          ]
+          ],
+          "continent_name": "中央大陆",
+          "country_name": "王龙王国",
+          "region_name": "王龙半岛",
+          "location_name": "王龙王国与东港",
+          "poetic_subtitle": "王龙山脊尽头，半岛商路通往海湾",
+          "encounter_zone": "central_road"
         }
       ]
     }

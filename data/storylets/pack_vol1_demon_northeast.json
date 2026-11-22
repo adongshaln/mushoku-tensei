@@ -1,0 +1,252 @@
+{
+  "id": "pack_vol1_demon_northeast",
+  "pack_title": "第一卷 · 魔大陆东北角（米格路德 ↔ 利卡里斯）手账故事片段伴生包",
+  "event_pack_path": "res://data/events/pack_vol1_demon_northeast.json",
+  "storylets": [
+    {
+      "id": "vol1_st_basin_mist_scout",
+      "title": "探看盆地晨雾兽迹",
+      "summary": "米格路德盆地边缘的湿土上留着新鲜爪印与淡硫磺味，蹲下细辨或许能摸清林道清晨的魔兽去向。",
+      "category": "encounter",
+      "locations": ["city_migurd", "migurd_village", "misty_forest_path"],
+      "trigger_mode": "manual",
+      "time_cost": 1,
+      "event_pack_ref": "vol1_dn_01_basin_mist_tracks",
+      "conditions": {
+        "once_only": false,
+        "allowed_slots": [0, 1],
+        "required_flags": [],
+        "forbidden_flags": []
+      },
+      "action": {
+        "type": "quick_action",
+        "quick": "check",
+        "stat": "INT",
+        "dc": 11,
+        "label": "盆地追踪",
+        "context": {
+          "region_id": "city_migurd",
+          "tags": ["intent:track", "terrain:basin_mist"]
+        },
+        "success_text": "你认出是独行幼年赤岩犬的浅迹，避开兽穴的同时在苔石下采到 1 份应急草药包。",
+        "fail_text": "雾气很快淹没了湿泥上的浅印，你记下风向便稳妥折回主路。",
+        "success_effects": [
+          {"type": "add_item", "id": "emergency_herbs", "name": "应急草药包", "count": 1, "tag": "medical"},
+          {"type": "set_flag", "id": "vol1_basin_ecology_known", "value": true}
+        ],
+        "fail_effects": []
+      }
+    },
+    {
+      "id": "vol1_st_migurd_telepathy_echo",
+      "title": "村口山径的无声念话",
+      "summary": "两位背着岩菇归村的米格路德长辈在风口驻足。那片熟悉的无声沉默背后，藏着对远行晚辈笨拙的牵挂。",
+      "category": "side",
+      "locations": ["city_migurd", "migurd_village"],
+      "trigger_mode": "manual",
+      "time_cost": 0,
+      "event_pack_ref": "vol1_dn_02_emerald_hair_telepathy",
+      "conditions": {
+        "once_only": true,
+        "allowed_slots": [0, 1, 2],
+        "required_flags": [],
+        "forbidden_flags": ["vol1_migurd_telepathy_echo"]
+      },
+      "action": {
+        "type": "quick_action",
+        "quick": "check",
+        "stat": "WIL",
+        "dc": 11,
+        "label": "洞察神色",
+        "context": {
+          "region_id": "city_migurd",
+          "tags": ["intent:persuade", "npc_attitude:friendly", "race:migurd"]
+        },
+        "success_text": "你温声接过了长辈的叮嘱。她们欣慰点头，往你行囊里多塞了 2 份魔大陆熏肉干粮。",
+        "fail_text": "彼此在风声里沉默片刻，终究还是轻声道了句保重。",
+        "success_effects": [
+          {"type": "add_item", "id": "smoked_meat", "name": "魔大陆熏肉干粮", "count": 2, "tag": "ration"},
+          {
+            "type": "add_buff",
+            "id": "migurd_parting_warmth",
+            "name": "同族远行嘱托",
+            "stat_bonus": {},
+            "check_bonus": {"WIL": 1}
+          },
+          {"type": "set_flag", "id": "vol1_migurd_telepathy_echo", "value": true}
+        ],
+        "fail_effects": [
+          {"type": "set_flag", "id": "vol1_migurd_telepathy_echo", "value": true}
+        ]
+      }
+    },
+    {
+      "id": "vol1_st_redrock_vein_prospect",
+      "title": "赤岩裂隙的青色微光",
+      "summary": "奔赴利卡里斯的赤岩商道旁，崩塌石壁深处隐约渗出淡青魔力光晕，似是一处浅层绿魔石碎脉。",
+      "category": "encounter",
+      "locations": ["city_rikarisu", "city_migurd"],
+      "trigger_mode": "en_route",
+      "min_km": 40,
+      "time_cost": 0,
+      "event_pack_ref": "vol1_dn_06_glinting_mana_vein",
+      "conditions": {
+        "once_only": false,
+        "allowed_slots": [0, 1, 2],
+        "required_flags": [],
+        "forbidden_flags": []
+      },
+      "action": {
+        "type": "quick_action",
+        "quick": "check",
+        "stat": "INT",
+        "dc": 13,
+        "label": "奥术辨矿",
+        "context": {
+          "region_id": "city_rikarisu",
+          "tags": ["intent:arcane_appraise", "magic:sense"]
+        },
+        "success_text": "你稳稳撬下一块澄透的绿魔石原晶，进城出手足以换得 3 大绿 5 绿矿钱。",
+        "fail_text": "岩缝深处响起甲虫摩擦声，你见势不妙立刻抽身，未伤分毫地重返商道。",
+        "success_effects": [
+          {"type": "add_item", "id": "raw_green_mana_ore", "name": "高纯绿魔石原晶", "count": 1, "tag": "treasure"},
+          {"type": "set_flag", "id": "vol1_mana_vein_harvested", "value": true}
+        ],
+        "fail_effects": [
+          {"type": "advance_time", "slots": 1}
+        ]
+      }
+    },
+    {
+      "id": "vol1_st_campfire_adventurer_chat",
+      "title": "篝火旁的冒险者夜话",
+      "summary": "傍晚荒原岩坳升起炊烟，几名老练冒险者正烤着红蜥肉串闲谈协会换汇与赤龙山脉的险峻。",
+      "category": "side",
+      "locations": ["dryrock_spring", "city_rikarisu"],
+      "trigger_mode": "manual",
+      "time_cost": 1,
+      "event_pack_ref": "vol1_dn_11_campfire_adventurer_tales",
+      "conditions": {
+        "once_only": true,
+        "allowed_slots": [2, 3],
+        "required_flags": [],
+        "forbidden_flags": ["vol1_campfire_lore_heard"]
+      },
+      "action": {
+        "type": "quick_action",
+        "quick": "check",
+        "stat": "CHA",
+        "dc": 11,
+        "label": "篝火攀谈",
+        "context": {
+          "region_id": "city_rikarisu",
+          "tags": ["intent:persuade", "npc_attitude:friendly"]
+        },
+        "success_text": "伴着噼啪炉火，你听全了协会 0% 换汇与赤龙山脉的门道，顺带吃饱喝暖解去了疲惫。",
+        "fail_text": "夜风渐凉，老冒险者先靠石打起了盹，但围炉烤火也让你驱散了倦意。",
+        "success_effects": [
+          {"type": "remove_buff", "id": "travel_fatigue"},
+          {
+            "type": "add_buff",
+            "id": "campfire_fellowship",
+            "name": "篝火暖谈",
+            "stat_bonus": {},
+            "check_bonus": {"CHA": 1}
+          },
+          {"type": "set_flag", "id": "vol1_campfire_lore_heard", "value": true},
+          {"type": "set_flag", "id": "vol1_guild_exchange_tip", "value": true}
+        ],
+        "fail_effects": [
+          {"type": "remove_buff", "id": "travel_fatigue"},
+          {"type": "set_flag", "id": "vol1_campfire_lore_heard", "value": true}
+        ]
+      }
+    },
+    {
+      "id": "vol1_st_rikarisu_bounty_board",
+      "title": "翻阅城门外新手悬赏栏",
+      "summary": "利卡里斯城门石柱上贴满 F 级新人委托传单，日薪从 3 大绿矿钱到 1 银矿钱不等，良莠不齐。",
+      "category": "side",
+      "locations": ["city_rikarisu", "rikarisu_gate"],
+      "trigger_mode": "manual",
+      "time_cost": 0,
+      "event_pack_ref": "vol1_dn_13_gate_bounty_flyers",
+      "conditions": {
+        "once_only": true,
+        "allowed_slots": [0, 1, 2, 3],
+        "required_flags": [],
+        "forbidden_flags": ["vol1_rikarisu_bounty_noted"]
+      },
+      "action": {
+        "type": "quick_action",
+        "quick": "check",
+        "stat": "INT",
+        "dc": 11,
+        "label": "甄别委托",
+        "context": {
+          "region_id": "city_rikarisu",
+          "tags": ["intent:investigate"]
+        },
+        "success_text": "你识破了暗藏狼患的高薪陷阱单，抄下最稳妥的商栈清点与寻羊委托放进行囊。",
+        "fail_text": "告示柱前人头攒动，你匆忙扯下一张城内清点岩盐的普通传单。",
+        "success_effects": [
+          {"type": "add_item", "id": "rikarisu_bounty_flyer", "name": "利卡里斯新手悬赏抄本", "count": 1, "tag": "quest"},
+          {
+            "type": "add_buff",
+            "id": "prepared_adventurer",
+            "name": "筹划妥当",
+            "stat_bonus": {},
+            "check_bonus": {"INT": 1}
+          },
+          {"type": "set_flag", "id": "vol1_rikarisu_bounty_noted", "value": true}
+        ],
+        "fail_effects": [
+          {"type": "add_item", "id": "rikarisu_bounty_flyer", "name": "利卡里斯新手悬赏抄本", "count": 1, "tag": "quest"},
+          {"type": "set_flag", "id": "vol1_rikarisu_bounty_noted", "value": true}
+        ]
+      }
+    },
+    {
+      "id": "vol1_st_dusk_rikarisu_vista",
+      "title": "黄昏远眺利卡里斯尖塔",
+      "summary": "立于陨坑外沿赭红缓坡，俯瞰夕阳里渐次点亮灯火的环形石城，把初抵大城的心境写进手账。",
+      "category": "side",
+      "locations": ["city_rikarisu", "rikarisu_gate"],
+      "trigger_mode": "manual",
+      "time_cost": 0,
+      "event_pack_ref": "vol1_dn_14_dusk_rikarisu_spires",
+      "conditions": {
+        "once_only": true,
+        "allowed_slots": [1, 2, 3],
+        "required_flags": [],
+        "forbidden_flags": ["vol1_dusk_rikarisu_seen"]
+      },
+      "action": {
+        "type": "quick_action",
+        "quick": "check",
+        "stat": "WIL",
+        "dc": 10,
+        "label": "铭记初程",
+        "context": {
+          "region_id": "city_rikarisu",
+          "tags": ["intent:reflect"]
+        },
+        "success_text": "夕照与万家灯火落进眼底，离乡的忐忑化作了沉稳向前的底气。",
+        "fail_text": "夜色很快沉了下来，你合上手账，迎着晚风迈向石城灯火。",
+        "success_effects": [
+          {
+            "type": "add_buff",
+            "id": "first_city_resolve",
+            "name": "初望石城之志",
+            "stat_bonus": {},
+            "check_bonus": {"WIL": 1, "CHA": 1}
+          },
+          {"type": "set_flag", "id": "vol1_dusk_rikarisu_seen", "value": true}
+        ],
+        "fail_effects": [
+          {"type": "set_flag", "id": "vol1_dusk_rikarisu_seen", "value": true}
+        ]
+      }
+    }
+  ]
+}
